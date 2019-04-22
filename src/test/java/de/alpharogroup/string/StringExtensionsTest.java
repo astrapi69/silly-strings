@@ -39,6 +39,7 @@ import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
 import de.alpharogroup.BaseTestCase;
+import de.alpharogroup.collections.list.ListFactory;
 import de.alpharogroup.collections.map.MapFactory;
 import de.alpharogroup.test.objects.Person;
 
@@ -393,6 +394,29 @@ public class StringExtensionsTest extends BaseTestCase
 		expected = null;
 		actual = StringExtensions.lastCharacterToUpperCase(null);
 		assertEquals(actual, expected);
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#filterStringsWithSeperator(List, String)}
+	 */
+	@Test
+	public void testPrepareForNextIteration()
+	{
+		List<String> actual;
+		List<String> expected;
+		List<String> ignoreFieldNames;
+
+		ignoreFieldNames = ListFactory.newArrayList("id", "serialVersionUID", "address.street",
+			"address.city", "contact.name", "contact.email");
+		actual = StringExtensions.filterStringsWithSeperator(ignoreFieldNames, ".");
+		expected = ListFactory.newArrayList("street", "city", "name", "email");
+		assertEquals(expected, actual);
+
+		ignoreFieldNames = ListFactory.newArrayList("id", "serialVersionUID", "address.street",
+			"address.city", "contact.name", "contact.email");
+		actual = StringExtensions.filterStringsWithSeperator(ignoreFieldNames, "contact.");
+		expected = ListFactory.newArrayList("name", "email");
+		assertEquals(expected, actual);
 	}
 
 	/**

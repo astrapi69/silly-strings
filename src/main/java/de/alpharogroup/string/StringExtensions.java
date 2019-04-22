@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -829,6 +830,28 @@ public final class StringExtensions
 			return "Given object is null!!!";
 		}
 		return ReflectionToStringBuilder.toString(object);
+	}
+
+	/**
+	 * Filter the given {@link List} of {@link String} objects with the given separator.
+	 *
+	 * @param ignoreFieldNames
+	 *            the ignore field names
+	 * @param separator
+	 *            the separator
+	 * @return the filtered {@link List}
+	 */
+	public static List<String> filterStringsWithSeperator(
+		final @NonNull List<String> ignoreFieldNames, final @NonNull String separator)
+	{
+		return ignoreFieldNames.stream().map(str -> {
+			int pos = str.indexOf(separator);
+			if (pos == -1)
+			{
+				return "";
+			}
+			return str.substring(pos + separator.length());
+		}).filter(value -> value != null && !value.isEmpty()).collect(Collectors.toList());
 	}
 
 }

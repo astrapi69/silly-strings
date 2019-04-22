@@ -4,6 +4,10 @@
 Version 5.3-SNAPSHOT
 -------------
 
+ADDED:
+ 
+- new method created that filter a given list of strings with a given separator
+
 Version 5.2
 -------------
 
