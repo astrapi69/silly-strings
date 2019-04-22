@@ -2,8 +2,8 @@
 
 <div align="center">
 
-[![Build Status](https://travis-ci.org/astrapi69/silly-strings.svg?branch=develop)](https://travis-ci.org/astrapi69/silly-strings) 
-[![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=develop)](https://coveralls.io/github/astrapi69/silly-strings?branch=develop) 
+[![Build Status](https://travis-ci.org/astrapi69/silly-strings.svg?branch=master)](https://travis-ci.org/astrapi69/silly-strings) 
+[![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=master)](https://coveralls.io/github/astrapi69/silly-strings?branch=master) 
 [![Open Issues](https://img.shields.io/github/issues/astrapi69/silly-strings.svg?style=flat)](https://github.com/astrapi69/silly-strings/issues) 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/silly-strings/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/silly-strings)
 [![Javadocs](http://www.javadoc.io/badge/de.alpharogroup/silly-strings.svg)](http://www.javadoc.io/doc/de.alpharogroup/silly-strings)
@@ -111,7 +111,7 @@ Do not hesitate to contact the silly-strings developers with your questions, con
 
 |**coveralls.io**|
 |     :---:      |
-|[![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=develop)](https://coveralls.io/github/astrapi69/silly-strings?branch=master)|
+|[![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=master)](https://coveralls.io/github/astrapi69/silly-strings?branch=master)|
 |Special thanks to [coveralls.io](https://coveralls.io) for providing a free code coverage for open source projects|
 |     <img width=1000/>     |
 
