@@ -8,6 +8,11 @@ ADDED:
  
 - new method created that filter a given list of strings with a given separator
 
+CHANGED:
+
+- moved class RegExExtensions from jcommons-lang project to this project
+- moved class StringOutputStream from jcommons-lang project to this project
+
 Version 5.2
 -------------
 
