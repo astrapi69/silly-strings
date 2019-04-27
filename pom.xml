@@ -27,7 +27,7 @@
 		<!-- SILLY-COLLECTIONS version -->
 		<silly-collections.version>5.2</silly-collections.version>
 		<!-- COMMONS-LANG3 version -->
-		<commons-lang3.version>3.8.1</commons-lang3.version>
+		<commons-lang3.version>3.9</commons-lang3.version>
 	</properties>
 
 	<licenses>
