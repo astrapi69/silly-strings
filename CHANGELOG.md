@@ -1,6 +1,19 @@
 ## Change log
 ----------------------
 
+Version 5.3
+-------------
+
+ADDED:
+ 
+- new method created that filter a given list of strings with a given separator
+
+CHANGED:
+
+- moved class RegExExtensions from jcommons-lang project to this project
+- moved class StringOutputStream from jcommons-lang project to this project
+- update of commons-lang3 version to 3.9
+
 Version 5.2
 -------------
 
