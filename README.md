@@ -99,7 +99,7 @@ Do not hesitate to contact the silly-strings developers with your questions, con
 
 |**Travis CI**|
 |     :---:      |
-|[![Travis CI](https://travis-ci.com/images/logos/TravisCI-Full-Color.png)](https://coveralls.io/github/astrapi69/silly-strings?branch=master)|
+|[![Travis CI](https://travis-ci.com/images/logos/TravisCI-Full-Color.png)](https://coveralls.io/github/astrapi69/silly-strings?branch=develop)|
 |Special thanks to [Travis CI](https://travis-ci.org) for providing a free continuous integration service for open source projects|
 |     <img width=1000/>     |
 
@@ -111,7 +111,7 @@ Do not hesitate to contact the silly-strings developers with your questions, con
 
 |**coveralls.io**|
 |     :---:      |
-|[![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=develop)](https://coveralls.io/github/astrapi69/silly-strings?branch=master)|
+|[![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=develop)](https://coveralls.io/github/astrapi69/silly-strings?branch=develop)|
 |Special thanks to [coveralls.io](https://coveralls.io) for providing a free code coverage for open source projects|
 |     <img width=1000/>     |
 
