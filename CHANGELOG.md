@@ -4,6 +4,10 @@
 Version 5.4-SNAPSHOT
 -------------
 
+CHANGED:
+
+- update of test-objects dependency version to 5.1
+
 Version 5.3
 -------------
 
