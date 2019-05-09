@@ -6,7 +6,7 @@ Version 5.4-SNAPSHOT
 
 CHANGED:
 
-- update of test-objects dependency version to 5.1
+- update of silly-collections version to 5.2.1
 
 Version 5.3
 -------------
