@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>silly-strings</artifactId>
-	<version>5.3</version>
+	<version>5.3.1</version>
 
 	<name>${project.artifactId}</name>
 
@@ -20,14 +20,15 @@
 	<url>https://github.com/astrapi69/${project.artifactId}</url>
 
 	<properties>
+		<!-- SILLY-COLLECTIONS version -->
+		<silly-collections.version>5.2.1</silly-collections.version>
+		<!-- COMMONS-LANG3 version -->
+		<commons-lang3.version>3.9</commons-lang3.version>
+		<!-- TEST-SCOPE versions -->
 		<!-- TEST-OBJECTS version -->
 		<test-objects.version>5.0.1</test-objects.version>
 		<!-- COMMONS-IO version -->
 		<commons-io.version>2.6</commons-io.version>
-		<!-- SILLY-COLLECTIONS version -->
-		<silly-collections.version>5.2</silly-collections.version>
-		<!-- COMMONS-LANG3 version -->
-		<commons-lang3.version>3.9</commons-lang3.version>
 	</properties>
 
 	<licenses>
@@ -63,17 +64,18 @@
 				<artifactId>commons-lang3</artifactId>
 				<version>${commons-lang3.version}</version>
 			</dependency>
-			<!-- COMMONS-IO DEPENDENCY -->
-			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>${commons-io.version}</version>
-			</dependency>
 			<!-- SILLY-COLLECTIONS DEPENDENCY -->
 			<dependency>
 				<groupId>de.alpharogroup</groupId>
 				<artifactId>silly-collections</artifactId>
 				<version>${silly-collections.version}</version>
+			</dependency>
+			<!-- TEST-SCOPE DEPENDENCIES -->
+			<!-- COMMONS-IO DEPENDENCY -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
 			</dependency>
 			<!-- TEST-OBJECTS DEPENDENCY -->
 			<dependency>
@@ -97,6 +99,7 @@
 			<groupId>de.alpharogroup</groupId>
 			<artifactId>silly-collections</artifactId>
 		</dependency>
+		<!-- TEST-SCOPE DEPENDENCIES -->
 		<!-- TEST-OBJECTS DEPENDENCY -->
 		<dependency>
 			<groupId>de.alpharogroup</groupId>

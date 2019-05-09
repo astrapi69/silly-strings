@@ -8,6 +8,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/silly-strings/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/silly-strings)
 [![Javadocs](http://www.javadoc.io/badge/de.alpharogroup/silly-strings.svg)](http://www.javadoc.io/doc/de.alpharogroup/silly-strings)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
+[![Donate](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
 
 </div>
 
@@ -55,7 +56,7 @@ Than you can add the dependency to your dependencies:
 	<properties>
 			...
 		<!-- SILLY-STRINGS version -->
-		<silly-strings.version>5.3</silly-strings.version>
+		<silly-strings.version>5.3.1</silly-strings.version>
 			...
 	</properties>
 			...
