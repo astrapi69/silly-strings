@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>de.alpharogroup</groupId>
 		<artifactId>mvn-java-parent</artifactId>
-		<version>4.8</version>
+		<version>5.5</version>
 	</parent>
 
 	<artifactId>silly-strings</artifactId>
@@ -21,12 +21,12 @@
 
 	<properties>
 		<!-- SILLY-COLLECTIONS version -->
-		<silly-collections.version>5.2.1</silly-collections.version>
+		<silly-collections.version>5.6</silly-collections.version>
 		<!-- COMMONS-LANG3 version -->
 		<commons-lang3.version>3.9</commons-lang3.version>
 		<!-- TEST-SCOPE versions -->
 		<!-- TEST-OBJECTS version -->
-		<test-objects.version>5.0.1</test-objects.version>
+		<test-objects.version>5.2</test-objects.version>
 		<!-- COMMONS-IO version -->
 		<commons-io.version>2.6</commons-io.version>
 	</properties>

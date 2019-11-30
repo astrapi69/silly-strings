@@ -512,8 +512,23 @@ public final class StringExtensions
 	 * @param s
 	 *            The String to handle.
 	 * @return The String without quotes.
+	 * @deprecated use instead the method <code>removeFirstAndLastCharacter</code><br>
+	 *             Note: will be removed in next minor release
 	 */
-	public static final String removeQuotationMarks(final String s)
+	@Deprecated
+	public static final String removeQuotationMarks(final @NonNull String s)
+	{
+		return removeFirstAndLastCharacter(s);
+	}
+
+	/**
+	 * Removes the first and the last character from the given String
+	 *
+	 * @param s
+	 *            The String to handle
+	 * @return The resulted String
+	 */
+	public static final String removeFirstAndLastCharacter(final @NonNull String s)
 	{
 		return s.substring(1, s.length() - 1);
 	}
