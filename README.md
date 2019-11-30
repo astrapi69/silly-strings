@@ -71,6 +71,25 @@ Than you can add the dependency to your dependencies:
 			...
 		</dependencies>
 
+			
+## gradle dependency
+
+You can first define the version in the ext section and add than the following gradle dependency to your project `build.gradle` if you want to import the core functionality of silly-strings:
+
+```
+ext {
+			...
+    sillyStringsVersion = '5.4'
+			...
+}
+dependencies {
+			...
+compile 'de.alpharogroup:silly-strings:${sillyStringsVersion}'
+			...
+}
+	
+```
+		
 ## Semantic Versioning
 
 The versions of silly-strings are maintained with the Simplified Semantic Versioning guidelines.
