@@ -20,10 +20,10 @@
  */
 package de.alpharogroup.string;
 
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
@@ -465,6 +465,27 @@ public class StringExtensionsTest extends BaseTestCase
 	}
 
 	/**
+	 * Test method for {@link StringExtensions#removeFirstAndLastCharacter(String)}
+	 */
+	@Test
+	public void testRemoveFirstAndLastCharacter()
+	{
+		String actual;
+		String expected;
+		String input;
+		// new scenario...
+		input = "\"Leonidas\"";
+		actual = StringExtensions.removeFirstAndLastCharacter(input);
+		expected = "Leonidas";
+		assertEquals(expected, actual);
+		// new scenario...
+		input = "[1,2,3]";
+		actual = StringExtensions.removeFirstAndLastCharacter(input);
+		expected = "1,2,3";
+		assertEquals(expected, actual);
+	}
+
+	/**
 	 * Test method for {@link StringExtensions#removeNewlineCharacters(String)}.
 	 */
 	@Test
@@ -481,6 +502,7 @@ public class StringExtensionsTest extends BaseTestCase
 	/**
 	 * Test method for {@link StringExtensions#removeQuotationMarks(String)}
 	 */
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testRemoveQuotesFromString()
 	{
@@ -666,11 +688,6 @@ public class StringExtensionsTest extends BaseTestCase
 		argument = "";
 		actual = StringExtensions.toUnicodeChars(argument, true);
 		expected = "";
-		assertEquals(expected, actual);
-
-		argument = null;
-		actual = StringExtensions.toUnicodeChars(argument, true);
-		expected = null;
 		assertEquals(expected, actual);
 	}
 

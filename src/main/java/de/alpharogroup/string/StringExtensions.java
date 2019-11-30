@@ -23,12 +23,12 @@ package de.alpharogroup.string;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
@@ -54,7 +54,7 @@ public final class StringExtensions
 	 *            The String to handle.
 	 * @return The String with quotes.
 	 */
-	public static final String addDoubleQuotationMarks(final String s)
+	public static final String addDoubleQuotationMarks(final @NonNull String s)
 	{
 		return "\"" + s + "\"";
 	}
@@ -66,7 +66,7 @@ public final class StringExtensions
 	 *            The String to handle.
 	 * @return The String with quotes.
 	 */
-	public static final String addSingleQuotationMarks(final String s)
+	public static final String addSingleQuotationMarks(final @NonNull String s)
 	{
 		return "'" + s + "'";
 	}
@@ -124,7 +124,7 @@ public final class StringExtensions
 	 *            the the unicode string
 	 * @return the converted character object.
 	 */
-	public static Character convertUnicodeStringToCharacter(final String theUnicodeString)
+	public static Character convertUnicodeStringToCharacter(final @NonNull String theUnicodeString)
 	{
 		char current;
 		final int length = theUnicodeString.length();
@@ -268,7 +268,7 @@ public final class StringExtensions
 	 *            The name with brackets.
 	 * @return The name without brackets.
 	 */
-	public static final String getAttributName(final String name)
+	public static final String getAttributName(final @NonNull String name)
 	{
 		final int indexStart = name.indexOf("[");
 		final String returnName = name.substring(0, indexStart);
@@ -285,7 +285,7 @@ public final class StringExtensions
 	 *            The name from the Attribute
 	 * @return the index from the Attribute
 	 */
-	public static final String getIndex(final String name)
+	public static final String getIndex(final @NonNull String name)
 	{
 		final int firstIndexStart = name.indexOf("[");
 		final int firstIndexEnd = name.indexOf("]");
@@ -302,7 +302,7 @@ public final class StringExtensions
 	 *            the name
 	 * @return the ItemNumber
 	 */
-	public static final String getItemNumber(final String name)
+	public static final String getItemNumber(final @NonNull String name)
 	{
 		final int lastIndexStart = name.lastIndexOf("[");
 		final int lastIndexEnd = name.lastIndexOf("]");
@@ -318,7 +318,7 @@ public final class StringExtensions
 	 *            The element to get the substing.
 	 * @return The result String.
 	 */
-	public static final String getStringAfterUnderscore(final String element)
+	public static final String getStringAfterUnderscore(final @NonNull String element)
 	{
 		String returnString = null;
 		final int i = element.indexOf("_");
@@ -352,7 +352,7 @@ public final class StringExtensions
 	 *            the default value
 	 * @return the value
 	 */
-	public static String getValue(final Map<String, String> data, final String key,
+	public static String getValue(final @NonNull Map<String, String> data, final String key,
 		final String defaultValue)
 	{
 		String value = data.get(key);
@@ -512,8 +512,23 @@ public final class StringExtensions
 	 * @param s
 	 *            The String to handle.
 	 * @return The String without quotes.
+	 * @deprecated use instead the method <code>removeFirstAndLastCharacter</code><br>
+	 *             Note: will be removed in next minor release
 	 */
-	public static final String removeQuotationMarks(final String s)
+	@Deprecated
+	public static final String removeQuotationMarks(final @NonNull String s)
+	{
+		return removeFirstAndLastCharacter(s);
+	}
+
+	/**
+	 * Removes the first and the last character from the given String
+	 *
+	 * @param s
+	 *            The String to handle
+	 * @return The resulted String
+	 */
+	public static final String removeFirstAndLastCharacter(final @NonNull String s)
 	{
 		return s.substring(1, s.length() - 1);
 	}
@@ -529,8 +544,8 @@ public final class StringExtensions
 	 *            Replace with that String.
 	 * @return Returns a new String with the replaced Strings.
 	 */
-	public static final String replaceAll(final String original, final String findString,
-		final String replaceWith)
+	public static final String replaceAll(final @NonNull String original,
+		final @NonNull String findString, final @NonNull String replaceWith)
 	{
 		final StringBuffer originalFiltered = new StringBuffer();
 		int next = 0;
@@ -565,8 +580,8 @@ public final class StringExtensions
 	 *            Replace with that String.
 	 * @return Returns a new String with the replaced Strings.
 	 */
-	public static final String replaceAll(final String original, final String[] findString,
-		final String replaceWith)
+	public static final String replaceAll(final @NonNull String original,
+		final @NonNull String[] findString, final @NonNull String replaceWith)
 	{
 		String result = original;
 		for (final String element : findString)
@@ -588,8 +603,8 @@ public final class StringExtensions
 	 *            the String to replace with.
 	 * @return the resulted string
 	 */
-	public static String replaceEach(final String input, final String searchRegexPattern,
-		final String replace)
+	public static String replaceEach(final @NonNull String input,
+		final @NonNull String searchRegexPattern, final @NonNull String replace)
 	{
 		final Pattern pattern = Pattern.compile(searchRegexPattern);
 		final Matcher matcher = pattern.matcher(input);
@@ -607,8 +622,8 @@ public final class StringExtensions
 	 *            Replace with that String.
 	 * @return Returns a new String with the replaced Strings.
 	 */
-	public static final String replaceLast(final String original, final String findString,
-		final String replacement)
+	public static final String replaceLast(final @NonNull String original,
+		final @NonNull String findString, final @NonNull String replacement)
 	{
 		final int index = original.lastIndexOf(findString);
 		if (index == -1)
@@ -632,7 +647,8 @@ public final class StringExtensions
 	 *            the fixed length
 	 * @return the list with the splitted {@link String} objects
 	 */
-	public static List<String> splitByFixedLength(final String input, final int fixedLength)
+	public static List<String> splitByFixedLength(final @NonNull String input,
+		final int fixedLength)
 	{
 		final List<String> parts = new ArrayList<>();
 		int beginIndex = 0;
@@ -672,8 +688,8 @@ public final class StringExtensions
 	 * @throws NumberFormatException
 	 *             is thrown if the given {@link String} is not valid.
 	 */
-	public static int[] toIntegerArray(final String integerArrayAsString, final String delimiter)
-		throws NumberFormatException
+	public static int[] toIntegerArray(final @NonNull String integerArrayAsString,
+		final @NonNull String delimiter) throws NumberFormatException
 	{
 		final String[] splittedNumbers = integerArrayAsString.replaceAll("\\s", "")
 			.split(delimiter);
@@ -695,7 +711,7 @@ public final class StringExtensions
 	 *            If true the letters from the unicode characters are lower case.
 	 * @return The converted String.
 	 */
-	public static String toUnicode(final String toUnicode, final boolean toLowerCase)
+	public static String toUnicode(final @NonNull String toUnicode, final boolean toLowerCase)
 	{
 		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < toUnicode.length(); i++)
@@ -727,7 +743,7 @@ public final class StringExtensions
 	 *            If true the letters from the unicode characters are lower case.
 	 * @return The converted String.
 	 */
-	public static String toUnicodeChars(final String s, final boolean toLowerCase)
+	public static String toUnicodeChars(final @NonNull String s, final boolean toLowerCase)
 	{
 		if (s == null || s.length() == 0)
 		{
@@ -819,13 +835,9 @@ public final class StringExtensions
 	 *            the object
 	 * @return the string
 	 */
-	public static <T> String toString(final T object)
+	public static <T> String toString(final @NonNull T object)
 	{
-		if (object == null)
-		{
-			return "Given object is null!!!";
-		}
-		return ReflectionToStringBuilder.toString(object);
+		return Objects.toString(object);
 	}
 
 	/**

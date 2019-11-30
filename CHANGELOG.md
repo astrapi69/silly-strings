@@ -1,6 +1,19 @@
 ## Change log
 ----------------------
 
+Version 5.4
+-------------
+
+ADDED:
+ 
+- new method created that removes the first and the last characters of a string object
+
+CHANGED:
+
+- update of parent version to 5.5
+- update of silly-collections version to 5.6
+- update of test-objects version to 5.2
+
 Version 5.3.1
 -------------
 
