@@ -689,11 +689,6 @@ public class StringExtensionsTest extends BaseTestCase
 		actual = StringExtensions.toUnicodeChars(argument, true);
 		expected = "";
 		assertEquals(expected, actual);
-
-		argument = null;
-		actual = StringExtensions.toUnicodeChars(argument, true);
-		expected = null;
-		assertEquals(expected, actual);
 	}
 
 	/**
