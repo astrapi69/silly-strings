@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>silly-strings</artifactId>
-	<version>5.4</version>
+	<version>5.5-SNAPSHOT</version>
 
 	<name>${project.artifactId}</name>
 
