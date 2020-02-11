@@ -24,7 +24,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.alpharogroup.string.StringExtensions;
-import lombok.experimental.UtilityClass;
 
 /**
  * Utility class for the use with regular expressions.
@@ -32,9 +31,17 @@ import lombok.experimental.UtilityClass;
  * @version 1.0
  * @author Asterios Raptis
  */
-@UtilityClass
 public final class RegExExtensions
 {
+	/**
+	 * Regular expression class for the valid characters in a filename. Current
+	 * value:"[a-zA-Z0-9._-]"
+	 */
+	public static final String VALID_CHARS_IN_FILENAME = "[a-zA-Z0-9._-]";
+
+	public static final String VALID_EMAIL = "([\\w\\-\\.\\+_]+@[\\w\\-\\._]{2,}\\.+[\\w]{2,4})?";
+
+	public static final String VALID_PHONE = "^[a-zA-Z .,;:/\\-]*[ ]*[(]{0,1}[ ]*[+]{0,1}[ ]*[0-9]{0,2}[ ]*[)]{0,1}[ ]*[0-9]*[ ]*[/\\-]{0,1}[ ]*[ ]*[0-9]*[ ]*[a-zA-Z .,;:\\/-]*$";
 
 	/**
 	 * Constant for the wildcard asterisk "*". Current value:"*"
@@ -42,15 +49,9 @@ public final class RegExExtensions
 	public static final String WILDCARD_ASTERISK = "*";
 
 	/**
-	 * Constant for the wildcard interrogation mark "?". Current value:"?"
+	 * Regular expression for many characters in the filename. Current value:".*"
 	 */
-	public static final String WILDCARD_QUESTION_MARK = "?";
-
-	/**
-	 * Regular expression class for the valid characters in a filename. Current
-	 * value:"[a-zA-Z0-9._-]"
-	 */
-	public static final String VALID_CHARS_IN_FILENAME = "[a-zA-Z0-9._-]";
+	public static final String WILDCARD_MANYCHARS_RE = ".*";
 
 	/**
 	 * Regular expression for exactly on character in the filename. Current
@@ -59,15 +60,45 @@ public final class RegExExtensions
 	public static final String WILDCARD_ONECHAR_RE = VALID_CHARS_IN_FILENAME + "{1}";
 
 	/**
-	 * Regular expression for many characters in the filename. Current value:".*"
+	 * Constant for the wildcard interrogation mark "?". Current value:"?"
 	 */
-	public static final String WILDCARD_MANYCHARS_RE = ".*";
-
-	public static final String VALID_EMAIL = "([\\w\\-\\.\\+_]+@[\\w\\-\\._]{2,}\\.+[\\w]{2,4})?";
+	public static final String WILDCARD_QUESTION_MARK = "?";
 
 
-	public static final String VALID_PHONE = "^[a-zA-Z .,;:/\\-]*[ ]*[(]{0,1}[ ]*[+]{0,1}[ ]*[0-9]{0,2}[ ]*[)]{0,1}[ ]*[0-9]*[ ]*[/\\-]{0,1}[ ]*[ ]*[0-9]*[ ]*[a-zA-Z .,;:\\/-]*$";
+	/**
+	 * Count how many times the given text is matching and returns the result.
+	 *
+	 * @param regexPattern
+	 *            the regular expression pattern
+	 * @param text
+	 *            the text to check if it matches
+	 * @return the count of how many times the given text is matching
+	 */
+	public static int countMatches(String regexPattern, String text)
+	{
+		Matcher matcher = Pattern.compile(regexPattern).matcher(text);
+		int matches = 0;
+		while (matcher.find())
+		{
+			matches++;
+		}
+		return matches;
+	}
 
+
+	/**
+	 * Checks if the given regular expression pattern is matching with the given text.
+	 *
+	 * @param regexPattern
+	 *            the regular expression pattern
+	 * @param text
+	 *            the text to check if it matches
+	 * @return true if the given text is matching otherwise false
+	 */
+	public static boolean isMatching(String regexPattern, String text)
+	{
+		return 0 < countMatches(regexPattern, text);
+	}
 
 	/**
 	 * Replaces the normal wildcards in the given String with the corresponding regular expression
@@ -101,38 +132,8 @@ public final class RegExExtensions
 		return newQuery;
 	}
 
-	/**
-	 * Checks if the given regular expression pattern is matching with the given text.
-	 *
-	 * @param regexPattern
-	 *            the regular expression pattern
-	 * @param text
-	 *            the text to check if it matches
-	 * @return true if the given text is matching otherwise false
-	 */
-	public static boolean isMatching(String regexPattern, String text)
+	private RegExExtensions()
 	{
-		return 0 < countMatches(regexPattern, text);
-	}
-
-	/**
-	 * Count how many times the given text is matching and returns the result.
-	 *
-	 * @param regexPattern
-	 *            the regular expression pattern
-	 * @param text
-	 *            the text to check if it matches
-	 * @return the count of how many times the given text is matching
-	 */
-	public static int countMatches(String regexPattern, String text)
-	{
-		Matcher matcher = Pattern.compile(regexPattern).matcher(text);
-		int matches = 0;
-		while (matcher.find())
-		{
-			matches++;
-		}
-		return matches;
 	}
 
 }
