@@ -90,15 +90,15 @@ publishing {
             artifact javadocJar
             pom {
                 name = "${rootProject.name}"
-                description = "Project that holds utility class for file operations"
-                url = "https://github.com/lightblueseas/"+"${rootProject.name}"
+                description = "Provides utility classes for the java String class"
+                url = "https://github.com/astrapi69/"+"${rootProject.name}"
                 organization {
                     name = "Alpha Ro Group UG (haftungsbeschrängt)"
                     url = "http://www.alpharogroup.de/"
                 }
                 issueManagement {
                     system = "GitHub"
-                    url = "https://github.com/lightblueseas/"+"${rootProject.name}"+"/issues"
+                    url = "https://github.com/astrapi69/"+"${rootProject.name}"+"/issues"
                 }
                 licenses {
                     license {
@@ -114,9 +114,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = "scm:git:git:@github.com:lightblueseas/"+"${rootProject.name}"+".git"
-                    developerConnection = "scm:git:git@github.com:lightblueseas/"+"${rootProject.name}"+".git"
-                    url = "git:@github.com:lightblueseas/"+"${rootProject.name}"+".git"
+                    connection = "scm:git:git:@github.com:astrapi69/"+"${rootProject.name}"+".git"
+                    developerConnection = "scm:git:git@github.com:astrapi69/"+"${rootProject.name}"+".git"
+                    url = "git:@github.com:astrapi69/"+"${rootProject.name}"+".git"
                 }
             }
         }
