@@ -30,19 +30,14 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import lombok.NonNull;
-import lombok.experimental.UtilityClass;
-
 /**
  * The class {@link StringExtensions} provides methods for manipulate string objects.<br>
  * <br>
  * Note: As the {@link String} class is immutable not the given String is manipulated, a new
  * {@link String} object is created with the manipulation.
  */
-@UtilityClass
 public final class StringExtensions
 {
-
 	/** A char array from the hexadecimal digits. */
 	private static final char[] HEXADECIMAL_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
 			'9', 'A', 'B', 'C', 'D', 'E', 'F' };
@@ -54,8 +49,9 @@ public final class StringExtensions
 	 *            The String to handle.
 	 * @return The String with quotes.
 	 */
-	public static final String addDoubleQuotationMarks(final @NonNull String s)
+	public static final String addDoubleQuotationMarks(final String s)
 	{
+		Objects.requireNonNull(s);
 		return "\"" + s + "\"";
 	}
 
@@ -66,8 +62,9 @@ public final class StringExtensions
 	 *            The String to handle.
 	 * @return The String with quotes.
 	 */
-	public static final String addSingleQuotationMarks(final @NonNull String s)
+	public static final String addSingleQuotationMarks(final String s)
 	{
+		Objects.requireNonNull(s);
 		return "'" + s + "'";
 	}
 
@@ -91,7 +88,6 @@ public final class StringExtensions
 		}
 		return result;
 	}
-
 
 	/**
 	 * Convert the given byte array to char array.
@@ -124,8 +120,9 @@ public final class StringExtensions
 	 *            the the unicode string
 	 * @return the converted character object.
 	 */
-	public static Character convertUnicodeStringToCharacter(final @NonNull String theUnicodeString)
+	public static Character convertUnicodeStringToCharacter(final String theUnicodeString)
 	{
+		Objects.requireNonNull(theUnicodeString);
 		char current;
 		final int length = theUnicodeString.length();
 		final StringBuilder sb = new StringBuilder(length);
@@ -212,6 +209,31 @@ public final class StringExtensions
 		return c;
 	}
 
+
+	/**
+	 * Filter the given {@link List} of {@link String} objects with the given separator.
+	 *
+	 * @param ignoreFieldNames
+	 *            the ignore field names
+	 * @param separator
+	 *            the separator
+	 * @return the filtered {@link List}
+	 */
+	public static List<String> filterStringsWithSeperator(final List<String> ignoreFieldNames,
+		final String separator)
+	{
+		Objects.requireNonNull(ignoreFieldNames);
+		Objects.requireNonNull(separator);
+		return ignoreFieldNames.stream().map(str -> {
+			int pos = str.indexOf(separator);
+			if (pos == -1)
+			{
+				return "";
+			}
+			return str.substring(pos + separator.length());
+		}).filter(value -> value != null && !value.isEmpty()).collect(Collectors.toList());
+	}
+
 	/**
 	 * Sets the first character from the given string to lower case and returns it. Example:<br>
 	 * Given fieldName: UserName <br>
@@ -268,8 +290,9 @@ public final class StringExtensions
 	 *            The name with brackets.
 	 * @return The name without brackets.
 	 */
-	public static final String getAttributName(final @NonNull String name)
+	public static final String getAttributName(final String name)
 	{
+		Objects.requireNonNull(name);
 		final int indexStart = name.indexOf("[");
 		final String returnName = name.substring(0, indexStart);
 		return returnName;
@@ -285,8 +308,9 @@ public final class StringExtensions
 	 *            The name from the Attribute
 	 * @return the index from the Attribute
 	 */
-	public static final String getIndex(final @NonNull String name)
+	public static final String getIndex(final String name)
 	{
+		Objects.requireNonNull(name);
 		final int firstIndexStart = name.indexOf("[");
 		final int firstIndexEnd = name.indexOf("]");
 		final String index = name.substring(firstIndexStart + 1, firstIndexEnd);
@@ -302,8 +326,9 @@ public final class StringExtensions
 	 *            the name
 	 * @return the ItemNumber
 	 */
-	public static final String getItemNumber(final @NonNull String name)
+	public static final String getItemNumber(final String name)
 	{
+		Objects.requireNonNull(name);
 		final int lastIndexStart = name.lastIndexOf("[");
 		final int lastIndexEnd = name.lastIndexOf("]");
 		final String itemNumber = name.substring(lastIndexStart + 1, lastIndexEnd);
@@ -318,8 +343,9 @@ public final class StringExtensions
 	 *            The element to get the substing.
 	 * @return The result String.
 	 */
-	public static final String getStringAfterUnderscore(final @NonNull String element)
+	public static final String getStringAfterUnderscore(final String element)
 	{
+		Objects.requireNonNull(element);
 		String returnString = null;
 		final int i = element.indexOf("_");
 		returnString = element.substring(i + 1, element.length());
@@ -334,8 +360,9 @@ public final class StringExtensions
 	 *            The element to get the substing.
 	 * @return The result String.
 	 */
-	public static final String getStringBeforeUnderscore(final @NonNull String element)
+	public static final String getStringBeforeUnderscore(final String element)
 	{
+		Objects.requireNonNull(element);
 		return element.substring(0, element.indexOf("_"));
 	}
 
@@ -352,9 +379,10 @@ public final class StringExtensions
 	 *            the default value
 	 * @return the value
 	 */
-	public static String getValue(final @NonNull Map<String, String> data, final String key,
+	public static String getValue(final Map<String, String> data, final String key,
 		final String defaultValue)
 	{
+		Objects.requireNonNull(data);
 		String value = data.get(key);
 		if (!(value != null && !value.isEmpty()))
 		{
@@ -487,6 +515,19 @@ public final class StringExtensions
 	}
 
 	/**
+	 * Removes the first and the last character from the given String
+	 *
+	 * @param s
+	 *            The String to handle
+	 * @return The resulted String
+	 */
+	public static final String removeFirstAndLastCharacter(final String s)
+	{
+		Objects.requireNonNull(s);
+		return s.substring(1, s.length() - 1);
+	}
+
+	/**
 	 * Removes the newline characters from the given String.
 	 *
 	 * @param subject
@@ -516,21 +557,10 @@ public final class StringExtensions
 	 *             Note: will be removed in next minor release
 	 */
 	@Deprecated
-	public static final String removeQuotationMarks(final @NonNull String s)
+	public static final String removeQuotationMarks(final String s)
 	{
+		Objects.requireNonNull(s);
 		return removeFirstAndLastCharacter(s);
-	}
-
-	/**
-	 * Removes the first and the last character from the given String
-	 *
-	 * @param s
-	 *            The String to handle
-	 * @return The resulted String
-	 */
-	public static final String removeFirstAndLastCharacter(final @NonNull String s)
-	{
-		return s.substring(1, s.length() - 1);
 	}
 
 	/**
@@ -544,9 +574,12 @@ public final class StringExtensions
 	 *            Replace with that String.
 	 * @return Returns a new String with the replaced Strings.
 	 */
-	public static final String replaceAll(final @NonNull String original,
-		final @NonNull String findString, final @NonNull String replaceWith)
+	public static final String replaceAll(final String original, final String findString,
+		final String replaceWith)
 	{
+		Objects.requireNonNull(original);
+		Objects.requireNonNull(findString);
+		Objects.requireNonNull(replaceWith);
 		final StringBuffer originalFiltered = new StringBuffer();
 		int next = 0;
 		int count = 0;
@@ -580,9 +613,12 @@ public final class StringExtensions
 	 *            Replace with that String.
 	 * @return Returns a new String with the replaced Strings.
 	 */
-	public static final String replaceAll(final @NonNull String original,
-		final @NonNull String[] findString, final @NonNull String replaceWith)
+	public static final String replaceAll(final String original, final String[] findString,
+		final String replaceWith)
 	{
+		Objects.requireNonNull(original);
+		Objects.requireNonNull(findString);
+		Objects.requireNonNull(replaceWith);
 		String result = original;
 		for (final String element : findString)
 		{
@@ -603,9 +639,12 @@ public final class StringExtensions
 	 *            the String to replace with.
 	 * @return the resulted string
 	 */
-	public static String replaceEach(final @NonNull String input,
-		final @NonNull String searchRegexPattern, final @NonNull String replace)
+	public static String replaceEach(final String input, final String searchRegexPattern,
+		final String replace)
 	{
+		Objects.requireNonNull(input);
+		Objects.requireNonNull(searchRegexPattern);
+		Objects.requireNonNull(replace);
 		final Pattern pattern = Pattern.compile(searchRegexPattern);
 		final Matcher matcher = pattern.matcher(input);
 		return matcher.replaceAll(replace);
@@ -622,9 +661,12 @@ public final class StringExtensions
 	 *            Replace with that String.
 	 * @return Returns a new String with the replaced Strings.
 	 */
-	public static final String replaceLast(final @NonNull String original,
-		final @NonNull String findString, final @NonNull String replacement)
+	public static final String replaceLast(final String original, final String findString,
+		final String replacement)
 	{
+		Objects.requireNonNull(original);
+		Objects.requireNonNull(findString);
+		Objects.requireNonNull(replacement);
 		final int index = original.lastIndexOf(findString);
 		if (index == -1)
 		{
@@ -647,9 +689,9 @@ public final class StringExtensions
 	 *            the fixed length
 	 * @return the list with the splitted {@link String} objects
 	 */
-	public static List<String> splitByFixedLength(final @NonNull String input,
-		final int fixedLength)
+	public static List<String> splitByFixedLength(final String input, final int fixedLength)
 	{
+		Objects.requireNonNull(input);
 		final List<String> parts = new ArrayList<>();
 		int beginIndex = 0;
 		while (beginIndex < input.length())
@@ -688,9 +730,11 @@ public final class StringExtensions
 	 * @throws NumberFormatException
 	 *             is thrown if the given {@link String} is not valid.
 	 */
-	public static int[] toIntegerArray(final @NonNull String integerArrayAsString,
-		final @NonNull String delimiter) throws NumberFormatException
+	public static int[] toIntegerArray(final String integerArrayAsString, final String delimiter)
+		throws NumberFormatException
 	{
+		Objects.requireNonNull(integerArrayAsString);
+		Objects.requireNonNull(delimiter);
 		final String[] splittedNumbers = integerArrayAsString.replaceAll("\\s", "")
 			.split(delimiter);
 		final int[] integerArray = new int[splittedNumbers.length];
@@ -703,6 +747,23 @@ public final class StringExtensions
 	}
 
 	/**
+	 * Prints the {@link Object#toString()} and if the given object is null a corresponding
+	 * information.
+	 *
+	 * @param <T>
+	 *            the generic type
+	 * @param object
+	 *            the object
+	 * @return the string
+	 */
+	public static <T> String toString(final T object)
+	{
+		Objects.requireNonNull(object);
+		return Objects.toString(object);
+	}
+
+
+	/**
 	 * Converts all characters from the given String to unicodes characters encoded like &#92;uxxxx.
 	 *
 	 * @param toUnicode
@@ -711,8 +772,9 @@ public final class StringExtensions
 	 *            If true the letters from the unicode characters are lower case.
 	 * @return The converted String.
 	 */
-	public static String toUnicode(final @NonNull String toUnicode, final boolean toLowerCase)
+	public static String toUnicode(final String toUnicode, final boolean toLowerCase)
 	{
+		Objects.requireNonNull(toUnicode);
 		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < toUnicode.length(); i++)
 		{
@@ -733,7 +795,6 @@ public final class StringExtensions
 		return sb.toString();
 	}
 
-
 	/**
 	 * Converts all characters from the given String to unicodes characters encoded like &#92;uxxxx.
 	 *
@@ -743,8 +804,9 @@ public final class StringExtensions
 	 *            If true the letters from the unicode characters are lower case.
 	 * @return The converted String.
 	 */
-	public static String toUnicodeChars(final @NonNull String s, final boolean toLowerCase)
+	public static String toUnicodeChars(final String s, final boolean toLowerCase)
 	{
+		Objects.requireNonNull(s);
 		if (s == null || s.length() == 0)
 		{
 			return s;
@@ -825,41 +887,8 @@ public final class StringExtensions
 		}
 	}
 
-	/**
-	 * Prints the {@link Object#toString()} and if the given object is null a corresponding
-	 * information.
-	 *
-	 * @param <T>
-	 *            the generic type
-	 * @param object
-	 *            the object
-	 * @return the string
-	 */
-	public static <T> String toString(final @NonNull T object)
+	private StringExtensions()
 	{
-		return Objects.toString(object);
-	}
-
-	/**
-	 * Filter the given {@link List} of {@link String} objects with the given separator.
-	 *
-	 * @param ignoreFieldNames
-	 *            the ignore field names
-	 * @param separator
-	 *            the separator
-	 * @return the filtered {@link List}
-	 */
-	public static List<String> filterStringsWithSeperator(
-		final @NonNull List<String> ignoreFieldNames, final @NonNull String separator)
-	{
-		return ignoreFieldNames.stream().map(str -> {
-			int pos = str.indexOf(separator);
-			if (pos == -1)
-			{
-				return "";
-			}
-			return str.substring(pos + separator.length());
-		}).filter(value -> value != null && !value.isEmpty()).collect(Collectors.toList());
 	}
 
 }

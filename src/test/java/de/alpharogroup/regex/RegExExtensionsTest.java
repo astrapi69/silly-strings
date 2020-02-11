@@ -22,8 +22,6 @@ package de.alpharogroup.regex;
 
 import static org.testng.AssertJUnit.assertTrue;
 
-import org.meanbean.factories.ObjectCreationException;
-import org.meanbean.test.BeanTestException;
 import org.meanbean.test.BeanTester;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
@@ -135,7 +133,7 @@ public class RegExExtensionsTest extends BaseTestCase
 	/**
 	 * Test method for {@link RegExExtensions}
 	 */
-	@Test(expectedExceptions = { BeanTestException.class, ObjectCreationException.class })
+	@Test
 	public void testWithBeanTester()
 	{
 		final BeanTester beanTester = new BeanTester();

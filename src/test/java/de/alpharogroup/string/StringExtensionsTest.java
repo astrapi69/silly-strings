@@ -29,8 +29,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.List;
 import java.util.Map;
 
-import org.meanbean.factories.ObjectCreationException;
-import org.meanbean.test.BeanTestException;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
@@ -620,11 +618,7 @@ public class StringExtensionsTest extends BaseTestCase
 		String actual;
 		Person person = Person.builder().build();
 		actual = StringExtensions.toString(person);
-		assertTrue(actual.startsWith("de.alpharogroup.test.objects.Person@"));
-		assertTrue(actual.endsWith("[about=,gender=UNDEFINED,married=false,name=,nickname=]"));
-
-		actual = StringExtensions.toString(null);
-		expected = "Given object is null!!!";
+		expected = "Person(about=, gender=UNDEFINED, married=false, name=, nickname=)";
 		assertEquals(expected, actual);
 	}
 
@@ -694,7 +688,7 @@ public class StringExtensionsTest extends BaseTestCase
 	/**
 	 * Test method for {@link StringExtensions}
 	 */
-	@Test(expectedExceptions = { BeanTestException.class, ObjectCreationException.class })
+	@Test
 	public void testWithBeanTester()
 	{
 		final BeanTester beanTester = new BeanTester();

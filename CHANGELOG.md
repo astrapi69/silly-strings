@@ -1,6 +1,18 @@
 ## Change log
 ----------------------
 
+Version 5.5
+-------------
+
+ADDED:
+ 
+- new build system gradle
+
+CHANGED:
+
+- removed maven build system and all related files
+- removed all lombok dependent imports
+
 Version 5.4
 -------------
 

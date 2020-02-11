@@ -26,10 +26,8 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 
-import lombok.Setter;
-
 /**
- * The class {@link StringOutputStream}.
+ * The class {@link StringOutputStream}
  */
 public class StringOutputStream extends OutputStream implements Serializable
 {
@@ -43,9 +41,7 @@ public class StringOutputStream extends OutputStream implements Serializable
 	private final ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
 
 	/** The charset. */
-	@Setter
 	private Charset charset;
-
 
 	/**
 	 * {@inheritDoc}
@@ -55,6 +51,7 @@ public class StringOutputStream extends OutputStream implements Serializable
 	{
 		byteBuffer.close();
 	}
+
 
 	/**
 	 * Gets the charset that is used for write in this {@link StringOutputStream} object. Note: if
@@ -69,6 +66,11 @@ public class StringOutputStream extends OutputStream implements Serializable
 			charset = Charset.forName("UTF-8");
 		}
 		return charset;
+	}
+
+	public void setCharset(Charset charset)
+	{
+		this.charset = charset;
 	}
 
 	/**
