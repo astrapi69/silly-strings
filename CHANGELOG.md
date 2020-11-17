@@ -4,6 +4,16 @@
 Version 5.6-SNAPSHOT
 -------------
 
+CHANGED:
+
+- update of gradle to new version 6.7.1
+- update of com.github.ben-manes.versions.gradle.plugin to new version 0.36.0
+- update of dependency commons-lang3 in new version 3.11
+- update of dependency silly-collections in new version 8.4
+- update of test dependency testng to new version 7.3.0
+- update of test dependency test-objects to new version to 5.3
+- update of test dependency commons-io to new version to 2.8.0
+
 Version 5.5
 -------------
 
