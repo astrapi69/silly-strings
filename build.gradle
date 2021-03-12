@@ -184,11 +184,13 @@ gradle.startParameter.excludedTaskNames += "licenseMain"
 gradle.startParameter.excludedTaskNames += "licenseTest"
 
 dependencies {
-    compile("org.apache.commons:commons-lang3:$commonsLang3Version")
-    compile("de.alpharogroup:silly-collections:$sillyCollectionsVersion")
-    testCompile("de.alpharogroup:test-objects:$testObjectsVersion")
-    testCompile("de.alpharogroup:silly-beans:$sillyBeansVersion")
-    testCompile("commons-io:commons-io:$commonsIoVersion")
-    testCompile("org.meanbean:meanbean:$meanbeanVersion")
-    testCompile("org.testng:testng:$testngVersion")
+    implementation("org.apache.commons:commons-lang3:$commonsLang3Version")
+    implementation("io.github.astrapi69:silly-collections:$sillyCollectionsVersion")
+    implementation("de.alpharogroup:silly-beans:$sillyBeansVersion")
+    testImplementation("de.alpharogroup:test-objects:$testObjectsVersion")
+    testImplementation("de.alpharogroup:file-worker:$fileWorkerVersion")
+    testImplementation("org.apache.commons:commons-collections4:$commonsCollections4Version")
+    testImplementation("commons-io:commons-io:$commonsIoVersion")
+    testImplementation("org.meanbean:meanbean:$meanbeanVersion")
+    testImplementation("org.testng:testng:$testngVersion")
 }

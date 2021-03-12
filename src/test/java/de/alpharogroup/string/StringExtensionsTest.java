@@ -33,8 +33,8 @@ import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
 import de.alpharogroup.BaseTestCase;
-import de.alpharogroup.collections.list.ListFactory;
-import de.alpharogroup.collections.map.MapFactory;
+import io.github.astrapi69.collections.list.ListFactory;
+import io.github.astrapi69.collections.map.MapFactory;
 import de.alpharogroup.test.objects.Person;
 
 /**
