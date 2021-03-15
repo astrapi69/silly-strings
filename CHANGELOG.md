@@ -12,6 +12,7 @@ CHANGED:
 
 - update jdk from version 8 to 11
 - update of gradle to new version 6.8.3
+- changed to new package io.github.astrapi69
 - update of com.github.ben-manes.versions.gradle.plugin to new version 0.38.0
 - update of dependency commons-lang3 in new version 3.12.0
 - update of dependency silly-collections in new version 9.1

@@ -18,7 +18,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.alpharogroup.io;
+package io.github.astrapi69.io;
 
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+import io.github.astrapi69.io.StringOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.testng.annotations.Test;
 
