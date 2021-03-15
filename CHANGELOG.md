@@ -4,6 +4,10 @@
 Version 6-SNAPSHOT
 -------------
 
+ADDED:
+
+- new extension class for split string objects
+
 CHANGED:
 
 - update jdk from version 8 to 11

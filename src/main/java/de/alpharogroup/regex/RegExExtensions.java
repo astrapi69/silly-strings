@@ -65,6 +65,10 @@ public final class RegExExtensions
 	public static final String WILDCARD_QUESTION_MARK = "?";
 
 
+	private RegExExtensions()
+	{
+	}
+
 	/**
 	 * Count how many times the given text is matching and returns the result.
 	 *
@@ -84,7 +88,6 @@ public final class RegExExtensions
 		}
 		return matches;
 	}
-
 
 	/**
 	 * Checks if the given regular expression pattern is matching with the given text.
@@ -130,10 +133,6 @@ public final class RegExExtensions
 
 		final String newQuery = query.replace('*', '%').replace('?', '_');
 		return newQuery;
-	}
-
-	private RegExExtensions()
-	{
 	}
 
 }
