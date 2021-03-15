@@ -18,7 +18,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.alpharogroup.regex;
+package io.github.astrapi69.regex;
 
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -27,7 +27,7 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 import de.alpharogroup.BaseTestCase;
-import de.alpharogroup.string.StringExtensions;
+import io.github.astrapi69.string.StringExtensions;
 
 /**
  * The unit test class for the class {@link RegExExtensions}.
@@ -71,7 +71,7 @@ public class RegExExtensionsTest extends BaseTestCase
 
 	/**
 	 * Test method for
-	 * {@link de.alpharogroup.regex.RegExExtensions#replaceWildcardsWithRE(java.lang.String)}.
+	 * {@link io.github.astrapi69.regex.RegExExtensions#replaceWildcardsWithRE(java.lang.String)}.
 	 */
 	@Test
 	public void testReplaceWildcardsWithRE()
@@ -118,7 +118,7 @@ public class RegExExtensionsTest extends BaseTestCase
 
 	/**
 	 * Test method for
-	 * {@link de.alpharogroup.regex.RegExExtensions#wildcardCriterionSQL(java.lang.String)}.
+	 * {@link io.github.astrapi69.regex.RegExExtensions#wildcardCriterionSQL(java.lang.String)}.
 	 */
 	@Test
 	public void testWildcardCriterionSQL()

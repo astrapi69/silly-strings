@@ -18,12 +18,12 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.alpharogroup.regex;
+package io.github.astrapi69.regex;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.alpharogroup.string.StringExtensions;
+import io.github.astrapi69.string.StringExtensions;
 
 /**
  * Utility class for the use with regular expressions.
@@ -65,6 +65,10 @@ public final class RegExExtensions
 	public static final String WILDCARD_QUESTION_MARK = "?";
 
 
+	private RegExExtensions()
+	{
+	}
+
 	/**
 	 * Count how many times the given text is matching and returns the result.
 	 *
@@ -84,7 +88,6 @@ public final class RegExExtensions
 		}
 		return matches;
 	}
-
 
 	/**
 	 * Checks if the given regular expression pattern is matching with the given text.
@@ -130,10 +133,6 @@ public final class RegExExtensions
 
 		final String newQuery = query.replace('*', '%').replace('?', '_');
 		return newQuery;
-	}
-
-	private RegExExtensions()
-	{
 	}
 
 }

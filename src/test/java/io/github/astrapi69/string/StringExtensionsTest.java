@@ -18,7 +18,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.alpharogroup.string;
+package io.github.astrapi69.string;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
@@ -33,8 +33,8 @@ import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
 import de.alpharogroup.BaseTestCase;
-import de.alpharogroup.collections.list.ListFactory;
-import de.alpharogroup.collections.map.MapFactory;
+import io.github.astrapi69.collections.list.ListFactory;
+import io.github.astrapi69.collections.map.MapFactory;
 import de.alpharogroup.test.objects.Person;
 
 /**
