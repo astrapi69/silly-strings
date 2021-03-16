@@ -20,12 +20,20 @@
  */
 package io.github.astrapi69.string;
 
+import de.alpharogroup.file.read.ReadFileExtensions;
+import de.alpharogroup.file.system.SystemFileExtensions;
+import de.alpharogroup.file.write.WriteFileExtensions;
 import io.github.astrapi69.collections.array.ArrayFactory;
+import io.github.astrapi69.collections.list.ListFactory;
+import io.github.astrapi69.collections.map.MapExtensions;
 import io.github.astrapi69.collections.map.MapFactory;
 import org.apache.commons.lang3.tuple.Triple;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Map;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -39,21 +47,55 @@ public class SplitStringExtensionsTest
 	/**
 	 * Test method for {@link SplitStringExtensions#splitToWordsAndCount(String)}
 	 */
-	@Test(enabled = true) public void testSplitToWords()
+	@Test(enabled = true) public void testSplitToWords() throws IOException
 	{
 		Map<String, Integer> actual;
 		Map<String, Integer> expected;
 		String input;
 		// new scenario
-		input = "[21:41, 13.9.2020] Julia: Aber hallo";
+		input = "";
+		String foo = "[21:41, 13.9.2020] Julia: Aber hallo";
 		actual = SplitStringExtensions.splitToWordsAndCount(input);
 		expected = MapFactory.newHashMap();
-		expected.put("13.9.2020]", 1);
-		expected.put("Aber", 1);
-		expected.put("Julia:", 1);
-		expected.put("[21:41,", 1);
-		expected.put("hallo", 1);
+		expected.put("", 1);
 		assertEquals(expected, actual);
+		// new scenario
+		// input = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+		// tempor invidunt ut labore et dolore magna";
+		// actual = SplitStringExtensions.splitToWords(input);
+		// expected = MapFactory.newHashMap();
+		// expected.put("", 0);
+		// assertEquals(expected, actual);
+
+		File userHomeDir = SystemFileExtensions.getUserHomeDir();
+		File userTmpDir = new File(userHomeDir, "tmp");
+		File entryFile = new File(userTmpDir, "van-convers.txt");
+		List<String> linesInList = ReadFileExtensions.readLinesInList(entryFile,
+			Charset.forName("UTF-8"));
+		String inputOriginal = ReadFileExtensions.readFromFile(entryFile);
+		String replace = inputOriginal.replace("\n", " ");
+		String replaceAll = StringExtensions.replaceAll(inputOriginal,
+			ArrayFactory.newArray("\n", "[", "]", ",", ".", "?"), " ");
+		Map<String, String> replaceWith = MapFactory.newHashMap();
+		replaceWith.put("\n", " ");
+		replaceWith.put("[", " ");
+		replaceWith.put("]", " ");
+		replaceWith.put(",", " ");
+		replaceWith.put(".", " ");
+		replaceWith.put("?", " ");
+		String replaceWithMap = StringExtensions.replaceAll(inputOriginal, replaceWith);
+
+		replace = replace.replace("[", " ");
+		replace = replace.replace("]", " ");
+		replace = replace.replace(",", " ");
+		replace = replace.replace(".", " ");
+		replace = replace.replace("?", " ");
+		assertEquals(replaceWithMap, replace);
+		actual = SplitStringExtensions.splitToWordsAndCount(replace);
+		Map<String, Integer> stringIntegerMap = MapExtensions.sortByValue(actual, true);
+		List<String> stringList = convertToList(stringIntegerMap);
+		File output = new File(userTmpDir, "van-convers-statistic.txt");
+		WriteFileExtensions.writeLinesToFile(output, stringList, "UTF-8");
 	}
 
 	/**
@@ -93,4 +135,16 @@ public class SplitStringExtensionsTest
 		System.out.println(tripleFromMessage);
 	}
 
+	public static List<String> convertToList(Map<String, Integer> map)
+	{
+		List<String> list = ListFactory.newArrayList();
+		for (Map.Entry<String, Integer> entry : map.entrySet())
+		{
+			if (entry.getValue() instanceof Integer)
+			{
+				list.add(entry.getKey() + "=" + entry.getValue());
+			}
+		}
+		return list;
+	}
 }
