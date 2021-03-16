@@ -4,6 +4,10 @@
 Version 6.1-SNAPSHOT
 -------------
 
+CHANGED:
+
+- update of test dependency file-worker to new version to 6
+
 Version 6
 -------------
 

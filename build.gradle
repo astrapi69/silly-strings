@@ -188,7 +188,7 @@ dependencies {
     implementation("io.github.astrapi69:silly-collections:$sillyCollectionsVersion")
     implementation("de.alpharogroup:silly-beans:$sillyBeansVersion")
     testImplementation("de.alpharogroup:test-objects:$testObjectsVersion")
-    testImplementation("de.alpharogroup:file-worker:$fileWorkerVersion")
+    testImplementation("io.github.astrapi69:file-worker:$fileWorkerVersion")
     testImplementation("org.apache.commons:commons-collections4:$commonsCollections4Version")
     testImplementation("commons-io:commons-io:$commonsIoVersion")
     testImplementation("org.meanbean:meanbean:$meanbeanVersion")

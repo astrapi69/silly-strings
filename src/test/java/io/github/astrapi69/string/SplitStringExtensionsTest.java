@@ -20,9 +20,9 @@
  */
 package io.github.astrapi69.string;
 
-import de.alpharogroup.file.read.ReadFileExtensions;
-import de.alpharogroup.file.system.SystemFileExtensions;
-import de.alpharogroup.file.write.WriteFileExtensions;
+import io.github.astrapi69.read.ReadFileExtensions;
+import io.github.astrapi69.system.SystemFileExtensions;
+import io.github.astrapi69.write.WriteFileExtensions;
 import io.github.astrapi69.collections.array.ArrayFactory;
 import io.github.astrapi69.collections.list.ListFactory;
 import io.github.astrapi69.collections.map.MapExtensions;
