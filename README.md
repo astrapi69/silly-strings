@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![Build Status](https://travis-ci.org/astrapi69/silly-strings.svg?branch=develop)](https://travis-ci.org/astrapi69/silly-strings) 
+[![Build Status](https://travis-ci.com/astrapi69/silly-strings.svg?branch=develop)](https://travis-ci.com/astrapi69/silly-strings) 
 [![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=develop)](https://coveralls.io/github/astrapi69/silly-strings?branch=develop) 
 [![Open Issues](https://img.shields.io/github/issues/astrapi69/silly-strings.svg?style=flat)](https://github.com/astrapi69/silly-strings/issues) 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings)
@@ -134,7 +134,7 @@ Do not hesitate to contact the silly-strings developers with your questions, con
 |**Travis CI**|
 |     :---:      |
 |[![Travis CI](https://travis-ci.com/images/logos/TravisCI-Full-Color.png)](https://coveralls.io/github/astrapi69/silly-strings?branch=develop)|
-|Special thanks to [Travis CI](https://travis-ci.org) for providing a free continuous integration service for open source projects|
+|Special thanks to [Travis CI](https://travis-ci.com) for providing a free continuous integration service for open source projects|
 |     <img width=1000/>     |
 
 |**Nexus Sonatype repositories**|
