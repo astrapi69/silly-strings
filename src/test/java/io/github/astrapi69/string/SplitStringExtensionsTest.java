@@ -47,7 +47,7 @@ public class SplitStringExtensionsTest
 	/**
 	 * Test method for {@link SplitStringExtensions#splitToWordsAndCount(String)}
 	 */
-	@Test(enabled = true) public void testSplitToWords() throws IOException
+	@Test(enabled = false) public void testSplitToWords() throws IOException
 	{
 		Map<String, Integer> actual;
 		Map<String, Integer> expected;
