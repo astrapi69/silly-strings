@@ -74,8 +74,6 @@ public class SplitStringExtensionsTest
 			Charset.forName("UTF-8"));
 		String inputOriginal = ReadFileExtensions.readFromFile(entryFile);
 		String replace = inputOriginal.replace("\n", " ");
-		String replaceAll = StringExtensions.replaceAll(inputOriginal,
-			ArrayFactory.newArray("\n", "[", "]", ",", ".", "?"), " ");
 		Map<String, String> replaceWith = MapFactory.newHashMap();
 		replaceWith.put("\n", " ");
 		replaceWith.put("[", " ");
