@@ -74,7 +74,16 @@ Than you can add the dependency to your dependencies:
 			
 ## gradle dependency
 
-You can first define the version in the ext section and add than the following gradle dependency to your project `build.gradle` if you want to import the core functionality of silly-strings:
+You can first define the version in the ext section and add than the following gradle dependency to 
+your project `build.gradle` if you want to import the core functionality of silly-strings:
+
+define version in file gradle.properties
+```
+
+sillyStringsVersion=6
+```
+
+or in build.gradle ext area
 
 ```
 ext {
@@ -82,9 +91,14 @@ ext {
     sillyStringsVersion = "6"
 			...
 }
+```
+
+and than add the dependency to the dependencies area
+
+```
 dependencies {
 			...
-compile("io.github.astrapi69:silly-strings:$sillyStringsVersion")
+    implementation("io.github.astrapi69:silly-strings:$sillyStringsVersion")
 			...
 }
 	
