@@ -1,7 +1,7 @@
 ## Change log
 ----------------------
 
-Version 6
+Version 5.6
 -------------
 
 ADDED:
@@ -10,16 +10,16 @@ ADDED:
 
 CHANGED:
 
-- update jdk from version 8 to 11
-- update of gradle to new version 6.8.3
+- update of gradle to new version 6.9
 - changed to new package io.github.astrapi69
-- update of com.github.ben-manes.versions.gradle.plugin to new version 0.38.0
+- update of com.github.ben-manes.versions.gradle.plugin to new version 0.39.0
 - update of dependency commons-lang3 in new version 3.12.0
-- update of dependency silly-collections in new version 9.1
+- update of dependency silly-collections in new version 8.7
 - update of test dependency testng to new version 7.4.0
-- update of test dependency test-objects to new version to 5.3
-- update of test dependency commons-io to new version to 2.8.0
+- update of test dependency test-objects to new version to 5.4
+- update of test dependency commons-io to new version to 2.10.0
 - moved test dependency silly-beans to dependencies
+- update of dependency silly-beans in new version 1.2
 
 Version 5.5
 -------------

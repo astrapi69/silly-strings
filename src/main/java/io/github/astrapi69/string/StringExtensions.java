@@ -628,6 +628,28 @@ public final class StringExtensions
 	}
 
 	/**
+	 * Replaces all occurrences of a String within another String.
+	 *
+	 * @param original
+	 *            The String to search.
+	 * @param replaceWith
+	 *            Replace map with the specific replace values
+	 * @return Returns a new String with the replaced Strings.
+	 */
+	public static final String replaceAll(final String original,
+		final Map<String, String> replaceWith)
+	{
+		Objects.requireNonNull(original);
+		Objects.requireNonNull(replaceWith);
+		String result = original;
+		for (Map.Entry<String, String> entry : replaceWith.entrySet())
+		{
+			result = replaceAll(result, entry.getKey(), entry.getValue());
+		}
+		return result;
+	}
+
+	/**
 	 * Replace each occurences from the search pattern(regex) with the given replace String of the
 	 * given input String.
 	 *

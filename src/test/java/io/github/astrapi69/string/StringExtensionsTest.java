@@ -29,13 +29,14 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.List;
 import java.util.Map;
 
+import io.github.astrapi69.collections.array.ArrayFactory;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
-import de.alpharogroup.BaseTestCase;
+import io.github.astrapi69.BaseTestCase;
 import io.github.astrapi69.collections.list.ListFactory;
 import io.github.astrapi69.collections.map.MapFactory;
-import de.alpharogroup.test.objects.Person;
+import io.github.astrapi69.test.objects.Person;
 
 /**
  * The unit test class for the class StringExtensions.
@@ -531,11 +532,40 @@ public class StringExtensionsTest extends BaseTestCase
 	@Test
 	public void testReplaceAllStringArray()
 	{
+		String expected;
+		String original;
+		String[] array;
+		String compare;
 
-		final String original = "(0049) 173/1234-50";
-		final String expected = "0049173123450";
+		original = "(0049) 173/1234-50";
+		expected = "0049173123450";
+		array = ArrayFactory.newArray("(", ")", "-", "/", " ");
+		compare = StringExtensions.replaceAll(original, array, "");
+		actual = expected.equals(compare);
+		assertTrue("", actual);
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#replaceAll(String, Map)}
+	 */
+	@Test
+	public void testReplaceAllWithMap()
+	{
+		String expected;
+		String original;
+		String compare;
+		Map<String, String> replaceWith;
+		// new scenario ...
+		original = "(0049) 173/1234-50";
+		expected = "0049173123450";
 		final String[] array = { "(", ")", "-", "/", " " };
-		final String compare = StringExtensions.replaceAll(original, array, "");
+		replaceWith = MapFactory.newHashMap();
+		replaceWith.put("(", "");
+		replaceWith.put(")", "");
+		replaceWith.put("-", "");
+		replaceWith.put("/", "");
+		replaceWith.put(" ", "");
+		compare = StringExtensions.replaceAll(original, replaceWith);
 		actual = expected.equals(compare);
 		assertTrue("", actual);
 	}
