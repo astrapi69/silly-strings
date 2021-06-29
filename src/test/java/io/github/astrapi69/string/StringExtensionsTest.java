@@ -33,10 +33,10 @@ import io.github.astrapi69.collections.array.ArrayFactory;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
-import de.alpharogroup.BaseTestCase;
+import io.github.astrapi69.BaseTestCase;
 import io.github.astrapi69.collections.list.ListFactory;
 import io.github.astrapi69.collections.map.MapFactory;
-import de.alpharogroup.test.objects.Person;
+import io.github.astrapi69.test.objects.Person;
 
 /**
  * The unit test class for the class StringExtensions.

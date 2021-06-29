@@ -56,7 +56,7 @@ Than you can add the dependency to your dependencies:
 	<properties>
 			...
 		<!-- SILLY-STRINGS version -->
-		<silly-strings.version>6</silly-strings.version>
+		<silly-strings.version>5.6</silly-strings.version>
 			...
 	</properties>
 			...
@@ -80,7 +80,7 @@ your project `build.gradle` if you want to import the core functionality of sill
 define version in file gradle.properties
 ```
 
-sillyStringsVersion=6
+sillyStringsVersion=5.6
 ```
 
 or in build.gradle ext area
@@ -88,7 +88,7 @@ or in build.gradle ext area
 ```
 ext {
 			...
-    sillyStringsVersion = "6"
+    sillyStringsVersion = "5.6"
 			...
 }
 ```

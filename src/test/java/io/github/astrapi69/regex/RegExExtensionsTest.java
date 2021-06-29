@@ -26,7 +26,7 @@ import org.meanbean.test.BeanTester;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
-import de.alpharogroup.BaseTestCase;
+import io.github.astrapi69.BaseTestCase;
 import io.github.astrapi69.string.StringExtensions;
 
 /**
