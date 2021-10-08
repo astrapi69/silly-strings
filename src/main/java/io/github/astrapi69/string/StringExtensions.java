@@ -24,9 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -907,6 +909,19 @@ public final class StringExtensions
 		{
 			return returnString;
 		}
+	}
+
+	/**
+	 * Gets a {@link Set} of all characters from the given {@link String} object
+	 *
+	 * @param input
+	 *            the string to get all characters
+	 * @return a {@link Set} of all characters from the given {@link String} object
+	 */
+	public static Set<Character> getUniqueCharacters(String input)
+	{
+		char[] chars = input.toCharArray();
+		return IntStream.range(0, chars.length).mapToObj(i -> chars[i]).collect(Collectors.toSet());
 	}
 
 	private StringExtensions()

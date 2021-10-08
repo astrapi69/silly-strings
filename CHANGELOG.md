@@ -4,6 +4,10 @@
 Version 5.7-SNAPSHOT
 -------------
 
+ADDED:
+
+- new method get a Set of all characters from the given String object
+
 Version 5.6
 -------------
 

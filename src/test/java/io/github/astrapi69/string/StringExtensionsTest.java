@@ -28,8 +28,10 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.github.astrapi69.collections.array.ArrayFactory;
+import io.github.astrapi69.collections.set.SetFactory;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
@@ -46,6 +48,24 @@ import io.github.astrapi69.test.objects.Person;
  */
 public class StringExtensionsTest extends BaseTestCase
 {
+
+	/**
+	 * Test method for test the method {@link StringExtensions#getUniqueCharacters(String)}
+	 */
+	@Test
+	public void testGetUniqueCharacters()
+	{
+		Set<Character> actual;
+		Set<Character> expected;
+		String testString;
+
+		testString = "top secret";
+		actual = StringExtensions.getUniqueCharacters(testString);
+		expected = SetFactory.newHashSet(Character.valueOf('t'), Character.valueOf('o'),
+			Character.valueOf('p'), Character.valueOf(' '), Character.valueOf('s'),
+			Character.valueOf('e'), Character.valueOf('c'), Character.valueOf('r'));
+		assertEquals(actual, expected);
+	}
 
 	/**
 	 * Test method for {@link StringExtensions#addSingleQuotationMarks(String)}.
