@@ -1,6 +1,6 @@
 # Overview
 
-<div align="center">
+<div style="text-align: center">
 
 [![Build Status](https://travis-ci.com/astrapi69/silly-strings.svg?branch=develop)](https://travis-ci.com/astrapi69/silly-strings) 
 [![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=develop)](https://coveralls.io/github/astrapi69/silly-strings?branch=develop) 
@@ -14,7 +14,76 @@
 
 Utility library that provides utility classes for the java core class String
 
-If you like this project put a ⭐ and donate
+# Support this project
+
+> Please support this project by simply putting a Github <!-- Place this tag where you want the button to render. -->
+<a class="github-button" href="https://github.com/astrapi69/silly-strings" data-icon="octicon-star" aria-label="Star astrapi69/silly-strings on GitHub">Star ⭐</a>
+>
+> Share this library with friends on Twitter and everywhere else you can
+>
+> If you love this project [![donation](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
+>
+> or for more donation options go the [donations section](#Donations)
+
+## Maven dependency
+
+Maven dependency is now on sonatype.
+Check out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~silly-strings~~~) for latest snapshots and releases.
+
+Add the following maven dependency to your project `pom.xml` if you want to import the core functionality of silly-strings:
+
+Than you can add the dependency to your dependencies:
+
+	<properties>
+			...
+		<!-- SILLY-STRINGS version -->
+		<silly-strings.version>5.7</silly-strings.version>
+			...
+	</properties>
+			...
+		<dependencies>
+			...
+			<!-- SILLY-STRINGS DEPENDENCY -->
+			<dependency>
+				<groupId>io.github.astrapi69</groupId>
+				<artifactId>silly-strings</artifactId>
+				<version>${silly-strings.version}</version>
+			</dependency>
+			...
+		</dependencies>
+
+
+## gradle dependency
+
+You can first define the version in the ext section and add than the following gradle dependency to
+your project `build.gradle` if you want to import the core functionality of silly-strings:
+
+define version in file gradle.properties
+```
+
+sillyStringsVersion=5.7
+```
+
+or in build.gradle ext area
+
+```
+ext {
+			...
+    sillyStringsVersion = "5.7"
+			...
+}
+```
+
+and than add the dependency to the dependencies area
+
+```
+dependencies {
+			...
+    implementation("io.github.astrapi69:silly-strings:$sillyStringsVersion")
+			...
+}
+	
+```
 
 # Donations
 
@@ -71,7 +140,7 @@ alt="Donation Monero Wallet" width="250"/>
 or over flattr:
   
 <a href="http://flattr.com/thing/4067696/astrapi69silly-strings-on-GitHub" target="_blank">
-<img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" />
+<img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" style="border: none" />
 </a>
 
 ## Note
@@ -81,66 +150,6 @@ No animals were harmed in the making of this library.
 ## License
 
 The source code comes under the liberal MIT License, making silly-strings great for all types of applications.
-
-## Maven dependency
-
-Maven dependency is now on sonatype.
-Check out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~silly-strings~~~) for latest snapshots and releases.
-
-Add the following maven dependency to your project `pom.xml` if you want to import the core functionality of silly-strings:
-
-Than you can add the dependency to your dependencies:
-
-	<properties>
-			...
-		<!-- SILLY-STRINGS version -->
-		<silly-strings.version>5.6</silly-strings.version>
-			...
-	</properties>
-			...
-		<dependencies>
-			...
-			<!-- SILLY-STRINGS DEPENDENCY -->
-			<dependency>
-				<groupId>io.github.astrapi69</groupId>
-				<artifactId>silly-strings</artifactId>
-				<version>${silly-strings.version}</version>
-			</dependency>
-			...
-		</dependencies>
-
-			
-## gradle dependency
-
-You can first define the version in the ext section and add than the following gradle dependency to 
-your project `build.gradle` if you want to import the core functionality of silly-strings:
-
-define version in file gradle.properties
-```
-
-sillyStringsVersion=5.6
-```
-
-or in build.gradle ext area
-
-```
-ext {
-			...
-    sillyStringsVersion = "5.6"
-			...
-}
-```
-
-and than add the dependency to the dependencies area
-
-```
-dependencies {
-			...
-    implementation("io.github.astrapi69:silly-strings:$sillyStringsVersion")
-			...
-}
-	
-```
 		
 ## Semantic Versioning
 
