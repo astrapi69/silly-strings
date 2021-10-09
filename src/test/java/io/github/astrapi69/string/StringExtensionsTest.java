@@ -28,14 +28,12 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import io.github.astrapi69.collections.array.ArrayFactory;
-import io.github.astrapi69.collections.set.SetFactory;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.BaseTestCase;
+import io.github.astrapi69.collections.array.ArrayFactory;
 import io.github.astrapi69.collections.list.ListFactory;
 import io.github.astrapi69.collections.map.MapFactory;
 import io.github.astrapi69.test.objects.Person;
@@ -55,15 +53,15 @@ public class StringExtensionsTest extends BaseTestCase
 	@Test
 	public void testGetUniqueCharacters()
 	{
-		Set<Character> actual;
-		Set<Character> expected;
+		List<Character> actual;
+		List<Character> expected;
 		String testString;
 
 		testString = "top secret";
 		actual = StringExtensions.getUniqueCharacters(testString);
-		expected = SetFactory.newHashSet(Character.valueOf('t'), Character.valueOf('o'),
-			Character.valueOf('p'), Character.valueOf(' '), Character.valueOf('s'),
-			Character.valueOf('e'), Character.valueOf('c'), Character.valueOf('r'));
+		expected = ListFactory.newArrayList(Character.valueOf(' '), Character.valueOf('c'),
+			Character.valueOf('e'), Character.valueOf('o'), Character.valueOf('p'),
+			Character.valueOf('r'), Character.valueOf('s'), Character.valueOf('t'));
 		assertEquals(actual, expected);
 	}
 

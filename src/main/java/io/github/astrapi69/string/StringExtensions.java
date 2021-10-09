@@ -21,16 +21,18 @@
 package io.github.astrapi69.string;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
+
+import io.github.astrapi69.collections.list.ListFactory;
 
 /**
  * The class {@link StringExtensions} provides methods for manipulate string objects.<br>
@@ -912,16 +914,19 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Gets a {@link Set} of all characters from the given {@link String} object
+	 * Gets a {@link List} of all unique characters from the given {@link String} object
 	 *
 	 * @param input
 	 *            the string to get all characters
-	 * @return a {@link Set} of all characters from the given {@link String} object
+	 * @return a {@link List} of all characters from the given {@link String} object
 	 */
-	public static Set<Character> getUniqueCharacters(String input)
+	public static List<Character> getUniqueCharacters(String input)
 	{
 		char[] chars = input.toCharArray();
-		return IntStream.range(0, chars.length).mapToObj(i -> chars[i]).collect(Collectors.toSet());
+		List<Character> characters = ListFactory.newArrayList(
+			IntStream.range(0, chars.length).mapToObj(i -> chars[i]).collect(Collectors.toSet()));
+		Collections.sort(characters);
+		return characters;
 	}
 
 	private StringExtensions()
