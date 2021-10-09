@@ -1,7 +1,7 @@
 ## Change log
 ----------------------
 
-Version 5.7
+Version 8
 -------------
 
 ADDED:
