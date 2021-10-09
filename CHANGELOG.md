@@ -1,6 +1,21 @@
 ## Change log
 ----------------------
 
+Version 8
+-------------
+
+ADDED:
+
+- new method that gets a List of all unique characters from the given String object
+
+CHANGED:
+
+- update gradle to new version 7.2
+- update gradle-plugin dependency of gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin to new version 0.16.1
+- update of test dependency test-objects to new version to 5.5
+- update of test dependency commons-io to new version to 2.11.0
+- update of test dependency file-worker to new version 5.10
+
 Version 5.6
 -------------
 
