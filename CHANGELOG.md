@@ -4,7 +4,9 @@
 Version 8.1-SNAPSHOT
 -------------
 
+ADDED:
 
+- Factory method for create new ArrayList of unique characters from the given text sorted with the given Comparator
 
 Version 8
 -------------

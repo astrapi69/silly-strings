@@ -26,9 +26,11 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import io.github.astrapi69.collections.list.ListExtensions;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
@@ -46,6 +48,26 @@ import io.github.astrapi69.test.objects.Person;
  */
 public class StringExtensionsTest extends BaseTestCase
 {
+
+	/**
+	 * Test method for test the method
+	 * {@link StringExtensions#newCharacterList(String, Comparator)}
+	 */
+	@Test
+	public void testNewCharacterListWithComparator()
+	{
+		List<Character> actual;
+		List<Character> expected;
+
+		String text = "Lorem ipsum dolor sit amet, sea consul verterem perfecto id. Alii prompta electram te nec, at minimum copiosae quo. Eos iudico nominati oportere ei, usu at dicta legendos. In nostrum insolens disputando pro, iusto equidem ius id.";
+		actual = StringExtensions.newCharacterList(text,
+			Comparator.<Character> naturalOrder().reversed());
+
+		expected = ListExtensions.revertOrder(ListFactory.newArrayList(
+			Character.valueOf((char)0x20), ',', '.', 'A', 'E', 'I', 'L', 'a', 'c', 'd', 'e', 'f',
+			'g', 'i', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v'));
+		assertEquals(actual, expected);
+	}
 
 	/**
 	 * Test method for test the method {@link StringExtensions#getUniqueCharacters(String)}

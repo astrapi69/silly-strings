@@ -22,9 +22,11 @@ package io.github.astrapi69.string;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -922,11 +924,33 @@ public final class StringExtensions
 	 */
 	public static List<Character> getUniqueCharacters(String input)
 	{
-		char[] chars = input.toCharArray();
-		List<Character> characters = ListFactory.newArrayList(
-			IntStream.range(0, chars.length).mapToObj(i -> chars[i]).collect(Collectors.toSet()));
-		Collections.sort(characters);
-		return characters;
+		return newCharacterList(input, Comparator.<Character> naturalOrder());
+	}
+
+	/**
+	 * Factory method for create new {@link ArrayList} of unique characters from the given text
+	 * sorted with the given {@link Comparator} <br>
+	 * <br>
+	 * Note: This method can be used for a custom Comparator that have a defined order. For example:
+	 * <code>
+	 * // defined custom order
+	 * List&lt;Character&gt; definedOrder = Arrays.asList('c', 'b', 'a', 'd', '.', ...);
+	 * Comparator&lt;Character&gt; customComparator = Comparator.comparing(character -&gt; definedOrder.indexOf(character));
+	 * </code>
+	 *
+	 * @param text
+	 *            the text
+	 * @param comparator
+	 *            the comparator
+	 * @return the new {@link List} with the unique characters
+	 */
+	public static List<Character> newCharacterList(final String text,
+		final Comparator<Character> comparator)
+	{
+		Objects.requireNonNull(text);
+		Objects.requireNonNull(comparator);
+		return new ArrayList<>(text.chars().mapToObj(i -> (char)i)
+			.collect(Collectors.toCollection(() -> new TreeSet<>(comparator))));
 	}
 
 	private StringExtensions()
