@@ -50,6 +50,24 @@ public class StringExtensionsTest extends BaseTestCase
 {
 
 	/**
+	 * Test method for test the method {@link StringExtensions#newCharacterList(String)}
+	 */
+	@Test
+	public void testNewCharacterList()
+	{
+		List<Character> actual;
+		List<Character> expected;
+		String testString;
+
+		testString = "top secret";
+		actual = StringExtensions.newCharacterList(testString);
+		expected = ListFactory.newArrayList(Character.valueOf(' '), Character.valueOf('c'),
+			Character.valueOf('e'), Character.valueOf('o'), Character.valueOf('p'),
+			Character.valueOf('r'), Character.valueOf('s'), Character.valueOf('t'));
+		assertEquals(actual, expected);
+	}
+
+	/**
 	 * Test method for test the method
 	 * {@link StringExtensions#newCharacterList(String, Comparator)}
 	 */

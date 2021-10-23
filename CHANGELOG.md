@@ -4,6 +4,9 @@
 Version 8.2-SNAPSHOT
 -------------
 
+ADDED:
+
+- Factory method for create new ArrayList of unique characters from the given text sorted with the natural order
 
 
 Version 8.1
