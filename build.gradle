@@ -187,6 +187,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:$commonsLang3Version")
     implementation("io.github.astrapi69:silly-collections:$sillyCollectionsVersion")
     implementation("io.github.astrapi69:silly-beans:$sillyBeansVersion")
+    testImplementation("io.github.astrapi69:jobj-compare:$jobjCompareVersion")
     testImplementation("io.github.astrapi69:test-objects:$testObjectsVersion")
     testImplementation("io.github.astrapi69:file-worker:$fileWorkerVersion")
     testImplementation("org.apache.commons:commons-collections4:$commonsCollections4Version")

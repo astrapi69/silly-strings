@@ -30,12 +30,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import io.github.astrapi69.collections.list.ListExtensions;
+import io.github.astrapi69.comparators.ComparatorFactory;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.BaseTestCase;
 import io.github.astrapi69.collections.array.ArrayFactory;
+import io.github.astrapi69.collections.list.ListExtensions;
 import io.github.astrapi69.collections.list.ListFactory;
 import io.github.astrapi69.collections.map.MapFactory;
 import io.github.astrapi69.test.objects.Person;
@@ -57,17 +58,17 @@ public class StringExtensionsTest extends BaseTestCase
 	{
 		List<Character> actual;
 		List<Character> expected;
-		String testString;
+		String text;
 		// new scenario...
-		testString = "top secret";
-		actual = StringExtensions.newCharacterList(testString);
+		text = "top secret";
+		actual = StringExtensions.newCharacterList(text);
 		expected = ListFactory.newArrayList(Character.valueOf(' '), Character.valueOf('c'),
 			Character.valueOf('e'), Character.valueOf('o'), Character.valueOf('p'),
 			Character.valueOf('r'), Character.valueOf('s'), Character.valueOf('t'));
 		assertEquals(actual, expected);
 		// new scenario...
-		testString = "Lorem ipsum dolor sit amet, sea consul verterem perfecto id. Alii prompta electram te nec, at minimum copiosae quo. Eos iudico nominati oportere ei, usu at dicta legendos. In nostrum insolens disputando pro, iusto equidem ius id.";
-		actual = StringExtensions.newCharacterList(testString);
+		text = "Lorem ipsum dolor sit amet, sea consul verterem perfecto id. Alii prompta electram te nec, at minimum copiosae quo. Eos iudico nominati oportere ei, usu at dicta legendos. In nostrum insolens disputando pro, iusto equidem ius id.";
+		actual = StringExtensions.newCharacterList(text);
 
 		expected = ListFactory.newArrayList(Character.valueOf((char)0x20), ',', '.', 'A', 'E', 'I',
 			'L', 'a', 'c', 'd', 'e', 'f', 'g', 'i', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
@@ -84,14 +85,45 @@ public class StringExtensionsTest extends BaseTestCase
 	{
 		List<Character> actual;
 		List<Character> expected;
+		List<Character> definedOrder;
+		String text;
 
-		String text = "Lorem ipsum dolor sit amet, sea consul verterem perfecto id. Alii prompta electram te nec, at minimum copiosae quo. Eos iudico nominati oportere ei, usu at dicta legendos. In nostrum insolens disputando pro, iusto equidem ius id.";
+		// new scenario...
+		text = "Lorem ipsum dolor sit amet, sea consul verterem perfecto id. Alii prompta electram te nec, at minimum copiosae quo. Eos iudico nominati oportere ei, usu at dicta legendos. In nostrum insolens disputando pro, iusto equidem ius id.";
 		actual = StringExtensions.newCharacterList(text,
 			Comparator.<Character> naturalOrder().reversed());
 
 		expected = ListExtensions.revertOrder(ListFactory.newArrayList(
 			Character.valueOf((char)0x20), ',', '.', 'A', 'E', 'I', 'L', 'a', 'c', 'd', 'e', 'f',
 			'g', 'i', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v'));
+		assertEquals(actual, expected);
+
+		// new scenario...
+		text = "top secret";
+		actual = StringExtensions.newCharacterList(text, Comparator.<Character> naturalOrder());
+		expected = ListFactory.newArrayList(Character.valueOf(' '), Character.valueOf('c'),
+			Character.valueOf('e'), Character.valueOf('o'), Character.valueOf('p'),
+			Character.valueOf('r'), Character.valueOf('s'), Character.valueOf('t'));
+		assertEquals(actual, expected);
+
+		// new scenario with reversed order...
+		text = "top secret";
+		actual = StringExtensions.newCharacterList(text,
+			Comparator.<Character> naturalOrder().reversed());
+		expected = ListFactory.newArrayList(Character.valueOf('t'), Character.valueOf('s'),
+			Character.valueOf('r'), Character.valueOf('p'), Character.valueOf('o'),
+			Character.valueOf('e'), Character.valueOf('c'), Character.valueOf(' '));
+		assertEquals(actual, expected);
+
+		// new scenario with defined order...
+		definedOrder = ListFactory.newArrayList(Character.valueOf('r'), Character.valueOf('t'),
+			Character.valueOf('s'), Character.valueOf('e'), Character.valueOf('c'),
+			Character.valueOf(' '), Character.valueOf('p'), Character.valueOf('o'));
+		Comparator<Character> definedOrderComparator = ComparatorFactory.newComparator(definedOrder);
+		text = "top secret";
+		actual = StringExtensions.newCharacterList(text,
+			definedOrderComparator);
+		expected = definedOrder;
 		assertEquals(actual, expected);
 	}
 
