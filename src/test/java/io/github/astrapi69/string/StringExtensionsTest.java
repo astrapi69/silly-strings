@@ -58,12 +58,20 @@ public class StringExtensionsTest extends BaseTestCase
 		List<Character> actual;
 		List<Character> expected;
 		String testString;
-
+		// new scenario...
 		testString = "top secret";
 		actual = StringExtensions.newCharacterList(testString);
 		expected = ListFactory.newArrayList(Character.valueOf(' '), Character.valueOf('c'),
 			Character.valueOf('e'), Character.valueOf('o'), Character.valueOf('p'),
 			Character.valueOf('r'), Character.valueOf('s'), Character.valueOf('t'));
+		assertEquals(actual, expected);
+		// new scenario...
+		testString = "Lorem ipsum dolor sit amet, sea consul verterem perfecto id. Alii prompta electram te nec, at minimum copiosae quo. Eos iudico nominati oportere ei, usu at dicta legendos. In nostrum insolens disputando pro, iusto equidem ius id.";
+		actual = StringExtensions.newCharacterList(testString);
+
+		expected = ListFactory.newArrayList(Character.valueOf((char)0x20), ',', '.', 'A', 'E', 'I',
+			'L', 'a', 'c', 'd', 'e', 'f', 'g', 'i', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+			'u', 'v');
 		assertEquals(actual, expected);
 	}
 
