@@ -7,6 +7,7 @@ Version 8.2-SNAPSHOT
 ADDED:
 
 - Factory method for create new ArrayList of unique characters from the given text sorted with the natural order
+- new method for create a String from a List of characters
 
 
 Version 8.1

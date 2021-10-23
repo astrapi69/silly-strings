@@ -30,7 +30,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import io.github.astrapi69.comparators.ComparatorFactory;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
@@ -39,6 +38,7 @@ import io.github.astrapi69.collections.array.ArrayFactory;
 import io.github.astrapi69.collections.list.ListExtensions;
 import io.github.astrapi69.collections.list.ListFactory;
 import io.github.astrapi69.collections.map.MapFactory;
+import io.github.astrapi69.comparators.ComparatorFactory;
 import io.github.astrapi69.test.objects.Person;
 
 /**
@@ -49,6 +49,25 @@ import io.github.astrapi69.test.objects.Person;
  */
 public class StringExtensionsTest extends BaseTestCase
 {
+
+	/**
+	 * Test method for test the method {@link StringExtensions#toString(List)}
+	 */
+	@Test
+	public void testToStringFromCharacterList()
+	{
+		String actual;
+		String expected;
+		List<Character> characterList;
+		// new scenario...
+		characterList = ListFactory.newArrayList(Character.valueOf('t'), Character.valueOf('o'),
+			Character.valueOf('p'), Character.valueOf(' '), Character.valueOf('s'),
+			Character.valueOf('e'), Character.valueOf('c'), Character.valueOf('r'),
+			Character.valueOf('e'), Character.valueOf('t'));
+		actual = StringExtensions.toString(characterList);
+		expected = "top secret";
+		assertEquals(actual, expected);
+	}
 
 	/**
 	 * Test method for test the method {@link StringExtensions#newCharacterList(String)}
@@ -124,24 +143,6 @@ public class StringExtensionsTest extends BaseTestCase
 		actual = StringExtensions.newCharacterList(text,
 			definedOrderComparator);
 		expected = definedOrder;
-		assertEquals(actual, expected);
-	}
-
-	/**
-	 * Test method for test the method {@link StringExtensions#getUniqueCharacters(String)}
-	 */
-	@Test
-	public void testGetUniqueCharacters()
-	{
-		List<Character> actual;
-		List<Character> expected;
-		String testString;
-
-		testString = "top secret";
-		actual = StringExtensions.getUniqueCharacters(testString);
-		expected = ListFactory.newArrayList(Character.valueOf(' '), Character.valueOf('c'),
-			Character.valueOf('e'), Character.valueOf('o'), Character.valueOf('p'),
-			Character.valueOf('r'), Character.valueOf('s'), Character.valueOf('t'));
 		assertEquals(actual, expected);
 	}
 

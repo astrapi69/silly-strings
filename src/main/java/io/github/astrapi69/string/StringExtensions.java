@@ -21,7 +21,6 @@
 package io.github.astrapi69.string;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +29,8 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
-
-import io.github.astrapi69.collections.list.ListFactory;
 
 /**
  * The class {@link StringExtensions} provides methods for manipulate string objects.<br>
@@ -908,21 +904,6 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Gets a {@link List} of all unique characters from the given {@link String} object
-	 *
-	 * @param input
-	 *            the string to get all characters
-	 * @return a {@link List} of all characters from the given {@link String} object
-	 * @deprecated use instead the new factory method newCharacterList
-	 */
-	@Deprecated
-	public static List<Character> getUniqueCharacters(String input)
-	{
-		Objects.requireNonNull(input);
-		return newCharacterList(input);
-	}
-
-	/**
 	 * Factory method for create new {@link ArrayList} of unique characters from the given text
 	 *
 	 * @param input
@@ -959,6 +940,23 @@ public final class StringExtensions
 		Objects.requireNonNull(comparator);
 		return new ArrayList<>(text.chars().mapToObj(i -> (char)i)
 			.collect(Collectors.toCollection(() -> new TreeSet<>(comparator))));
+	}
+
+	/**
+	 * Converts the given character list to a String
+	 *
+	 * @param characterList
+	 *            the list of characters to convert
+	 * @return the new {@link String} from the given character list
+	 */
+	public static String toString(List<Character> characterList)
+	{
+		StringBuilder sb = new StringBuilder();
+		for (char ac : characterList)
+		{
+			sb.append(ac);
+		}
+		return sb.toString();
 	}
 
 	private StringExtensions()
