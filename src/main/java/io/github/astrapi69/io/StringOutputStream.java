@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The class {@link StringOutputStream}
@@ -63,7 +64,7 @@ public class StringOutputStream extends OutputStream implements Serializable
 	{
 		if (charset == null)
 		{
-			charset = Charset.forName("UTF-8");
+			charset = StandardCharsets.UTF_8;
 		}
 		return charset;
 	}

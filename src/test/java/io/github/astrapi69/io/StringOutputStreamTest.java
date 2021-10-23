@@ -26,8 +26,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
-import io.github.astrapi69.io.StringOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.testng.annotations.Test;
 
@@ -106,10 +106,10 @@ public class StringOutputStreamTest
 	{
 		final String expected = "Thu Apr 19 00:00:00 CEST 2012";
 		final File writeInMe = new File(".", "testWriteInt.log");
-		FileUtils.writeStringToFile(writeInMe, expected, Charset.forName("UTF-8"));
+		FileUtils.writeStringToFile(writeInMe, expected, StandardCharsets.UTF_8);
 		final InputStream inputStream = writeInMe.toURI().toURL().openStream();
 		final StringOutputStream stringOutput = new StringOutputStream();
-		stringOutput.setCharset(Charset.forName("UTF-8"));
+		stringOutput.setCharset(StandardCharsets.UTF_8);
 		int readLength;
 		while ((readLength = inputStream.read()) != -1)
 		{
@@ -133,15 +133,15 @@ public class StringOutputStreamTest
 	{
 		final String expected = "Thu Apr 19 00:00:00 CEST 2012";
 		final File writeInMe = new File(".", "testWriteString.log");
-		FileUtils.writeStringToFile(writeInMe, expected, Charset.forName("UTF-8"));
+		FileUtils.writeStringToFile(writeInMe, expected, StandardCharsets.UTF_8);
 		final InputStream inputStream = writeInMe.toURI().toURL().openStream();
 		final StringOutputStream stringOutput = new StringOutputStream();
-		stringOutput.setCharset(Charset.forName("UTF-8"));
+		stringOutput.setCharset(StandardCharsets.UTF_8);
 
 		final byte[] buffer = new byte[8192];
 		while ((inputStream.read(buffer, 0, buffer.length)) != -1)
 		{
-			stringOutput.write(new String(buffer, Charset.forName("UTF-8")));
+			stringOutput.write(new String(buffer, StandardCharsets.UTF_8));
 		}
 
 		final String actual = stringOutput.toString();

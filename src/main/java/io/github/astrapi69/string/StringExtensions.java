@@ -44,6 +44,10 @@ public final class StringExtensions
 	private static final char[] HEXADECIMAL_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
 			'9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
+	private StringExtensions()
+	{
+	}
+
 	/**
 	 * Puts to the given String at the start and end quotes.
 	 *
@@ -111,7 +115,6 @@ public final class StringExtensions
 		}
 		return result;
 	}
-
 
 	/**
 	 * Converts the given unicode String object to character object. <br>
@@ -210,7 +213,6 @@ public final class StringExtensions
 		return result.charAt(0);
 	}
 
-
 	/**
 	 * Filter the given {@link List} of {@link String} objects with the given separator.
 	 *
@@ -298,7 +300,6 @@ public final class StringExtensions
 		return name.substring(0, indexStart);
 	}
 
-
 	/**
 	 * Gets the first index from the brackets. For example: If "indio[5][1]" is the given String
 	 * than the name is "indio" and the first index is "5" and the second is "1". Than the Method
@@ -363,7 +364,6 @@ public final class StringExtensions
 		Objects.requireNonNull(element);
 		return element.substring(0, element.indexOf("_"));
 	}
-
 
 	/**
 	 * Gets the value from the given map and if it does not exist or is empty the given default
@@ -586,7 +586,7 @@ public final class StringExtensions
 
 			if (count > -1)
 			{
-				originalFiltered.append(original.substring(next, count));
+				originalFiltered.append(original, next, count);
 				originalFiltered.append(replaceWith);
 				next = count + length;
 			}
@@ -631,8 +631,7 @@ public final class StringExtensions
 	 *            Replace map with the specific replace values
 	 * @return Returns a new String with the replaced Strings.
 	 */
-	public static String replaceAll(final String original,
-		final Map<String, String> replaceWith)
+	public static String replaceAll(final String original, final Map<String, String> replaceWith)
 	{
 		Objects.requireNonNull(original);
 		Objects.requireNonNull(replaceWith);
@@ -690,7 +689,7 @@ public final class StringExtensions
 			return original;
 		}
 		final StringBuilder originalFiltered = new StringBuilder();
-		originalFiltered.append(original.substring(0, index));
+		originalFiltered.append(original, 0, index);
 		originalFiltered.append(replacement);
 		originalFiltered.append(original.substring(index + findString.length()));
 		return originalFiltered.toString().trim();
@@ -777,7 +776,6 @@ public final class StringExtensions
 		Objects.requireNonNull(object);
 		return Objects.toString(object);
 	}
-
 
 	/**
 	 * Converts all characters from the given String to unicodes characters encoded like &#92;uxxxx.
@@ -957,10 +955,6 @@ public final class StringExtensions
 			sb.append(ac);
 		}
 		return sb.toString();
-	}
-
-	private StringExtensions()
-	{
 	}
 
 }

@@ -96,8 +96,7 @@ public class StringExtensionsTest extends BaseTestCase
 	}
 
 	/**
-	 * Test method for test the method
-	 * {@link StringExtensions#newCharacterList(String, Comparator)}
+	 * Test method for test the method {@link StringExtensions#newCharacterList(String, Comparator)}
 	 */
 	@Test
 	public void testNewCharacterListWithComparator()
@@ -119,7 +118,7 @@ public class StringExtensionsTest extends BaseTestCase
 
 		// new scenario...
 		text = "top secret";
-		actual = StringExtensions.newCharacterList(text, Comparator.<Character> naturalOrder());
+		actual = StringExtensions.newCharacterList(text, Comparator.naturalOrder());
 		expected = ListFactory.newArrayList(Character.valueOf(' '), Character.valueOf('c'),
 			Character.valueOf('e'), Character.valueOf('o'), Character.valueOf('p'),
 			Character.valueOf('r'), Character.valueOf('s'), Character.valueOf('t'));
@@ -138,10 +137,10 @@ public class StringExtensionsTest extends BaseTestCase
 		definedOrder = ListFactory.newArrayList(Character.valueOf('r'), Character.valueOf('t'),
 			Character.valueOf('s'), Character.valueOf('e'), Character.valueOf('c'),
 			Character.valueOf(' '), Character.valueOf('p'), Character.valueOf('o'));
-		Comparator<Character> definedOrderComparator = ComparatorFactory.newComparator(definedOrder);
+		Comparator<Character> definedOrderComparator = ComparatorFactory
+			.newComparator(definedOrder);
 		text = "top secret";
-		actual = StringExtensions.newCharacterList(text,
-			definedOrderComparator);
+		actual = StringExtensions.newCharacterList(text, definedOrderComparator);
 		expected = definedOrder;
 		assertEquals(actual, expected);
 	}
