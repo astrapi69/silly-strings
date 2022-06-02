@@ -123,5 +123,4 @@ public class StringOutputStream extends OutputStream implements Serializable
 		write(value.getBytes());
 	}
 
-
 }
