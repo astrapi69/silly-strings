@@ -29,6 +29,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * The class {@link StringOutputStream}
+ * @deprecated use instead the same name class from the silly.io.main module
  */
 public class StringOutputStream extends OutputStream implements Serializable
 {
