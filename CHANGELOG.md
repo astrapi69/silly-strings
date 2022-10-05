@@ -56,7 +56,7 @@ Version 5.5
 -------------
 
 ADDED:
- 
+
 - new build system gradle
 
 CHANGED:
@@ -68,7 +68,7 @@ Version 5.4
 -------------
 
 ADDED:
- 
+
 - new method created that removes the first and the last characters of a string object
 
 CHANGED:
@@ -88,7 +88,7 @@ Version 5.3
 -------------
 
 ADDED:
- 
+
 - new method created that filter a given list of strings with a given separator
 
 CHANGED:
@@ -101,12 +101,10 @@ Version 5.2
 -------------
 
 ADDED:
- 
+
 - this changelog file
 - created PULL_REQUEST_TEMPLATE.md file
 - created CODE_OF_CONDUCT.md file
 - created CONTRIBUTING.md file
 - provide package.html for the javadoc of packages
 - moved classes from obsolet jcommons-lang project
-
-

@@ -34,12 +34,12 @@ import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.BaseTestCase;
-import io.github.astrapi69.collections.array.ArrayFactory;
-import io.github.astrapi69.collections.list.ListExtensions;
-import io.github.astrapi69.collections.list.ListFactory;
-import io.github.astrapi69.collections.map.MapFactory;
-import io.github.astrapi69.comparators.ComparatorFactory;
-import io.github.astrapi69.test.objects.Person;
+import io.github.astrapi69.collection.array.ArrayFactory;
+import io.github.astrapi69.collection.list.ListExtensions;
+import io.github.astrapi69.collection.list.ListFactory;
+import io.github.astrapi69.collection.map.MapFactory;
+import io.github.astrapi69.comparator.factory.ComparatorFactory;
+import io.github.astrapi69.test.object.Person;
 
 /**
  * The unit test class for the class StringExtensions.
@@ -138,7 +138,7 @@ public class StringExtensionsTest extends BaseTestCase
 			Character.valueOf('s'), Character.valueOf('e'), Character.valueOf('c'),
 			Character.valueOf(' '), Character.valueOf('p'), Character.valueOf('o'));
 		Comparator<Character> definedOrderComparator = ComparatorFactory
-			.newComparator(definedOrder);
+			.newDefinedOrderComparator(definedOrder);
 		text = "top secret";
 		actual = StringExtensions.newCharacterList(text, definedOrderComparator);
 		expected = definedOrder;

@@ -28,8 +28,8 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.Triple;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.collections.array.ArrayFactory;
-import io.github.astrapi69.collections.map.MapFactory;
+import io.github.astrapi69.collection.array.ArrayFactory;
+import io.github.astrapi69.collection.map.MapFactory;
 
 /**
  * The unit test class for the class {@link SplitStringExtensions}

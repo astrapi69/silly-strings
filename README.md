@@ -2,9 +2,9 @@
 
 <div style="text-align: center">
 
-[![Build Status](https://travis-ci.com/astrapi69/silly-strings.svg?branch=develop)](https://travis-ci.com/astrapi69/silly-strings) 
-[![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=develop)](https://coveralls.io/github/astrapi69/silly-strings?branch=develop) 
-[![Open Issues](https://img.shields.io/github/issues/astrapi69/silly-strings.svg?style=flat)](https://github.com/astrapi69/silly-strings/issues) 
+[![Build Status](https://travis-ci.com/astrapi69/silly-strings.svg?branch=develop)](https://travis-ci.com/astrapi69/silly-strings)
+[![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=develop)](https://coveralls.io/github/astrapi69/silly-strings?branch=develop)
+[![Open Issues](https://img.shields.io/github/issues/astrapi69/silly-strings.svg?style=flat)](https://github.com/astrapi69/silly-strings/issues)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings)
 [![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/silly-strings.svg)](http://www.javadoc.io/doc/io.github.astrapi69/silly-strings)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
@@ -34,23 +34,23 @@ Add the following maven dependency to your project `pom.xml` if you want to impo
 
 Than you can add the dependency to your dependencies:
 
-	<properties>
-			...
-		<!-- SILLY-STRINGS version -->
-		<silly-strings.version>8.1</silly-strings.version>
-			...
-	</properties>
-			...
-		<dependencies>
-			...
-			<!-- SILLY-STRINGS DEPENDENCY -->
-			<dependency>
-				<groupId>io.github.astrapi69</groupId>
-				<artifactId>silly-strings</artifactId>
-				<version>${silly-strings.version}</version>
-			</dependency>
-			...
-		</dependencies>
+    <properties>
+            ...
+        <!-- SILLY-STRINGS version -->
+        <silly-strings.version>8.1</silly-strings.version>
+            ...
+    </properties>
+            ...
+        <dependencies>
+            ...
+            <!-- SILLY-STRINGS DEPENDENCY -->
+            <dependency>
+                <groupId>io.github.astrapi69</groupId>
+                <artifactId>silly-strings</artifactId>
+                <version>${silly-strings.version}</version>
+            </dependency>
+            ...
+        </dependencies>
 
 
 ## gradle dependency
@@ -60,7 +60,6 @@ your project `build.gradle` if you want to import the core functionality of sill
 
 define version in file gradle.properties
 ```
-
 sillyStringsVersion=8.1
 ```
 
@@ -68,9 +67,9 @@ or in build.gradle ext area
 
 ```
 ext {
-			...
+            ...
     sillyStringsVersion = "8.1"
-			...
+            ...
 }
 ```
 
@@ -78,11 +77,11 @@ and than add the dependency to the dependencies area
 
 ```
 dependencies {
-			...
+            ...
     implementation("io.github.astrapi69:silly-strings:$sillyStringsVersion")
-			...
+            ...
 }
-	
+
 ```
 
 # Donations
@@ -138,7 +137,7 @@ or over Monero(XMR) with:
 alt="Donation Monero Wallet" width="250"/>
 
 or over flattr:
-  
+
 <a href="http://flattr.com/thing/4067696/astrapi69silly-strings-on-GitHub" target="_blank">
 <img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" style="border: none" />
 </a>
@@ -150,7 +149,7 @@ No animals were harmed in the making of this library.
 ## License
 
 The source code comes under the liberal MIT License, making silly-strings great for all types of applications.
-		
+
 ## Semantic Versioning
 
 The versions of silly-strings are maintained with the Simplified Semantic Versioning guidelines.

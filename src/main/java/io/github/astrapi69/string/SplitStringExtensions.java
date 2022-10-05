@@ -25,8 +25,8 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.Triple;
 
-import io.github.astrapi69.collections.list.ListFactory;
-import io.github.astrapi69.collections.map.MapFactory;
+import io.github.astrapi69.collection.list.ListFactory;
+import io.github.astrapi69.collection.map.MapFactory;
 
 /**
  * The class {@link SplitStringExtensions} provides methods for split string objects.<br>
