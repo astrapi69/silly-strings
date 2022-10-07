@@ -6,9 +6,22 @@ Version 8.2-SNAPSHOT
 
 ADDED:
 
+- new gradle-plugin dependency of 'org.ajoberstar.grgit:grgit-gradle' in version 5.0.0 for create
+  git release tags
+- new gradle-plugin dependency of 'com.diffplug.spotless:spotless-plugin-gradle' in version 6.11.0
+  for format the source files
 - Factory method for create new ArrayList of unique characters from the given text sorted with the natural order
 - new method for create a String from a List of characters
 
+CHANGED:
+
+- update to jdk version 11
+- update gradle to new version 7.5.1
+- removed class StringOutputStream
+- update of com.github.ben-manes.versions.gradle.plugin to new version 0.42.0
+- update of dependency silly-collection in new version 20.1
+- update of dependency silly-bean in new version 2
+- update of test dependency test-object to new version to 7.1
 
 Version 8.1
 -------------

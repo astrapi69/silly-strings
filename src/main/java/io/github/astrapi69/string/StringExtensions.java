@@ -122,7 +122,7 @@ public final class StringExtensions
 	 * the return character object would be "&#937;".
 	 *
 	 * @param theUnicodeString
-	 *            the the unicode string
+	 *            the unicode string
 	 * @return the converted character object.
 	 */
 	public static Character convertUnicodeStringToCharacter(final String theUnicodeString)
