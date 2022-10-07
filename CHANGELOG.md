@@ -1,6 +1,29 @@
 ## Change log
 ----------------------
 
+Version 8.2
+-------------
+
+ADDED:
+
+- new gradle-plugin dependency of 'org.ajoberstar.grgit:grgit-gradle' in version 5.0.0 for create
+  git release tags
+- new gradle-plugin dependency of 'com.diffplug.spotless:spotless-plugin-gradle' in version 6.11.0
+  for format the source files
+- Factory method for create new ArrayList of unique characters from the given text sorted with the natural order
+- new method for create a String from a List of characters
+- new file module-info.java
+
+CHANGED:
+
+- update to jdk version 11
+- update gradle to new version 7.5.1
+- removed class StringOutputStream
+- update of com.github.ben-manes.versions.gradle.plugin to new version 0.42.0
+- update of dependency silly-collection in new version 20.1
+- update of dependency silly-bean in new version 2
+- update of test dependency test-object to new version to 7.1
+
 Version 8.1
 -------------
 
@@ -47,7 +70,7 @@ Version 5.5
 -------------
 
 ADDED:
- 
+
 - new build system gradle
 
 CHANGED:
@@ -59,7 +82,7 @@ Version 5.4
 -------------
 
 ADDED:
- 
+
 - new method created that removes the first and the last characters of a string object
 
 CHANGED:
@@ -79,7 +102,7 @@ Version 5.3
 -------------
 
 ADDED:
- 
+
 - new method created that filter a given list of strings with a given separator
 
 CHANGED:
@@ -92,12 +115,10 @@ Version 5.2
 -------------
 
 ADDED:
- 
+
 - this changelog file
 - created PULL_REQUEST_TEMPLATE.md file
 - created CODE_OF_CONDUCT.md file
 - created CONTRIBUTING.md file
 - provide package.html for the javadoc of packages
 - moved classes from obsolet jcommons-lang project
-
-

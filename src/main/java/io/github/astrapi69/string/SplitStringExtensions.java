@@ -20,12 +20,13 @@
  */
 package io.github.astrapi69.string;
 
-import io.github.astrapi69.collections.list.ListFactory;
-import io.github.astrapi69.collections.map.MapFactory;
-import org.apache.commons.lang3.tuple.Triple;
-
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.apache.commons.lang3.tuple.Triple;
+
+import io.github.astrapi69.collection.list.ListFactory;
+import io.github.astrapi69.collection.map.MapFactory;
 
 /**
  * The class {@link SplitStringExtensions} provides methods for split string objects.<br>
@@ -40,7 +41,8 @@ public final class SplitStringExtensions
 	/**
 	 * Splits the given input string into words and puts them to a counter map
 	 *
-	 * @param input The input string
+	 * @param input
+	 *            The input string
 	 * @return The map with the words and the count
 	 */
 	public static Map<String, Integer> splitToWordsAndCount(String input)
@@ -51,8 +53,10 @@ public final class SplitStringExtensions
 	/**
 	 * Splits the given input string into words and puts them to a counter map
 	 *
-	 * @param input      The input string
-	 * @param findString An array with search patterns.
+	 * @param input
+	 *            The input string
+	 * @param findString
+	 *            An array with search patterns.
 	 * @return The map with the words and the count
 	 */
 	public static Map<String, Integer> splitToWordsAndCount(final String input,
@@ -65,22 +69,25 @@ public final class SplitStringExtensions
 	/**
 	 * Splits the given input string into words and puts them to a counter map
 	 *
-	 * @param input The input string
-	 * @param regex The regex string that is used for splitting
+	 * @param input
+	 *            The input string
+	 * @param regex
+	 *            The regex string that is used for splitting
 	 * @return The map with the words and the count
 	 */
 	public static Map<String, Integer> splitToWordsAndCount(String input, String regex)
 	{
 		String[] split = input.split(regex);
-		Map<String, Integer> stringIntegerMap = MapFactory
-			.newCounterMap(MapFactory.newHashMap(), ListFactory.newArrayList(split), false);
+		Map<String, Integer> stringIntegerMap = MapFactory.newCounterMap(MapFactory.newHashMap(),
+			ListFactory.newArrayList(split), false);
 		return new TreeMap<>(stringIntegerMap);
 	}
 
 	/**
 	 * Splits the given message string into three parts and put them into a {@link Triple} object
 	 *
-	 * @param message The message string
+	 * @param message
+	 *            The message string
 	 * @return The splitted message in a {@link Triple} object
 	 */
 	public static Triple<String, String, String> getTripleFromMessage(String message)

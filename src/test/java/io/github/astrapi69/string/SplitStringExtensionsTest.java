@@ -20,15 +20,16 @@
  */
 package io.github.astrapi69.string;
 
-import io.github.astrapi69.collections.array.ArrayFactory;
-import io.github.astrapi69.collections.map.MapFactory;
-import org.apache.commons.lang3.tuple.Triple;
-import org.testng.annotations.Test;
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.IOException;
 import java.util.Map;
 
-import static org.testng.AssertJUnit.assertEquals;
+import org.apache.commons.lang3.tuple.Triple;
+import org.testng.annotations.Test;
+
+import io.github.astrapi69.collection.array.ArrayFactory;
+import io.github.astrapi69.collection.map.MapFactory;
 
 /**
  * The unit test class for the class {@link SplitStringExtensions}
@@ -39,7 +40,8 @@ public class SplitStringExtensionsTest
 	/**
 	 * Test method for {@link SplitStringExtensions#splitToWordsAndCount(String)}
 	 */
-	@Test(enabled = true) public void testSplitToWords()
+	@Test(enabled = true)
+	public void testSplitToWords()
 	{
 		Map<String, Integer> actual;
 		Map<String, Integer> expected;
@@ -59,14 +61,15 @@ public class SplitStringExtensionsTest
 	/**
 	 * Test method for {@link SplitStringExtensions#splitToWordsAndCount(String, String[])}
 	 */
-	@Test(enabled = true) public void testSplitToWordsStringArray()
+	@Test(enabled = true)
+	public void testSplitToWordsStringArray()
 	{
 		Map<String, Integer> actual;
 		Map<String, Integer> expected;
 		String[] array;
 		String input;
 		// new scenario
-		array = ArrayFactory.newArray("[", "]",  ",", " ");
+		array = ArrayFactory.newArray("[", "]", ",", " ");
 		input = "[21:41, 13.9.2020] Julia: Aber hallo";
 		actual = SplitStringExtensions.splitToWordsAndCount(input, array);
 		expected = MapFactory.newHashMap();
@@ -82,7 +85,8 @@ public class SplitStringExtensionsTest
 	/**
 	 * Test method for {@link SplitStringExtensions#getTripleFromMessage(String)}
 	 */
-	@Test public void testGetTripleFromMessage() throws IOException
+	@Test
+	public void testGetTripleFromMessage() throws IOException
 	{
 		String input;
 		// new scenario

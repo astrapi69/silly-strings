@@ -21,7 +21,6 @@
 package io.github.astrapi69.string;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +29,8 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
-
-import io.github.astrapi69.collections.list.ListFactory;
 
 /**
  * The class {@link StringExtensions} provides methods for manipulate string objects.<br>
@@ -48,6 +44,10 @@ public final class StringExtensions
 	private static final char[] HEXADECIMAL_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
 			'9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
+	private StringExtensions()
+	{
+	}
+
 	/**
 	 * Puts to the given String at the start and end quotes.
 	 *
@@ -55,7 +55,7 @@ public final class StringExtensions
 	 *            The String to handle.
 	 * @return The String with quotes.
 	 */
-	public static final String addDoubleQuotationMarks(final String s)
+	public static String addDoubleQuotationMarks(final String s)
 	{
 		Objects.requireNonNull(s);
 		return "\"" + s + "\"";
@@ -68,7 +68,7 @@ public final class StringExtensions
 	 *            The String to handle.
 	 * @return The String with quotes.
 	 */
-	public static final String addSingleQuotationMarks(final String s)
+	public static String addSingleQuotationMarks(final String s)
 	{
 		Objects.requireNonNull(s);
 		return "'" + s + "'";
@@ -81,7 +81,7 @@ public final class StringExtensions
 	 *            the source.
 	 * @return the byte[]
 	 */
-	public static final byte[] convertToBytearray(final char[] source)
+	public static byte[] convertToBytearray(final char[] source)
 	{
 		if (source == null)
 		{
@@ -116,14 +116,13 @@ public final class StringExtensions
 		return result;
 	}
 
-
 	/**
 	 * Converts the given unicode String object to character object. <br>
 	 * Example: the given unicode String object is "&#92;u03A9" <br>
 	 * the return character object would be "&#937;".
 	 *
 	 * @param theUnicodeString
-	 *            the the unicode string
+	 *            the unicode string
 	 * @return the converted character object.
 	 */
 	public static Character convertUnicodeStringToCharacter(final String theUnicodeString)
@@ -211,10 +210,8 @@ public final class StringExtensions
 			}
 		}
 		final String result = sb.toString();
-		final char c = result.charAt(0);
-		return c;
+		return result.charAt(0);
 	}
-
 
 	/**
 	 * Filter the given {@link List} of {@link String} objects with the given separator.
@@ -249,7 +246,7 @@ public final class StringExtensions
 	 *            The String to modify.
 	 * @return The modified string.
 	 */
-	public static final String firstCharacterToLowerCase(final String fieldName)
+	public static String firstCharacterToLowerCase(final String fieldName)
 	{
 
 		if (StringUtils.isNotEmpty(fieldName))
@@ -273,7 +270,7 @@ public final class StringExtensions
 	 *            The String to modify.
 	 * @return The modified string.
 	 */
-	public static final String firstCharacterToUpperCase(final String fieldName)
+	public static String firstCharacterToUpperCase(final String fieldName)
 	{
 		if (StringUtils.isNotEmpty(fieldName))
 		{
@@ -296,14 +293,12 @@ public final class StringExtensions
 	 *            The name with brackets.
 	 * @return The name without brackets.
 	 */
-	public static final String getAttributName(final String name)
+	public static String getAttributName(final String name)
 	{
 		Objects.requireNonNull(name);
 		final int indexStart = name.indexOf("[");
-		final String returnName = name.substring(0, indexStart);
-		return returnName;
+		return name.substring(0, indexStart);
 	}
-
 
 	/**
 	 * Gets the first index from the brackets. For example: If "indio[5][1]" is the given String
@@ -314,13 +309,12 @@ public final class StringExtensions
 	 *            The name from the Attribute
 	 * @return the index from the Attribute
 	 */
-	public static final String getIndex(final String name)
+	public static String getIndex(final String name)
 	{
 		Objects.requireNonNull(name);
 		final int firstIndexStart = name.indexOf("[");
 		final int firstIndexEnd = name.indexOf("]");
-		final String index = name.substring(firstIndexStart + 1, firstIndexEnd);
-		return index;
+		return name.substring(firstIndexStart + 1, firstIndexEnd);
 	}
 
 	/**
@@ -332,13 +326,12 @@ public final class StringExtensions
 	 *            the name
 	 * @return the ItemNumber
 	 */
-	public static final String getItemNumber(final String name)
+	public static String getItemNumber(final String name)
 	{
 		Objects.requireNonNull(name);
 		final int lastIndexStart = name.lastIndexOf("[");
 		final int lastIndexEnd = name.lastIndexOf("]");
-		final String itemNumber = name.substring(lastIndexStart + 1, lastIndexEnd);
-		return itemNumber;
+		return name.substring(lastIndexStart + 1, lastIndexEnd);
 	}
 
 	/**
@@ -349,12 +342,12 @@ public final class StringExtensions
 	 *            The element to get the substing.
 	 * @return The result String.
 	 */
-	public static final String getStringAfterUnderscore(final String element)
+	public static String getStringAfterUnderscore(final String element)
 	{
 		Objects.requireNonNull(element);
-		String returnString = null;
+		String returnString;
 		final int i = element.indexOf("_");
-		returnString = element.substring(i + 1, element.length());
+		returnString = element.substring(i + 1);
 		return returnString;
 	}
 
@@ -366,12 +359,11 @@ public final class StringExtensions
 	 *            The element to get the substing.
 	 * @return The result String.
 	 */
-	public static final String getStringBeforeUnderscore(final String element)
+	public static String getStringBeforeUnderscore(final String element)
 	{
 		Objects.requireNonNull(element);
 		return element.substring(0, element.indexOf("_"));
 	}
-
 
 	/**
 	 * Gets the value from the given map and if it does not exist or is empty the given default
@@ -404,7 +396,7 @@ public final class StringExtensions
 	 *            The String to check.
 	 * @return true if the given String is empty or null otherwise false.
 	 */
-	public static final boolean isNullOrEmpty(final String str)
+	public static boolean isNullOrEmpty(final String str)
 	{
 		return str == null || str.length() == 0;
 	}
@@ -416,7 +408,7 @@ public final class StringExtensions
 	 *            The String to check.
 	 * @return true if the given String is a number otherwise false.
 	 */
-	public static final boolean isNumber(final String testString)
+	public static boolean isNumber(final String testString)
 	{
 		if (StringUtils.isEmpty(testString))
 		{
@@ -424,7 +416,7 @@ public final class StringExtensions
 		}
 		for (int i = 0; i < testString.length(); i++)
 		{
-			if (Character.isDigit(testString.charAt(i)) == false)
+			if (!Character.isDigit(testString.charAt(i)))
 			{
 				return false;
 			}
@@ -457,7 +449,7 @@ public final class StringExtensions
 	 *            The String to modify.
 	 * @return The modified string.
 	 */
-	public static final String lastCharacterToUpperCase(final String fieldName)
+	public static String lastCharacterToUpperCase(final String fieldName)
 	{
 		if (StringUtils.isNotEmpty(fieldName))
 		{
@@ -479,7 +471,7 @@ public final class StringExtensions
 	 *            The String.
 	 * @return Return the String till the carriage return.
 	 */
-	public static final String readLine(final String stringWithCarriageReturns)
+	public static String readLine(final String stringWithCarriageReturns)
 	{
 		String returnString = "";
 		int index = 0;
@@ -527,7 +519,7 @@ public final class StringExtensions
 	 *            The String to handle
 	 * @return The resulted String
 	 */
-	public static final String removeFirstAndLastCharacter(final String s)
+	public static String removeFirstAndLastCharacter(final String s)
 	{
 		Objects.requireNonNull(s);
 		return s.substring(1, s.length() - 1);
@@ -559,11 +551,8 @@ public final class StringExtensions
 	 * @param s
 	 *            The String to handle.
 	 * @return The String without quotes.
-	 * @deprecated use instead the method <code>removeFirstAndLastCharacter</code><br>
-	 *             Note: will be removed in next minor release
 	 */
-	@Deprecated
-	public static final String removeQuotationMarks(final String s)
+	public static String removeQuotationMarks(final String s)
 	{
 		Objects.requireNonNull(s);
 		return removeFirstAndLastCharacter(s);
@@ -580,13 +569,13 @@ public final class StringExtensions
 	 *            Replace with that String.
 	 * @return Returns a new String with the replaced Strings.
 	 */
-	public static final String replaceAll(final String original, final String findString,
+	public static String replaceAll(final String original, final String findString,
 		final String replaceWith)
 	{
 		Objects.requireNonNull(original);
 		Objects.requireNonNull(findString);
 		Objects.requireNonNull(replaceWith);
-		final StringBuffer originalFiltered = new StringBuffer();
+		final StringBuilder originalFiltered = new StringBuilder();
 		int next = 0;
 		int count = 0;
 		final int length = findString.length();
@@ -597,13 +586,13 @@ public final class StringExtensions
 
 			if (count > -1)
 			{
-				originalFiltered.append(original.substring(next, count));
+				originalFiltered.append(original, next, count);
 				originalFiltered.append(replaceWith);
 				next = count + length;
 			}
 		}
 
-		originalFiltered.append(original.substring(next, original.length()));
+		originalFiltered.append(original.substring(next));
 
 		return originalFiltered.toString();
 	}
@@ -619,7 +608,7 @@ public final class StringExtensions
 	 *            Replace with that String.
 	 * @return Returns a new String with the replaced Strings.
 	 */
-	public static final String replaceAll(final String original, final String[] findString,
+	public static String replaceAll(final String original, final String[] findString,
 		final String replaceWith)
 	{
 		Objects.requireNonNull(original);
@@ -642,8 +631,7 @@ public final class StringExtensions
 	 *            Replace map with the specific replace values
 	 * @return Returns a new String with the replaced Strings.
 	 */
-	public static final String replaceAll(final String original,
-		final Map<String, String> replaceWith)
+	public static String replaceAll(final String original, final Map<String, String> replaceWith)
 	{
 		Objects.requireNonNull(original);
 		Objects.requireNonNull(replaceWith);
@@ -689,7 +677,7 @@ public final class StringExtensions
 	 *            Replace with that String.
 	 * @return Returns a new String with the replaced Strings.
 	 */
-	public static final String replaceLast(final String original, final String findString,
+	public static String replaceLast(final String original, final String findString,
 		final String replacement)
 	{
 		Objects.requireNonNull(original);
@@ -700,12 +688,11 @@ public final class StringExtensions
 		{
 			return original;
 		}
-		final StringBuffer originalFiltered = new StringBuffer();
-		originalFiltered.append(original.substring(0, index));
+		final StringBuilder originalFiltered = new StringBuilder();
+		originalFiltered.append(original, 0, index);
 		originalFiltered.append(replacement);
 		originalFiltered.append(original.substring(index + findString.length()));
-		final String result = originalFiltered.toString().trim();
-		return result;
+		return originalFiltered.toString().trim();
 	}
 
 	/**
@@ -790,7 +777,6 @@ public final class StringExtensions
 		return Objects.toString(object);
 	}
 
-
 	/**
 	 * Converts all characters from the given String to unicodes characters encoded like &#92;uxxxx.
 	 *
@@ -835,7 +821,7 @@ public final class StringExtensions
 	public static String toUnicodeChars(final String s, final boolean toLowerCase)
 	{
 		Objects.requireNonNull(s);
-		if (s == null || s.length() == 0)
+		if (s.length() == 0)
 		{
 			return s;
 		}
@@ -916,15 +902,16 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Gets a {@link List} of all unique characters from the given {@link String} object
+	 * Factory method for create new {@link ArrayList} of unique characters from the given text
 	 *
 	 * @param input
-	 *            the string to get all characters
-	 * @return a {@link List} of all characters from the given {@link String} object
+	 *            the input text
+	 * @return the new {@link List} with the unique characters
 	 */
-	public static List<Character> getUniqueCharacters(String input)
+	public static List<Character> newCharacterList(String input)
 	{
-		return newCharacterList(input, Comparator.<Character> naturalOrder());
+		Objects.requireNonNull(input);
+		return newCharacterList(input, Comparator.naturalOrder());
 	}
 
 	/**
@@ -953,8 +940,21 @@ public final class StringExtensions
 			.collect(Collectors.toCollection(() -> new TreeSet<>(comparator))));
 	}
 
-	private StringExtensions()
+	/**
+	 * Converts the given character list to a String
+	 *
+	 * @param characterList
+	 *            the list of characters to convert
+	 * @return the new {@link String} from the given character list
+	 */
+	public static String toString(List<Character> characterList)
 	{
+		StringBuilder sb = new StringBuilder();
+		for (char ac : characterList)
+		{
+			sb.append(ac);
+		}
+		return sb.toString();
 	}
 
 }

@@ -30,15 +30,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import io.github.astrapi69.collections.list.ListExtensions;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.BaseTestCase;
-import io.github.astrapi69.collections.array.ArrayFactory;
-import io.github.astrapi69.collections.list.ListFactory;
-import io.github.astrapi69.collections.map.MapFactory;
-import io.github.astrapi69.test.objects.Person;
+import io.github.astrapi69.collection.array.ArrayFactory;
+import io.github.astrapi69.collection.list.ListExtensions;
+import io.github.astrapi69.collection.list.ListFactory;
+import io.github.astrapi69.collection.map.MapFactory;
+import io.github.astrapi69.comparator.factory.ComparatorFactory;
+import io.github.astrapi69.test.object.Person;
 
 /**
  * The unit test class for the class StringExtensions.
@@ -50,16 +51,63 @@ public class StringExtensionsTest extends BaseTestCase
 {
 
 	/**
-	 * Test method for test the method
-	 * {@link StringExtensions#newCharacterList(String, Comparator)}
+	 * Test method for test the method {@link StringExtensions#toString(List)}
+	 */
+	@Test
+	public void testToStringFromCharacterList()
+	{
+		String actual;
+		String expected;
+		List<Character> characterList;
+		// new scenario...
+		characterList = ListFactory.newArrayList(Character.valueOf('t'), Character.valueOf('o'),
+			Character.valueOf('p'), Character.valueOf(' '), Character.valueOf('s'),
+			Character.valueOf('e'), Character.valueOf('c'), Character.valueOf('r'),
+			Character.valueOf('e'), Character.valueOf('t'));
+		actual = StringExtensions.toString(characterList);
+		expected = "top secret";
+		assertEquals(actual, expected);
+	}
+
+	/**
+	 * Test method for test the method {@link StringExtensions#newCharacterList(String)}
+	 */
+	@Test
+	public void testNewCharacterList()
+	{
+		List<Character> actual;
+		List<Character> expected;
+		String text;
+		// new scenario...
+		text = "top secret";
+		actual = StringExtensions.newCharacterList(text);
+		expected = ListFactory.newArrayList(Character.valueOf(' '), Character.valueOf('c'),
+			Character.valueOf('e'), Character.valueOf('o'), Character.valueOf('p'),
+			Character.valueOf('r'), Character.valueOf('s'), Character.valueOf('t'));
+		assertEquals(actual, expected);
+		// new scenario...
+		text = "Lorem ipsum dolor sit amet, sea consul verterem perfecto id. Alii prompta electram te nec, at minimum copiosae quo. Eos iudico nominati oportere ei, usu at dicta legendos. In nostrum insolens disputando pro, iusto equidem ius id.";
+		actual = StringExtensions.newCharacterList(text);
+
+		expected = ListFactory.newArrayList(Character.valueOf((char)0x20), ',', '.', 'A', 'E', 'I',
+			'L', 'a', 'c', 'd', 'e', 'f', 'g', 'i', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+			'u', 'v');
+		assertEquals(actual, expected);
+	}
+
+	/**
+	 * Test method for test the method {@link StringExtensions#newCharacterList(String, Comparator)}
 	 */
 	@Test
 	public void testNewCharacterListWithComparator()
 	{
 		List<Character> actual;
 		List<Character> expected;
+		List<Character> definedOrder;
+		String text;
 
-		String text = "Lorem ipsum dolor sit amet, sea consul verterem perfecto id. Alii prompta electram te nec, at minimum copiosae quo. Eos iudico nominati oportere ei, usu at dicta legendos. In nostrum insolens disputando pro, iusto equidem ius id.";
+		// new scenario...
+		text = "Lorem ipsum dolor sit amet, sea consul verterem perfecto id. Alii prompta electram te nec, at minimum copiosae quo. Eos iudico nominati oportere ei, usu at dicta legendos. In nostrum insolens disputando pro, iusto equidem ius id.";
 		actual = StringExtensions.newCharacterList(text,
 			Comparator.<Character> naturalOrder().reversed());
 
@@ -67,23 +115,33 @@ public class StringExtensionsTest extends BaseTestCase
 			Character.valueOf((char)0x20), ',', '.', 'A', 'E', 'I', 'L', 'a', 'c', 'd', 'e', 'f',
 			'g', 'i', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v'));
 		assertEquals(actual, expected);
-	}
 
-	/**
-	 * Test method for test the method {@link StringExtensions#getUniqueCharacters(String)}
-	 */
-	@Test
-	public void testGetUniqueCharacters()
-	{
-		List<Character> actual;
-		List<Character> expected;
-		String testString;
-
-		testString = "top secret";
-		actual = StringExtensions.getUniqueCharacters(testString);
+		// new scenario...
+		text = "top secret";
+		actual = StringExtensions.newCharacterList(text, Comparator.naturalOrder());
 		expected = ListFactory.newArrayList(Character.valueOf(' '), Character.valueOf('c'),
 			Character.valueOf('e'), Character.valueOf('o'), Character.valueOf('p'),
 			Character.valueOf('r'), Character.valueOf('s'), Character.valueOf('t'));
+		assertEquals(actual, expected);
+
+		// new scenario with reversed order...
+		text = "top secret";
+		actual = StringExtensions.newCharacterList(text,
+			Comparator.<Character> naturalOrder().reversed());
+		expected = ListFactory.newArrayList(Character.valueOf('t'), Character.valueOf('s'),
+			Character.valueOf('r'), Character.valueOf('p'), Character.valueOf('o'),
+			Character.valueOf('e'), Character.valueOf('c'), Character.valueOf(' '));
+		assertEquals(actual, expected);
+
+		// new scenario with defined order...
+		definedOrder = ListFactory.newArrayList(Character.valueOf('r'), Character.valueOf('t'),
+			Character.valueOf('s'), Character.valueOf('e'), Character.valueOf('c'),
+			Character.valueOf(' '), Character.valueOf('p'), Character.valueOf('o'));
+		Comparator<Character> definedOrderComparator = ComparatorFactory
+			.newDefinedOrderComparator(definedOrder);
+		text = "top secret";
+		actual = StringExtensions.newCharacterList(text, definedOrderComparator);
+		expected = definedOrder;
 		assertEquals(actual, expected);
 	}
 
