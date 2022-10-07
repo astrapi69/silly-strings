@@ -1,7 +1,7 @@
 ## Change log
 ----------------------
 
-Version 8.2-SNAPSHOT
+Version 8.2
 -------------
 
 ADDED:
@@ -12,6 +12,7 @@ ADDED:
   for format the source files
 - Factory method for create new ArrayList of unique characters from the given text sorted with the natural order
 - new method for create a String from a List of characters
+- new file module-info.java
 
 CHANGED:
 
