@@ -35,4 +35,6 @@ jobs:
         env:
           ossrhUsername: ${{secrets.OSSRHUSERNAME}}
           ossrhPassword: ${{secrets.OSSRHPASSWORD}}
-      - uses: codecov/codecov-action@v2
+    - uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
