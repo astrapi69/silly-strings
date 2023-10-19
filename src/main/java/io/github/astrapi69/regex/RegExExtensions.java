@@ -33,14 +33,24 @@ import io.github.astrapi69.string.StringExtensions;
  */
 public final class RegExExtensions
 {
+
 	/**
 	 * Regular expression class for the valid characters in a filename. Current
 	 * value:"[a-zA-Z0-9._-]"
 	 */
 	public static final String VALID_CHARS_IN_FILENAME = "[a-zA-Z0-9._-]";
 
+	/**
+	 * Regular expression for the valid characters in an email. Current
+	 * value:"([\w\-\.\+_]+@[\w\-\._]{2,}\.+[\w]{2,4})?"
+	 */
 	public static final String VALID_EMAIL = "([\\w\\-\\.\\+_]+@[\\w\\-\\._]{2,}\\.+[\\w]{2,4})?";
 
+	/**
+	 * Regular expression for the valid characters in a phone number. Current value:"^[a-zA-Z
+	 * .,;:/\\-]*[ ]*[(]{0,1}[ ]*[+]{0,1}[ ]*[0-9]{0,2}[ ]*[)]{0,1}[ ]*[0-9]*[ ]*[/\\-]{0,1}[ ]*[
+	 * ]*[0-9]*[ ]*[a-zA-Z .,;:\\/-]*$"
+	 */
 	public static final String VALID_PHONE = "^[a-zA-Z .,;:/\\-]*[ ]*[(]{0,1}[ ]*[+]{0,1}[ ]*[0-9]{0,2}[ ]*[)]{0,1}[ ]*[0-9]*[ ]*[/\\-]{0,1}[ ]*[ ]*[0-9]*[ ]*[a-zA-Z .,;:\\/-]*$";
 
 	/**

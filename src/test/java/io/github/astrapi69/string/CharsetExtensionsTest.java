@@ -18,12 +18,46 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module silly.strings
+package io.github.astrapi69.string;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.meanbean.test.BeanTester;
+
+/**
+ * The unit test class for the class {@link CharsetExtensions}
+ */
+public class CharsetExtensionsTest
 {
-	requires org.apache.commons.lang3;
-	requires silly.collection;
 
-	exports io.github.astrapi69.regex;
-	exports io.github.astrapi69.string;
+	/**
+	 * Test method for {@link CharsetExtensions#getCharset(String)}
+	 */
+	@Test
+	public void testGetCharset()
+	{
+		Optional<Charset> actual;
+		Optional<Charset> expected;
+		String encoding;
+		// new scenario ,,,
+		encoding = "UTF-8";
+		actual = CharsetExtensions.getCharset(encoding);
+		expected = Optional.of(StandardCharsets.UTF_8);
+		assertEquals(actual, expected);
+	}
 
+	/**
+	 * Test method for {@link CharsetExtensions}
+	 */
+	@Test
+	public void testWithBeanTester()
+	{
+		final BeanTester beanTester = new BeanTester();
+		beanTester.testBean(CharsetExtensions.class);
+	}
 }

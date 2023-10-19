@@ -8,6 +8,7 @@ dependencies {
     testImplementation("io.github.astrapi69:file-worker:$fileWorkerVersion")
     testImplementation("org.apache.commons:commons-collections4:$commonsCollections4Version")
     testImplementation("commons-io:commons-io:$commonsIoVersion")
-    testImplementation("org.meanbean:meanbean:$meanbeanVersion")
-    testImplementation("org.testng:testng:$testngVersion")
+    testImplementation("com.github.meanbeanlib:meanbean:$meanbeanVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
