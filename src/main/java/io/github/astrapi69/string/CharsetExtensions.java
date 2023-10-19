@@ -18,12 +18,45 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module silly.strings
+package io.github.astrapi69.string;
+
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
+import java.util.Optional;
+
+/**
+ * The class {@link CharsetExtensions} provides extension methods for {@link Charset} objects
+ */
+public final class CharsetExtensions
 {
-	requires org.apache.commons.lang3;
-	requires silly.collection;
 
-	exports io.github.astrapi69.regex;
-	exports io.github.astrapi69.string;
+	private CharsetExtensions()
+	{
+	}
 
+	/**
+	 * Gets the {@link Charset} object from the given encoding as {@link String} object
+	 *
+	 * @param encoding
+	 *            the encoding as {@link String} object
+	 * @return an {@link Optional} object with the resolved {@link Charset} object or empty if not
+	 *         found
+	 */
+	public static Optional<Charset> getCharset(final String encoding)
+	{
+		if (encoding == null)
+		{
+			return Optional.empty();
+		}
+		Charset charset = null;
+		try
+		{
+			charset = Charset.forName(encoding);
+		}
+		catch (UnsupportedCharsetException exception)
+		{
+			Optional.empty();
+		}
+		return charset != null ? Optional.of(charset) : Optional.empty();
+	}
 }

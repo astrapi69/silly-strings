@@ -20,13 +20,13 @@
  */
 package io.github.astrapi69.string;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Triple;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 import io.github.astrapi69.collection.array.ArrayFactory;
 import io.github.astrapi69.collection.map.MapFactory;
@@ -40,7 +40,7 @@ public class SplitStringExtensionsTest
 	/**
 	 * Test method for {@link SplitStringExtensions#splitToWordsAndCount(String)}
 	 */
-	@Test(enabled = true)
+	@Test
 	public void testSplitToWords()
 	{
 		Map<String, Integer> actual;
@@ -61,7 +61,7 @@ public class SplitStringExtensionsTest
 	/**
 	 * Test method for {@link SplitStringExtensions#splitToWordsAndCount(String, String[])}
 	 */
-	@Test(enabled = true)
+	@Test
 	public void testSplitToWordsStringArray()
 	{
 		Map<String, Integer> actual;

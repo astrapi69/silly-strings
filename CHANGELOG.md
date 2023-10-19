@@ -1,8 +1,29 @@
 ## Change log
 ----------------------
 
-Version 8.3-SNAPSHOT
+Version 9-SNAPSHOT
 -------------
+
+ADDED:
+
+- new extension class CharsetExtensions
+
+CHANGED:
+
+- update to jdk version 17
+- update of gradle to new version 8.4
+- update of gradle-plugin dependency 'com.github.ben-manes.versions.gradle.plugin' to new version 0.49.0
+- update of gradle-plugin dependency 'org.ajoberstar.grgit:grgit-gradle' to new version 5.2.0
+- update of gradle-plugin dependency 'com.diffplug.spotless:spotless-plugin-gradle' to new version 6.22.0
+- update of dependency commons-lang to new version 3.13.0
+- update of dependency silly-collection in new version 27
+- update of test dependency commons-io to new version 2.14.0
+- update of test dependency file-worker to new version 17
+- update of test dependency test-object to new version 8
+- update of test dependency comparator-extensions to new version 1.5
+- update of test dependency meanbean to new version 3.0.0-M9
+- replace of test dependency testng with junit-jupiter in version 5.10.0
+
 
 Version 8.2
 -------------
@@ -44,7 +65,8 @@ ADDED:
 CHANGED:
 
 - update gradle to new version 7.2
-- update gradle-plugin dependency of gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin to new version 0.16.1
+- update gradle-plugin dependency of gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin to new version
+  0.16.1
 - update of test dependency test-objects to new version to 5.5
 - update of test dependency commons-io to new version to 2.11.0
 - update of test dependency file-worker to new version 5.10

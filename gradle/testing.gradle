@@ -1,6 +1,6 @@
-
 test {
-    useTestNG()
+    mustRunAfter(jar)
+    useJUnitPlatform()
 }
 
 jacocoTestReport {

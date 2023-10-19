@@ -20,18 +20,18 @@
  */
 package io.github.astrapi69.string;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.Test;
 import org.meanbean.test.BeanTester;
-import org.testng.annotations.Test;
 
 import io.github.astrapi69.BaseTestCase;
 import io.github.astrapi69.collection.array.ArrayFactory;
@@ -292,7 +292,7 @@ public class StringExtensionsTest extends BaseTestCase
 		final String testString = "indio[5][1]";
 		final String compare = StringExtensions.getAttributName(testString);
 		actual = expected.equals(compare);
-		assertTrue("", actual);
+		assertTrue(actual);
 	}
 
 	/**
@@ -305,7 +305,7 @@ public class StringExtensionsTest extends BaseTestCase
 		final String testString = "indio[5][1]";
 		final String compare = StringExtensions.getIndex(testString);
 		actual = expected.equals(compare);
-		assertTrue("", actual);
+		assertTrue(actual);
 	}
 
 	/**
@@ -318,7 +318,7 @@ public class StringExtensionsTest extends BaseTestCase
 		final String testString = "indio[5][1]";
 		final String compare = StringExtensions.getItemNumber(testString);
 		actual = expected.equals(compare);
-		assertTrue("", actual);
+		assertTrue(actual);
 	}
 
 	/**
@@ -331,7 +331,7 @@ public class StringExtensionsTest extends BaseTestCase
 		final String element = "foobar_value";
 		final String compare = StringExtensions.getStringAfterUnderscore(element);
 		actual = expected.equals(compare);
-		assertTrue("", actual);
+		assertTrue(actual);
 	}
 
 	/**
@@ -344,7 +344,7 @@ public class StringExtensionsTest extends BaseTestCase
 		final String element = "foobar_value";
 		final String compare = StringExtensions.getStringBeforeUnderscore(element);
 		actual = expected.equals(compare);
-		assertTrue("", actual);
+		assertTrue(actual);
 	}
 
 	/**
@@ -392,11 +392,11 @@ public class StringExtensionsTest extends BaseTestCase
 		final String isNotNullOrEmpty = "foobar";
 
 		actual = StringExtensions.isNullOrEmpty(isNull);
-		assertTrue("", actual);
+		assertTrue(actual);
 		actual = StringExtensions.isNullOrEmpty(isEmpty);
-		assertTrue("", actual);
+		assertTrue(actual);
 		actual = StringExtensions.isNullOrEmpty(isNotNullOrEmpty);
-		assertFalse("", actual);
+		assertFalse(actual);
 
 	}
 
@@ -522,7 +522,7 @@ public class StringExtensionsTest extends BaseTestCase
 		final String withoutQuotes = "Leonidas";
 		final String compare = StringExtensions.addDoubleQuotationMarks(withoutQuotes);
 		actual = expected.equals(compare);
-		assertTrue("", actual);
+		assertTrue(actual);
 	}
 
 	/**
@@ -607,7 +607,7 @@ public class StringExtensionsTest extends BaseTestCase
 		final String withQuotes = "\"Leonidas\"";
 		final String compare = StringExtensions.removeQuotationMarks(withQuotes);
 		actual = expected.equals(compare);
-		assertTrue("", actual);
+		assertTrue(actual);
 	}
 
 	/**
@@ -621,7 +621,7 @@ public class StringExtensionsTest extends BaseTestCase
 		final String expected = "This is a test; Aha ; and than foo bar;";
 		final String compare = StringExtensions.replaceAll(original, ":", ";");
 		actual = expected.equals(compare);
-		assertTrue("", actual);
+		assertTrue(actual);
 	}
 
 	/**
@@ -640,7 +640,7 @@ public class StringExtensionsTest extends BaseTestCase
 		array = ArrayFactory.newArray("(", ")", "-", "/", " ");
 		compare = StringExtensions.replaceAll(original, array, "");
 		actual = expected.equals(compare);
-		assertTrue("", actual);
+		assertTrue(actual);
 	}
 
 	/**
@@ -665,7 +665,7 @@ public class StringExtensionsTest extends BaseTestCase
 		replaceWith.put(" ", "");
 		compare = StringExtensions.replaceAll(original, replaceWith);
 		actual = expected.equals(compare);
-		assertTrue("", actual);
+		assertTrue(actual);
 	}
 
 	// =================================================================================== //
@@ -674,7 +674,7 @@ public class StringExtensionsTest extends BaseTestCase
 	/**
 	 * Test method for {@link StringExtensions#replaceEach(String, String, String)}
 	 */
-	@Test(enabled = true)
+	@Test
 	public void testReplaceEach()
 	{
 		final String search = "\"com.foo.bar\"";
@@ -753,7 +753,7 @@ public class StringExtensionsTest extends BaseTestCase
 	/**
 	 * Test method for {@link StringExtensions#toUnicode(String, boolean)}
 	 */
-	@Test(enabled = true)
+	@Test
 	public void testToUnicode()
 	{
 		String expected = "\\u00f6";
@@ -772,7 +772,7 @@ public class StringExtensionsTest extends BaseTestCase
 	/**
 	 * Test method for {@link StringExtensions#toUnicodeChars(String, boolean)}
 	 */
-	@Test(enabled = true)
+	@Test
 	public void testToUnicodeChars()
 	{
 		String expected;
