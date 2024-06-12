@@ -625,6 +625,19 @@ public class StringExtensionsTest extends BaseTestCase
 	}
 
 	/**
+	 * Test method for {@link StringExtensions#replaceAll(String, String, String)}
+	 */
+	@Test
+	public void testReplaceAllFromString()
+	{
+		final String original = "This is a test: Aha : and than foo bar:";
+		final String expected = "This is a test; Aha ; and than foo bar;";
+		final String compare = original.replaceAll(":", ";");
+		actual = expected.equals(compare);
+		assertTrue(actual);
+	}
+
+	/**
 	 * Test method for {@link StringExtensions#replaceAll(String, String[], String)}
 	 */
 	@Test

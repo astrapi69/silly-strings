@@ -1,14 +1,14 @@
 dependencies {
-    implementation("org.apache.commons:commons-lang3:$commonsLang3Version")
-    implementation("io.github.astrapi69:silly-collection:$sillyCollectionVersion")
-    implementation("io.github.astrapi69:silly-bean:$sillyBeanVersion")
-    testImplementation("io.github.astrapi69:comparator-extensions:$comparatorExtensionsVersion")
-    testImplementation("io.github.astrapi69:jobj-compare:$jobjCompareVersion")
-    testImplementation("io.github.astrapi69:test-object:$testObjectVersion")
-    testImplementation("io.github.astrapi69:file-worker:$fileWorkerVersion")
-    testImplementation("org.apache.commons:commons-collections4:$commonsCollections4Version")
-    testImplementation("commons-io:commons-io:$commonsIoVersion")
-    testImplementation("com.github.meanbeanlib:meanbean:$meanbeanVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation libs.commons.lang3
+    implementation libs.silly.collection
+    implementation libs.silly.bean
+    testImplementation libs.comparator.extensions
+    testImplementation libs.jobj.compare
+    testImplementation libs.test.object
+    testImplementation libs.file.worker
+    testImplementation libs.commons.collections4
+    testImplementation libs.commons.io
+    // Note: use of bundles...
+    testImplementation libs.bundles.unit.testing
+    testRuntimeOnly libs.junit.platform.launcher
 }
