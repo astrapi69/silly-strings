@@ -8,6 +8,17 @@ ADDED:
 
 - new libs.versions.toml file for new automatic catalog versions update
 
+CHANGED:
+
+- update of gradle to new version 8.8
+- update of gradle-plugin dependency 'com.github.ben-manes.versions.gradle.plugin' to new version 0.51.0
+- update of gradle-plugin dependency 'org.ajoberstar.grgit:grgit-gradle' to new version 5.2.2
+- update of gradle-plugin dependency 'com.diffplug.spotless:spotless-plugin-gradle' to new version 7.0.0.BETA1
+- update of test dependency file-worker to new version 17.1
+- update of test dependency junit-jupiter to new version 5.11.0-M2
+- update of dependency silly-collection in new version 27.1
+- update of test dependency test-object to new version 8.2
+
 Version 9
 -------------
 

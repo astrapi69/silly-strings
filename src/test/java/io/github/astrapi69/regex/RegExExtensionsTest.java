@@ -26,8 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.meanbean.test.BeanTester;
 
-import io.github.astrapi69.BaseTestCase;
 import io.github.astrapi69.string.StringExtensions;
+import io.github.astrapi69.test.base.BaseTestCase;
 
 /**
  * The unit test class for the class {@link RegExExtensions}.

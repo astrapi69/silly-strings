@@ -33,12 +33,12 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.meanbean.test.BeanTester;
 
-import io.github.astrapi69.BaseTestCase;
 import io.github.astrapi69.collection.array.ArrayFactory;
 import io.github.astrapi69.collection.list.ListExtensions;
 import io.github.astrapi69.collection.list.ListFactory;
 import io.github.astrapi69.collection.map.MapFactory;
 import io.github.astrapi69.comparator.factory.ComparatorFactory;
+import io.github.astrapi69.test.base.BaseTestCase;
 import io.github.astrapi69.test.object.Person;
 
 /**
