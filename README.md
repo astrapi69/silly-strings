@@ -27,37 +27,9 @@ Utility library that provides utility classes for the java core class String
 >
 > or for more donation options go the [donations section](#Donations)
 
-## Maven dependency
-
-Maven dependency is now on sonatype.
-Check
-out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~silly-strings~~~) for
-latest snapshots and releases.
-
-Add the following maven dependency to your project `pom.xml` if you want to import the core functionality of
-silly-strings:
-
-Than you can add the dependency to your dependencies:
-
-    <properties>
-            ...
-        <!-- SILLY-STRINGS version -->
-        <silly-strings.version>9</silly-strings.version>
-            ...
-    </properties>
-            ...
-        <dependencies>
-            ...
-            <!-- SILLY-STRINGS DEPENDENCY -->
-            <dependency>
-                <groupId>io.github.astrapi69</groupId>
-                <artifactId>silly-strings</artifactId>
-                <version>${silly-strings.version}</version>
-            </dependency>
-            ...
-        </dependencies>
-
 ## gradle dependency
+
+Replace the variable ${latestVersion} with the current latest version: [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings)
 
 You can first define the version in the ext section and add than the following gradle dependency to
 your project `build.gradle` if you want to import the core functionality of silly-strings:
@@ -88,6 +60,53 @@ dependencies {
 }
 
 ```
+
+# with new libs.versions.toml file
+
+If you use the new libs.versions.toml file for new automatic catalog versions update
+
+```
+[versions]
+silly-strings-version=${latestVersion}
+
+[libraries]
+silly-strings = { module = "io.github.astrapi69:silly-strings", version.ref = "silly-strings-version" }
+```
+then add the dependency to the dependencies area
+
+```
+    implementation libs.silly.strings
+```
+
+## Maven dependency
+
+Maven dependency is now on sonatype.
+Check
+out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~silly-strings~~~) for
+latest snapshots and releases.
+
+Add the following maven dependency to your project `pom.xml` if you want to import the core functionality of
+silly-strings:
+
+Than you can add the dependency to your dependencies:
+
+    <properties>
+            ...
+        <!-- SILLY-STRINGS version -->
+        <silly-strings.version>9</silly-strings.version>
+            ...
+    </properties>
+            ...
+        <dependencies>
+            ...
+            <!-- SILLY-STRINGS DEPENDENCY -->
+            <dependency>
+                <groupId>io.github.astrapi69</groupId>
+                <artifactId>silly-strings</artifactId>
+                <version>${silly-strings.version}</version>
+            </dependency>
+            ...
+        </dependencies>
 
 # Donations
 
