@@ -1,9 +1,10 @@
 [versions]
-commons-collections4-version = "4.5.0-M1"
+commons-collections4-version = "4.5.0-M2"
 commons-io-version = "2.16.1"
 commons-lang3-version = "3.14.0"
+commons-text-version = "1.12.0"
 comparator-extensions-version = "1.5"
-file-worker-version = "17.1"
+file-worker-version = "17.2"
 gradle-plugin-grgit-version = "5.2.2"
 gradle-plugin-license-version = "0.16.1"
 gradle-plugin-spotless-version = "7.0.0.BETA1"
@@ -21,6 +22,7 @@ test-object-version = "8.2"
 commons-collections4 = { module = "org.apache.commons:commons-collections4", version.ref = "commons-collections4-version" }
 commons-io = { module = "commons-io:commons-io", version.ref = "commons-io-version" }
 commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3-version" }
+commons-text = { module = "org.apache.commons:commons-text", version.ref = "commons-text-version" }
 comparator-extensions = { module = "io.github.astrapi69:comparator-extensions", version.ref = "comparator-extensions-version" }
 file-worker = { module = "io.github.astrapi69:file-worker", version.ref = "file-worker-version" }
 jobj-compare = { module = "io.github.astrapi69:jobj-compare", version.ref = "jobj-compare-version" }
