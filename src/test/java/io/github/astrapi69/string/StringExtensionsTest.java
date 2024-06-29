@@ -33,12 +33,12 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.meanbean.test.BeanTester;
 
-import io.github.astrapi69.BaseTestCase;
 import io.github.astrapi69.collection.array.ArrayFactory;
 import io.github.astrapi69.collection.list.ListExtensions;
 import io.github.astrapi69.collection.list.ListFactory;
 import io.github.astrapi69.collection.map.MapFactory;
 import io.github.astrapi69.comparator.factory.ComparatorFactory;
+import io.github.astrapi69.test.base.BaseTestCase;
 import io.github.astrapi69.test.object.Person;
 
 /**
@@ -620,6 +620,19 @@ public class StringExtensionsTest extends BaseTestCase
 		final String original = "This is a test: Aha : and than foo bar:";
 		final String expected = "This is a test; Aha ; and than foo bar;";
 		final String compare = StringExtensions.replaceAll(original, ":", ";");
+		actual = expected.equals(compare);
+		assertTrue(actual);
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#replaceAll(String, String, String)}
+	 */
+	@Test
+	public void testReplaceAllFromString()
+	{
+		final String original = "This is a test: Aha : and than foo bar:";
+		final String expected = "This is a test; Aha ; and than foo bar;";
+		final String compare = original.replaceAll(":", ";");
 		actual = expected.equals(compare);
 		assertTrue(actual);
 	}

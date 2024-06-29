@@ -1,6 +1,27 @@
 ## Change log
 ----------------------
 
+Version 9.1
+-------------
+
+ADDED:
+
+- new libs.versions.toml file for new automatic catalog versions update
+- new dependency commons-text in version 1.12.0
+- new extension class CaseExtensions that provides methods for converting strings between different case formats
+
+CHANGED:
+
+- update of gradle to new version 8.8
+- update of gradle-plugin dependency 'com.github.ben-manes.versions.gradle.plugin' to new version 0.51.0
+- update of gradle-plugin dependency 'org.ajoberstar.grgit:grgit-gradle' to new version 5.2.2
+- update of gradle-plugin dependency 'com.diffplug.spotless:spotless-plugin-gradle' to new version 7.0.0.BETA1
+- update of test dependency file-worker to new version 17.2
+- update of test dependency junit-jupiter to new version 5.11.0-M2
+- update of dependency silly-collection in new version 27.1
+- update of test dependency commons-collections4 to new version 4.5.0-M2
+- update of test dependency test-object to new version 8.2
+
 Version 9
 -------------
 
