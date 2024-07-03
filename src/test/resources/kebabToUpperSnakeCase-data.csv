@@ -1,0 +1,8 @@
+input,expected
+example-string-for-conversion,EXAMPLE_STRING_FOR_CONVERSION
+foo-bar,FOO_BAR
+test-case,TEST_CASE
+multiple-words-separated-by-dashes,MULTIPLE_WORDS_SEPARATED_BY_DASHES
+single, SINGLE
+with_numbers_123, WITH_NUMBERS_123
+mix_of_UPPER_and_lower,MIX_OF_UPPER_AND_LOWER

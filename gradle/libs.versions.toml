@@ -4,13 +4,14 @@ commons-io-version = "2.16.1"
 commons-lang3-version = "3.14.0"
 commons-text-version = "1.12.0"
 comparator-extensions-version = "1.5"
-file-worker-version = "17.2"
+file-worker-version = "17.3"
 gradle-plugin-grgit-version = "5.2.2"
 gradle-plugin-license-version = "0.16.1"
 gradle-plugin-spotless-version = "7.0.0.BETA1"
 gradle-plugin-version-catalog-update-version = "0.8.4"
 gradle-plugin-versions-version = "0.51.0"
 jobj-compare-version = "11.1"
+junit-jupiter-params-version = "5.11.0-M2"
 junit-jupiter-version = "5.11.0-M2"
 junit-platform-launcher-version = "1.11.0-M2"
 meanbean-version = "3.0.0-M9"
@@ -27,6 +28,7 @@ comparator-extensions = { module = "io.github.astrapi69:comparator-extensions", 
 file-worker = { module = "io.github.astrapi69:file-worker", version.ref = "file-worker-version" }
 jobj-compare = { module = "io.github.astrapi69:jobj-compare", version.ref = "jobj-compare-version" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter-version" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit-jupiter-params-version" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform-launcher-version" }
 meanbean = { module = "com.github.meanbeanlib:meanbean", version.ref = "meanbean-version" }
 silly-bean = { module = "io.github.astrapi69:silly-bean", version.ref = "silly-bean-version" }
@@ -36,6 +38,7 @@ test-object = { module = "io.github.astrapi69:test-object", version.ref = "test-
 [bundles]
 unit-testing = [
     "junit-jupiter",
+    "junit-jupiter-params",
     "meanbean",
     "test-object",
 ]

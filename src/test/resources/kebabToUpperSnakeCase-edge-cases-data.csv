@@ -1,0 +1,7 @@
+input,expected
+special-characters-!@#$,%SPECIAL_CHARACTERS__%#$
+non-ascii-characters-ñ-ü-ç,NON_ASCII_CHARACTERS_Ñ_Ü_Ç
+-should-ignore-leading-dash,SHOULD_IGNORE_LEADING_DASH
+should-ignore-trailing-dash-,SHOULD_IGNORE_TRAILING_DASH
+--multiple--dashes--,MULTIPLE_DASHES
+empty-string,""

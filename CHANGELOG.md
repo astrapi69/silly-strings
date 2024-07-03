@@ -4,7 +4,14 @@
 Version 9.2-SNAPSHOT
 -------------
 
+ADDED:
 
+- new test dependency junit-jupiter-params in new version 5.11.0-M2 for enable ParameterizedTest feature
+
+CHANGED:
+
+- update of gradle to new version 8.9-rc-1
+- update of test dependency file-worker to new version 17.3
 
 Version 9.1
 -------------
