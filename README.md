@@ -27,6 +27,11 @@ Utility library that provides utility classes for the java core class String
 >
 > or for more donation options go the [donations section](#Donations)
 
+## Import dependencies to your project
+
+<details>
+  <summary>gradle (click to expand)</summary>
+
 ## gradle dependency
 
 Replace the variable ${latestVersion} with the current latest version: [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings)
@@ -37,28 +42,19 @@ your project `build.gradle` if you want to import the core functionality of sill
 define version in file gradle.properties
 
 ```
-sillyStringsVersion=9
+sillyStringsVersion=${latestVersion}
 ```
 
 or in build.gradle ext area
 
 ```
-ext {
-            ...
-    sillyStringsVersion = "9"
-            ...
-}
+    sillyStringsVersion = "${latestVersion}"
 ```
 
-and than add the dependency to the dependencies area
+then add the dependency to the dependencies area
 
 ```
-dependencies {
-            ...
     implementation("io.github.astrapi69:silly-strings:$sillyStringsVersion")
-            ...
-}
-
 ```
 
 # with new libs.versions.toml file
@@ -77,36 +73,71 @@ then add the dependency to the dependencies area
 ```
     implementation libs.silly.strings
 ```
+</details>
+
+<details>
+  <summary>Maven (click to expand)</summary>
 
 ## Maven dependency
 
 Maven dependency is now on sonatype.
-Check
-out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~silly-strings~~~) for
-latest snapshots and releases.
+Check out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~silly-strings~~~) for latest snapshots and releases.
 
-Add the following maven dependency to your project `pom.xml` if you want to import the core functionality of
-silly-strings:
+Add the following maven dependency to your project `pom.xml` if you want to import the core
+functionality of silly-strings:
 
-Than you can add the dependency to your dependencies:
+Then you can add the dependency to your dependencies:
 
     <properties>
-            ...
-        <!-- SILLY-STRINGS version -->
-        <silly-strings.version>9</silly-strings.version>
-            ...
+        ...
+```xml
+        <!-- silly-strings version -->
+        <silly-strings.version>${latestVersion}</silly-strings.version>
+```
+        ...
     </properties>
-            ...
+        ...
         <dependencies>
-            ...
-            <!-- SILLY-STRINGS DEPENDENCY -->
+        ...
+```xml
+            <!-- silly-strings DEPENDENCY -->
             <dependency>
                 <groupId>io.github.astrapi69</groupId>
                 <artifactId>silly-strings</artifactId>
                 <version>${silly-strings.version}</version>
             </dependency>
-            ...
+```
+        ...
         </dependencies>
+</details>
+
+
+<details>
+  <summary>Snapshots (click to expand)</summary>
+
+## 📸 Snapshots
+
+[![Snapshot](https://img.shields.io/badge/dynamic/xml?url=https://oss.sonatype.org/service/local/repositories/snapshots/content/io/github/astrapi69/silly-strings/maven-metadata.xml&label=snapshot&color=red&query=.//versioning/latest)](https://oss.sonatype.org/content/repositories/snapshots/io/github/astrapi69/silly-strings/)
+
+This section describes how to import snapshot versions into your project.
+Add the following code snippet to your gradle file in the repositories section:
+```
+repositories {
+   //...
+```
+```groovy
+    maven {
+        name "Sonatype Nexus Snapshots"
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+        mavenContent {
+            snapshotsOnly()
+        }
+    }
+```
+```
+}
+```
+</details>
 
 # Donations
 
