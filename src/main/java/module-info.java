@@ -18,11 +18,11 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module silly.strings
+module io.github.astrapisixtynine.silly.strings
 {
 	requires org.apache.commons.lang3;
 	requires org.apache.commons.text;
-	requires silly.collection;
+	requires io.github.astrapisixtynine.silly.collection;
 
 	exports io.github.astrapi69.regex;
 	exports io.github.astrapi69.string;
