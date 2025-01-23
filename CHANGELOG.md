@@ -4,6 +4,24 @@
 Version 9.3-SNAPSHOT
 -------------
 
+## [Unreleased]
+
+### Added
+- **Tests**: Added a new test case in `StringExtensionsTest` for validating Unicode conversion of the Em Dash (U+2014) character.
+
+### Changed
+- **Gradle Wrapper**: Upgraded from version `8.10.2` to `8.12` for improved performance and compatibility.
+- **Dependencies**: Updated the following dependencies in `libs.versions.toml`:
+  - `commons-collections4` updated to `4.5.0-M3`
+  - `commons-io` updated to `2.18.0`
+  - `commons-text` updated to `1.13.0`
+  - `file-worker` updated to `19.0`
+  - `junit-jupiter`, `junit-jupiter-params`, and `junit-platform-launcher` updated to `5.11.4`
+  - Gradle plugins:
+    - Spotless plugin updated to `7.0.2`
+    - Version catalog update plugin updated to `0.8.5`
+    - Gradle versions plugin updated to `0.52.0`
+- **Test Enhancements**: Improved `StringExtensionsTest` with additional cases for Unicode character conversion.
 
 Version 9.2
 -------------

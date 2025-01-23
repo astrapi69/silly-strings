@@ -769,8 +769,24 @@ public class StringExtensionsTest extends BaseTestCase
 	@Test
 	public void testToUnicode()
 	{
-		String expected = "\\u00f6";
-		String actual = StringExtensions.toUnicode("ö", true);
+		String expected;
+		String actual;
+		// New scenario...
+		// Represents the Unicode character "Em Dash" (U+2014).
+		// Details:
+		// - Character: —
+		// - Name: Em Dash
+		// - Unicode Code Point: U+2014
+		// - Description: A long horizontal dash used for punctuation, often to indicate a
+		// pause or break in a sentence, or as a substitute for a range (e.g., 1999—2023).
+		// Note: The em dash is typically longer than an en dash (\u2013, U+2013) and a hyphen (-,
+		// U+002D).
+		expected = "\\u2014";
+		actual = StringExtensions.toUnicode("—", false);
+		assertEquals(expected, actual);
+
+		expected = "\\u00f6";
+		actual = StringExtensions.toUnicode("ö", true);
 		assertEquals(expected, actual);
 
 		expected = "\\u00F6";
