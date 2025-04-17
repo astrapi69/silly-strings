@@ -2,7 +2,8 @@ package io.github.astrapi69.string.md;
 
 import java.util.Map;
 
-public class SlugifyConfig {
+public class SlugifyConfig
+{
 
 	/**
 	 * Map of characters to replace (e.g., é → e, ü → u)
@@ -29,11 +30,9 @@ public class SlugifyConfig {
 	 */
 	private final boolean trimEdges;
 
-	public SlugifyConfig(Map<String, String> replacements,
-	                     boolean toLowerCase,
-	                     boolean stripNonAlphanumeric,
-	                     String whitespaceReplacement,
-	                     boolean trimEdges) {
+	public SlugifyConfig(Map<String, String> replacements, boolean toLowerCase,
+		boolean stripNonAlphanumeric, String whitespaceReplacement, boolean trimEdges)
+	{
 		this.replacements = replacements;
 		this.toLowerCase = toLowerCase;
 		this.stripNonAlphanumeric = stripNonAlphanumeric;
@@ -42,23 +41,28 @@ public class SlugifyConfig {
 	}
 
 	// Getters
-	public Map<String, String> getReplacements() {
+	public Map<String, String> getReplacements()
+	{
 		return replacements;
 	}
 
-	public boolean isToLowerCase() {
+	public boolean isToLowerCase()
+	{
 		return toLowerCase;
 	}
 
-	public boolean isStripNonAlphanumeric() {
+	public boolean isStripNonAlphanumeric()
+	{
 		return stripNonAlphanumeric;
 	}
 
-	public String getWhitespaceReplacement() {
+	public String getWhitespaceReplacement()
+	{
 		return whitespaceReplacement;
 	}
 
-	public boolean isTrimEdges() {
+	public boolean isTrimEdges()
+	{
 		return trimEdges;
 	}
 }

@@ -1,7 +1,5 @@
 package io.github.astrapi69.string.md;
 
-import io.github.astrapi69.string.StringExtensions;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import io.github.astrapi69.string.StringExtensions;
 
 public class MarkdownAnchorFixer
 {
@@ -65,7 +65,8 @@ public class MarkdownAnchorFixer
 		return result;
 	}
 
-	public static String slugify(String text) {
+	public static String slugify(String text)
+	{
 		Objects.requireNonNull(text);
 
 		// Define replacement map for diacritics
@@ -96,39 +97,47 @@ public class MarkdownAnchorFixer
 
 		String cleaned = text.toLowerCase(Locale.ROOT);
 		cleaned = StringExtensions.replaceAll(cleaned, replacements);
-		cleaned = cleaned.replaceAll("[^a-z0-9\\s-]", ""); // Remove anything that's not a-z, 0-9, space or dash
-		cleaned = cleaned.replaceAll("\\s+", "-");         // Convert spaces to hyphens
-		cleaned = cleaned.replaceAll("-+", "-");           // Remove duplicate hyphens
-		cleaned = cleaned.replaceAll("^-|-$", "");         // Trim hyphens from start and end
+		cleaned = cleaned.replaceAll("[^a-z0-9\\s-]", ""); // Remove anything that's not a-z, 0-9,
+															// space or dash
+		cleaned = cleaned.replaceAll("\\s+", "-"); // Convert spaces to hyphens
+		cleaned = cleaned.replaceAll("-+", "-"); // Remove duplicate hyphens
+		cleaned = cleaned.replaceAll("^-|-$", ""); // Trim hyphens from start and end
 
 		return cleaned;
 	}
 
-	public static String slugify(String text, SlugifyConfig config) {
+	public static String slugify(String text, SlugifyConfig config)
+	{
 		Objects.requireNonNull(text);
 		Objects.requireNonNull(config);
 
 		String result = text;
 
-		if (config.isToLowerCase()) {
+		if (config.isToLowerCase())
+		{
 			result = result.toLowerCase(Locale.ROOT);
 		}
 
-		if (config.getReplacements() != null && !config.getReplacements().isEmpty()) {
+		if (config.getReplacements() != null && !config.getReplacements().isEmpty())
+		{
 			result = StringExtensions.replaceAll(result, config.getReplacements());
 		}
 
-		if (config.isStripNonAlphanumeric()) {
+		if (config.isStripNonAlphanumeric())
+		{
 			result = result.replaceAll("[^a-z0-9\\s-]", "");
 		}
 
-		if (config.getWhitespaceReplacement() != null && !config.getWhitespaceReplacement().isEmpty()) {
+		if (config.getWhitespaceReplacement() != null
+			&& !config.getWhitespaceReplacement().isEmpty())
+		{
 			result = result.replaceAll("\\s+", config.getWhitespaceReplacement());
 			result = result.replaceAll(Pattern.quote(config.getWhitespaceReplacement()) + "+",
-					config.getWhitespaceReplacement());
+				config.getWhitespaceReplacement());
 		}
 
-		if (config.isTrimEdges() && config.getWhitespaceReplacement() != null) {
+		if (config.isTrimEdges() && config.getWhitespaceReplacement() != null)
+		{
 			String sep = Pattern.quote(config.getWhitespaceReplacement());
 			result = result.replaceAll("^" + sep + "|" + sep + "$", "");
 		}

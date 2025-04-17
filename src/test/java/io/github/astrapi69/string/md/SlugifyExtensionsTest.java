@@ -1,16 +1,18 @@
 package io.github.astrapi69.string.md;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
-public class SlugifyExtensionsTest {
+public class SlugifyExtensionsTest
+{
 
 	@Test
-	void testDefaultSlugify() {
+	void testDefaultSlugify()
+	{
 		String input = "Introduction au café ☕";
 		String expected = "introduction-au-cafe";
 		String result = SlugifyExtensions.slugify(input);
@@ -19,17 +21,16 @@ public class SlugifyExtensionsTest {
 	}
 
 	@Test
-	void testSlugifyWithCustomSeparator() {
+	void testSlugifyWithCustomSeparator()
+	{
 		Map<String, String> replacements = new HashMap<>();
 		replacements.put("é", "e");
 		replacements.put("☕", "");
 
-		SlugifyConfig config = new SlugifyConfig(
-			replacements,
-			true,    // toLowerCase
-			true,    // stripNonAlphanumeric
-			"_",     // whitespaceReplacement
-			true     // trimEdges
+		SlugifyConfig config = new SlugifyConfig(replacements, true, // toLowerCase
+			true, // stripNonAlphanumeric
+			"_", // whitespaceReplacement
+			true // trimEdges
 		);
 
 		String input = "Introduction au café ☕";
@@ -40,19 +41,16 @@ public class SlugifyExtensionsTest {
 	}
 
 	@Test
-	void testSlugifyWithUpperCasePreserved() {
+	void testSlugifyWithUpperCasePreserved()
+	{
 		Map<String, String> replacements = new HashMap<>();
 		replacements.put("ä", "ae");
 		replacements.put("Ä", "Ae");
 		replacements.put("ß", "ss");
 
-		SlugifyConfig config = new SlugifyConfig(
-				replacements,
-				false,   // keep case
-				true,    // stripNonAlphanumeric
-				"-",
-				true
-		);
+		SlugifyConfig config = new SlugifyConfig(replacements, false, // keep case
+			true, // stripNonAlphanumeric
+			"-", true);
 
 		String input = "Märchen Straße";
 		String expected = "Maerchen-Strasse";
@@ -62,13 +60,11 @@ public class SlugifyExtensionsTest {
 	}
 
 	@Test
-	void testSlugifyTrimFalse() {
-		SlugifyConfig config = new SlugifyConfig(
-			new HashMap<>(),
-			true,
-			true,
-			"-",
-			false // do not trim leading/trailing
+	void testSlugifyTrimFalse()
+	{
+		SlugifyConfig config = new SlugifyConfig(new HashMap<>(), true, true, "-", false // do not
+																							// trim
+																							// leading/trailing
 		);
 
 		String input = "  Keep me ";
@@ -79,14 +75,9 @@ public class SlugifyExtensionsTest {
 	}
 
 	@Test
-	void testSlugifyWithNoReplacement() {
-		SlugifyConfig config = new SlugifyConfig(
-			null,
-			true,
-			true,
-			"-",
-			true
-		);
+	void testSlugifyWithNoReplacement()
+	{
+		SlugifyConfig config = new SlugifyConfig(null, true, true, "-", true);
 
 		String input = "No change";
 		String expected = "no-change";
