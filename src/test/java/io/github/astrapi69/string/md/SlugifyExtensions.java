@@ -9,9 +9,35 @@ import java.util.regex.Pattern;
 
 import io.github.astrapi69.string.StringExtensions;
 
+/**
+ * Utility class for converting strings to URL-friendly slugs
+ *
+ * <p>
+ * Provides methods to transform text into slugs by:
+ * <ul>
+ * <li>Converting characters to lowercase</li>
+ * <li>Replacing special characters with their ASCII equivalents</li>
+ * <li>Removing or replacing whitespace</li>
+ * <li>Stripping non-alphanumeric characters</li>
+ * </ul>
+ *
+ * <p>
+ * Includes default character replacements for common Western European characters and supports
+ * custom configurations through {@link SlugifyConfig}
+ * </p>
+ */
 public class SlugifyExtensions
 {
-
+	/**
+	 * Default character replacements for slugification
+	 * <p>
+	 * Includes mappings for:
+	 * <ul>
+	 * <li>German umlauts (ä, ö, ü, ß)</li>
+	 * <li>Common accented characters (à, á, â, ã, etc)</li>
+	 * <li>Special characters (ç)</li>
+	 * </ul>
+	 */
 	private static final Map<String, String> DEFAULT_REPLACEMENTS;
 	static
 	{
@@ -51,19 +77,38 @@ public class SlugifyExtensions
 		DEFAULT_REPLACEMENTS = Collections.unmodifiableMap(replacements);
 	}
 
+	/**
+	 * Default configuration for slugification
+	 * <p>
+	 * Includes:
+	 * <ul>
+	 * <li>Default character replacements</li>
+	 * <li>Lowercase conversion</li>
+	 * <li>Non-alphanumeric stripping</li>
+	 * <li>Whitespace replacement with hyphens</li>
+	 * <li>Edge trimming</li>
+	 * </ul>
+	 */
 	private static final SlugifyConfig DEFAULT_CONFIG = new SlugifyConfig(DEFAULT_REPLACEMENTS,
 		true, // toLowerCase
 		true, // stripNonAlphanumeric
 		"-", // whitespaceReplacement
-		true // trimEdges
-	);
+		true, // trimEdges
+		true, true, "[^a-z0-9\\s-]");
 
 	/**
-	 * Slugifies the given text using the default config
+	 * Converts text to a URL-friendly slug using default configuration
 	 *
 	 * @param text
-	 *            The input text
-	 * @return The slugified result
+	 *            The input text to convert
+	 * @return The generated slug with:
+	 *         <ul>
+	 *         <li>Special characters replaced</li>
+	 *         <li>Whitespace converted to hyphens</li>
+	 *         <li>Non-alphanumeric characters removed</li>
+	 *         </ul>
+	 * @throws NullPointerException
+	 *             if the input text is null
 	 */
 	public static String slugify(String text)
 	{
@@ -71,13 +116,21 @@ public class SlugifyExtensions
 	}
 
 	/**
-	 * Slugifies the given text using a custom configuration
+	 * Converts text to a URL-friendly slug using custom configuration
 	 *
 	 * @param text
-	 *            The input text
+	 *            The input text to convert
 	 * @param config
-	 *            Configuration for slugification
-	 * @return The slugified result
+	 *            The configuration object specifying:
+	 *            <ul>
+	 *            <li>Character replacements</li>
+	 *            <li>Case conversion</li>
+	 *            <li>Whitespace handling</li>
+	 *            <li>Edge trimming</li>
+	 *            </ul>
+	 * @return The generated slug according to the specified configuration
+	 * @throws NullPointerException
+	 *             if either text or config is null
 	 */
 	public static String slugify(String text, SlugifyConfig config)
 	{

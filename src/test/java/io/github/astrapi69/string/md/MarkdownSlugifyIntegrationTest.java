@@ -9,9 +9,33 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Integration test class for generating unique slugs from markdown headings with disambiguation
+ *
+ * <p>
+ * This test reads a markdown file and processes all headings to generate unique slugs, handling
+ * duplicates by appending incremental numbers
+ * </p>
+ */
 public class MarkdownSlugifyIntegrationTest
 {
 
+	/**
+	 * Tests the generation of unique slugs from markdown headings with disambiguation
+	 *
+	 * <p>
+	 * The test performs the following steps:
+	 * <ol>
+	 * <li>Reads a markdown file from the test resources</li>
+	 * <li>Processes each heading line to generate a base slug</li>
+	 * <li>Handles duplicate slugs by appending incremental numbers</li>
+	 * <li>Verifies that all generated slugs are unique</li>
+	 * </ol>
+	 * </p>
+	 *
+	 * @throws IOException
+	 *             if an I/O error occurs while reading the markdown file
+	 */
 	@Test
 	void testGenerateSlugsFromHeadingsWithDisambiguation() throws IOException
 	{

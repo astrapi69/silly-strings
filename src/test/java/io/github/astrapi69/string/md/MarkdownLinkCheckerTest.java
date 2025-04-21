@@ -6,9 +6,18 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Unit test class for {@link MarkdownLinkChecker}
+ *
+ * Tests fragment link extraction, heading ID extraction (explicit and implicit), and comparison
+ * between linked and defined anchor IDs
+ */
 public class MarkdownLinkCheckerTest
 {
 
+	/**
+	 * Tests that all valid internal fragment links are extracted correctly from markdown lines
+	 */
 	@Test
 	void testExtractAllFragmentLinks()
 	{
@@ -23,6 +32,9 @@ public class MarkdownLinkCheckerTest
 		assertTrue(links.contains("section-3"));
 	}
 
+	/**
+	 * Tests extraction of headings that explicitly define an anchor ID using {#id}
+	 */
 	@Test
 	void testExtractAllHeadings_withExplicitIds()
 	{
@@ -37,6 +49,10 @@ public class MarkdownLinkCheckerTest
 		assertTrue(headings.contains("section-3"));
 	}
 
+	/**
+	 * Tests extraction of headings that do not define explicit IDs Verifies slugification of
+	 * heading text
+	 */
 	@Test
 	void testExtractAllHeadings_withImplicitSlugs()
 	{
@@ -49,6 +65,10 @@ public class MarkdownLinkCheckerTest
 		assertTrue(headings.contains(MarkdownAnchorFixer.slugify("Café ☕")));
 	}
 
+	/**
+	 * Tests comparison logic between extracted links and headings Ensures missing and unlinked sets
+	 * are computed as expected
+	 */
 	@Test
 	void testMatchMissingAndUnlinked()
 	{
