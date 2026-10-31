@@ -2,10 +2,9 @@
 
 <div style="text-align: center">
 
-[![Build Status](https://travis-ci.com/astrapi69/silly-strings.svg?branch=develop)](https://travis-ci.com/astrapi69/silly-strings)
 [![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=develop)](https://coveralls.io/github/astrapi69/silly-strings?branch=develop)
 [![Open Issues](https://img.shields.io/github/issues/astrapi69/silly-strings.svg?style=flat)](https://github.com/astrapi69/silly-strings/issues)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.astrapi69/silly-strings)](https://central.sonatype.com/artifact/io.github.astrapi69/silly-strings)
 [![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/silly-strings.svg)](http://www.javadoc.io/doc/io.github.astrapi69/silly-strings)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
 [![Donate](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
@@ -34,7 +33,7 @@ Utility library that provides utility classes for the java core class String
 
 ## gradle dependency
 
-Replace the variable ${latestVersion} with the current latest version: [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/silly-strings)
+Replace the variable ${latestVersion} with the current latest version: [![Maven Central](https://img.shields.io/maven-central/v/io.github.astrapi69/silly-strings)](https://central.sonatype.com/artifact/io.github.astrapi69/silly-strings)
 
 You can first define the version in the ext section and add than the following gradle dependency to
 your project `build.gradle` if you want to import the core functionality of silly-strings:
@@ -80,8 +79,7 @@ then add the dependency to the dependencies area
 
 ## Maven dependency
 
-Maven dependency is now on sonatype.
-Check out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~silly-strings~~~) for latest snapshots and releases.
+The library is on Maven Central. Check out [Maven Central](https://central.sonatype.com/artifact/io.github.astrapi69/silly-strings) for the latest release.
 
 Add the following maven dependency to your project `pom.xml` if you want to import the core
 functionality of silly-strings:
@@ -117,8 +115,6 @@ Then you can add the dependency to your dependencies:
 
 ## 📸 Snapshots
 
-[![Snapshot](https://img.shields.io/badge/dynamic/xml?url=https://oss.sonatype.org/service/local/repositories/snapshots/content/io/github/astrapi69/silly-strings/maven-metadata.xml&label=snapshot&color=red&query=.//versioning/latest)](https://oss.sonatype.org/content/repositories/snapshots/io/github/astrapi69/silly-strings/)
-
 This section describes how to import snapshot versions into your project.
 Add the following code snippet to your gradle file in the repositories section:
 ```
@@ -127,8 +123,8 @@ repositories {
 ```
 ```groovy
     maven {
-        name "Sonatype Nexus Snapshots"
-        url "https://oss.sonatype.org/content/repositories/snapshots"
+        name "Central Portal Snapshots"
+        url "https://central.sonatype.com/repository/maven-snapshots/"
         mavenContent {
             snapshotsOnly()
         }
@@ -186,15 +182,9 @@ requests.
 
 ## Credits
 
-|                                                           **Travis CI**                                                           |
-|:---------------------------------------------------------------------------------------------------------------------------------:|
-|                 [![Travis CI](https://travis-ci.com/images/logos/TravisCI-Full-Color.png)](https://travis-ci.com)                 |
-| Special thanks to [Travis CI](https://travis-ci.com) for providing a free continuous integration service for open source projects |
-|                                                         <img width=1000/>                                                         |
-
-|                                                                                                   **Nexus Sonatype repositories**                                                                                                    |
+|                                                                                                   **Maven Central**                                                                                                    |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| [![sonatype repository](https://img.shields.io/nexus/r/https/oss.sonatype.org/io.github.astrapi69/silly-strings.svg?style=for-the-badge)](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~silly-strings~~~) |
+| [![Maven Central](https://img.shields.io/maven-central/v/io.github.astrapi69/silly-strings?style=for-the-badge)](https://central.sonatype.com/artifact/io.github.astrapi69/silly-strings) |
 |                                               Special thanks to [sonatype repository](https://www.sonatype.com) for providing a free maven repository service for open source projects                                               |
 |                                                                                                          <img width=1000/>                                                                                                           |
 
