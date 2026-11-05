@@ -71,6 +71,8 @@ FIXED:
 - `StringExtensions.toUnicode` writes a character outside the Basic Multilingual Plane as the escapes of its two
   UTF-16 code units, `\uD83D\uDE00` for U+1F600; it wrote `\uF600\uDE00`, the last four hex digits of the code
   point in place of the high surrogate (#32)
+- `CaseExtensions.kebabToCamelCase` gives camelCase, as its name and Javadoc say: `silly-strings-version` becomes
+  `sillyStringsVersion`, where it gave the PascalCase `SillyStringsVersion` (#39)
 
 
 Version 9.2
