@@ -93,8 +93,11 @@ public class SplitStringExtensionsTest
 		input = "[21:41, 13.9.2020] Anton: Aber hallo";
 		Triple<String, String, String> tripleFromMessage = SplitStringExtensions
 			.getTripleFromMessage(input);
-		// TODO continue here
-		System.out.println(tripleFromMessage);
+		// the date between the brackets, the name up to the colon after them, the message after it;
+		// the spaces around them stay (#15)
+		assertEquals("21:41, 13.9.2020", tripleFromMessage.getLeft());
+		assertEquals(" Anton", tripleFromMessage.getMiddle());
+		assertEquals(" Aber hallo", tripleFromMessage.getRight());
 	}
 
 }
