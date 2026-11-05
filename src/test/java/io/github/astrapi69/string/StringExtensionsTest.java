@@ -1053,4 +1053,21 @@ public class StringExtensionsTest extends BaseTestCase
 		assertEquals("ABC\\u00C4", StringExtensions.toUnicodeChars("ABC\u00C4", false));
 		assertEquals("A\\=B\\t", StringExtensions.toUnicodeChars("A=B\t", true));
 	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicode(String, boolean)}: a character outside the
+	 * Basic Multilingual Plane becomes the escapes of its two UTF-16 code units, the high and the
+	 * low surrogate, as {@link StringExtensions#toUnicodeChars(String, boolean)} writes them (#32)
+	 */
+	@Test
+	public void toUnicode_writesTheTwoCodeUnitsOfACharacterOutsideTheBmp()
+	{
+		final String grinningFace = new String(Character.toChars(0x1F600));
+		assertEquals("\\uD83D\\uDE00", StringExtensions.toUnicode(grinningFace, false));
+		assertEquals("\\ud83d\\ude00", StringExtensions.toUnicode(grinningFace, true));
+		assertEquals(StringExtensions.toUnicodeChars(grinningFace, false),
+			StringExtensions.toUnicode(grinningFace, false));
+		assertEquals("\\u0041\\uD83D\\uDE00\\u0042",
+			StringExtensions.toUnicode("A" + grinningFace + "B", false));
+	}
 }
