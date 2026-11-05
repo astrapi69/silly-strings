@@ -1158,4 +1158,27 @@ public class StringExtensionsTest extends BaseTestCase
 		assertEquals("", StringExtensions.getAttributName("[1]"));
 		assertEquals("", StringExtensions.getStringBeforeUnderscore("_x"));
 	}
+
+	/**
+	 * Test method for {@link StringExtensions#firstCharacterToUpperCase(String)},
+	 * {@link StringExtensions#firstCharacterToLowerCase(String)} and
+	 * {@link StringExtensions#lastCharacterToUpperCase(String)}: a field name is no text of a
+	 * language, so a Turkish default locale, with its dotted İ and dotless ı, changes nothing (#45)
+	 */
+	@Test
+	public void theCaseOfAFieldNameIsTheSameInATurkishLocale()
+	{
+		final java.util.Locale locale = java.util.Locale.getDefault();
+		try
+		{
+			java.util.Locale.setDefault(java.util.Locale.forLanguageTag("tr-TR"));
+			assertEquals("Index", StringExtensions.firstCharacterToUpperCase("index"));
+			assertEquals("index", StringExtensions.firstCharacterToLowerCase("Index"));
+			assertEquals("pI", StringExtensions.lastCharacterToUpperCase("pi"));
+		}
+		finally
+		{
+			java.util.Locale.setDefault(locale);
+		}
+	}
 }

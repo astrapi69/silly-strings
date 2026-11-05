@@ -180,4 +180,28 @@ public class CaseExtensionsTest
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * Test method for {@link CaseExtensions#kebabToCamelCase(String)}: an identifier is no text of
+	 * a language, so a Turkish default locale, in which the lower case of I is the dotless ı,
+	 * changes nothing (#45)
+	 */
+	@Test
+	void kebabToCamelCase_isTheSameInATurkishLocale()
+	{
+		final java.util.Locale locale = java.util.Locale.getDefault();
+		try
+		{
+			java.util.Locale.setDefault(java.util.Locale.forLanguageTag("tr-TR"));
+			assertEquals("idNumber", CaseExtensions.kebabToCamelCase("ID-number"));
+			assertEquals("indexOf", CaseExtensions.kebabToCamelCase("INDEX-of"));
+			assertEquals("fileIndex", CaseExtensions.kebabToCamelCase("FILE-INDEX"));
+			// the same for the other conversions that change the case (#45)
+			assertEquals("SILLY_STRINGS", CaseExtensions.kebabToUpperSnakeCase("silly-strings"));
+			assertEquals("FileId", CaseExtensions.snakeToPascalCase("FILE_ID"));
+		}
+		finally
+		{
+			java.util.Locale.setDefault(locale);
+		}
+	}
 }
