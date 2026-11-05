@@ -21,7 +21,6 @@
 package io.github.astrapi69.string;
 
 import java.nio.charset.Charset;
-import java.nio.charset.UnsupportedCharsetException;
 import java.util.Optional;
 
 /**
@@ -39,8 +38,9 @@ public final class CharsetExtensions
 	 *
 	 * @param encoding
 	 *            the encoding as {@link String} object
-	 * @return an {@link Optional} object with the resolved {@link Charset} object or empty if not
-	 *         found
+	 * @return an {@link Optional} object with the resolved {@link Charset} object, or empty if not
+	 *         found: for null, for a name this JVM has no charset of, and for a name that is not a
+	 *         legal charset name
 	 */
 	public static Optional<Charset> getCharset(final String encoding)
 	{
@@ -48,15 +48,15 @@ public final class CharsetExtensions
 		{
 			return Optional.empty();
 		}
-		Charset charset = null;
 		try
 		{
-			charset = Charset.forName(encoding);
+			return Optional.of(Charset.forName(encoding));
 		}
-		catch (UnsupportedCharsetException exception)
+		catch (IllegalArgumentException exception)
 		{
-			Optional.empty();
+			// UnsupportedCharsetException for a legal name without a charset, and
+			// IllegalCharsetNameException for a name that is not legal, which escaped before (#23)
+			return Optional.empty();
 		}
-		return charset != null ? Optional.of(charset) : Optional.empty();
 	}
 }
