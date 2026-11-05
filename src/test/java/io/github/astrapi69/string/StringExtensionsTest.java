@@ -1194,4 +1194,31 @@ public class StringExtensionsTest extends BaseTestCase
 		assertEquals("\\uABCD", StringExtensions.toUnicodeChars("\uABCD", false));
 		assertEquals("\\ufedc", StringExtensions.toUnicodeChars("\uFEDC", true));
 	}
+
+	/**
+	 * Test method for {@link StringExtensions#readLine(String)}: the first line ends at the first
+	 * line feed or carriage return, as BufferedReader.readLine ends it, whatever the line
+	 * separator of the platform, which is set for the test and restored after it (#64)
+	 *
+	 * @param lineSeparator
+	 *            the line separator of the platform for the test
+	 */
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(strings = { "\n", "\r\n" })
+	public void readLine_endsAtTheFirstLineBreakOnEveryPlatform(final String lineSeparator)
+	{
+		final String platformLineSeparator = System.getProperty("line.separator");
+		try
+		{
+			System.setProperty("line.separator", lineSeparator);
+			assertEquals("a", StringExtensions.readLine("a\r\nb"));
+			assertEquals("a", StringExtensions.readLine("a\rb\nc"));
+			assertEquals("a", StringExtensions.readLine("a\nb\r\nc"));
+			assertEquals("no break", StringExtensions.readLine("no break"));
+		}
+		finally
+		{
+			System.setProperty("line.separator", platformLineSeparator);
+		}
+	}
 }
