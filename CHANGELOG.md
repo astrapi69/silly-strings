@@ -4,14 +4,21 @@
 Version 10.1-SNAPSHOT
 -------------
 
-FIXED:
+CHANGED BEHAVIOUR:
 
 - `StringExtensions.readLine` ends the line at the first line feed or carriage return, whichever comes first, as
-  `BufferedReader.readLine` does, whatever the line separator of the platform: `"a\r\nb"`, `"a\rb\nc"` and
-  `"a\nb\r\nc"` give `"a"` everywhere. It searched for the platform's line separator first, so on Linux
-  `"a\r\nb"` gave `"a\r"`, on Windows `"a\nb\r\nc"` gave `"a\nb"`, and `"a\rb\nc"` gave `"a\rb"` on both. For
-  callers: the Javadoc of 10 named that search order, and a caller that relied on it gets the first line now; a
-  string without a line break is returned as it is, as in 10 (#64)
+  `BufferedReader.readLine` does, whatever the line separator of the platform (#64)
+  - before, in 10 and earlier: it searched for the line separator of the platform first, then for a line feed,
+    then for a carriage return. `"a\r\nb"` gave `"a\r"` on Linux and macOS and `"a"` on Windows;
+    `"a\nb\r\nc"` gave `"a"` on Linux and macOS and `"a\nb"` on Windows; `"a\rb\nc"` gave `"a\rb"` everywhere
+  - after, from 10.1: `"a"` for all three, on every platform. A string without a line break is returned as it is,
+    as before
+  - why in a minor release: the Javadoc of 10 named the old search order, so this changes a documented contract,
+    which belongs in a major release. It is a deliberate exception, because the old result depended on the
+    platform the code ran on, so the same input gave a different first line on Linux and on Windows, and no
+    caller in the astrapi69 family calls `readLine`
+  - migration: code that needs the text up to the line separator of the platform searches for
+    `System.lineSeparator()` itself
 
 CHANGED:
 
