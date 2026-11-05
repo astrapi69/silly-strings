@@ -465,11 +465,13 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Reads the given String till it finds a carriage return and returns it.
+	 * Reads the given String till it finds a line break and returns it: the line separator of the
+	 * platform, or else a line feed, or else a carriage return. A String without any of them is one
+	 * line and is returned as it is.
 	 *
 	 * @param stringWithCarriageReturns
 	 *            The String.
-	 * @return Return the String till the carriage return.
+	 * @return Return the String till the line break, or the whole String if it has none.
 	 */
 	public static String readLine(final String stringWithCarriageReturns)
 	{
@@ -483,6 +485,10 @@ public final class StringExtensions
 		if (index < 0)
 		{
 			index = stringWithCarriageReturns.indexOf("\r");
+		}
+		if (index < 0)
+		{
+			return stringWithCarriageReturns;
 		}
 		returnString = stringWithCarriageReturns.substring(0, index);
 		return returnString;
