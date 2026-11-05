@@ -988,4 +988,18 @@ public class StringExtensionsTest extends BaseTestCase
 		assertEquals("no break", StringExtensions.readLine("no break"));
 		assertEquals("", StringExtensions.readLine(""));
 	}
+
+	/**
+	 * Test method for {@link StringExtensions#replaceAll(String, String, String)}: an empty search
+	 * string puts the replacement before every character and at the end, as
+	 * {@link String#replace(CharSequence, CharSequence)} does, and the call returns (#21)
+	 */
+	@Test
+	public void replaceAll_returnsForAnEmptySearchString()
+	{
+		org.junit.jupiter.api.Assertions.assertTimeoutPreemptively(java.time.Duration.ofSeconds(5),
+			() -> assertEquals("xaxbxcx", StringExtensions.replaceAll("abc", "", "x")));
+		assertEquals("x", StringExtensions.replaceAll("", "", "x"));
+		assertEquals("a-b-c", StringExtensions.replaceAll("a, b, c", ", ", "-"));
+	}
 }
