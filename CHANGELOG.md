@@ -60,6 +60,8 @@ FIXED:
 - `StringExtensions.convertUnicodeStringToCharacter` throws its `MalformedUnicodeException` for a unicode escape with
   fewer than four hex digits, a backslash at the end and an empty string, as for a non-hex digit, where it threw a
   `StringIndexOutOfBoundsException`; the Javadoc names it (#24)
+- the Javadoc of `StringExtensions.toUnicodeChars` says what the method does, the escaping of a value in a
+  properties file; it said that every character becomes a unicode escape, which is what `toUnicode` does (#25)
 
 
 Version 9.2

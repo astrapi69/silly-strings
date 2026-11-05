@@ -834,7 +834,12 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Converts all characters from the given String to unicodes characters encoded like &#92;uxxxx.
+	 * Escapes the given String as {@link java.util.Properties#store(java.io.Writer, String)}
+	 * escapes a value: printable ASCII stays as it is, except that a backslash is doubled and
+	 * {@code :}, {@code #}, {@code =}, {@code !} and a space at the start get a backslash; tab,
+	 * line feed, carriage return and form feed become {@code \t}, {@code \n}, {@code \r} and
+	 * {@code \f}; every other character becomes a unicode escape &#92;uxxxx of its UTF-16 code
+	 * unit. To write every character as a unicode escape, see {@link #toUnicode(String, boolean)}.
 	 *
 	 * @param s
 	 *            The String to convert.
