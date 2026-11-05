@@ -65,8 +65,12 @@ they put 7 jars on the runtime class path.
 
 ## Installation
 
-Latest release on Maven Central: 9.2, for Java 17. The next release, 10, needs Java 25 and holds the fixes and
-the changes the [CHANGELOG](CHANGELOG.md) lists under `Version 10-SNAPSHOT`.
+Latest release on Maven Central: 10
+
+10 has one breaking change against 9.2, which the [CHANGELOG](CHANGELOG.md#version-10) lists under BREAKING: it
+needs Java 25 instead of 17. Its fixes change what a caller sees where a method did not do what its name or its
+Javadoc said, for example `kebabToCamelCase`, which gave PascalCase, and `replaceAll` and `splitByFixedLength`,
+which ran out of memory for an empty search string and a length of 0; the CHANGELOG names them under FIXED.
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.astrapi69/silly-strings.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.astrapi69/silly-strings)
 
@@ -74,7 +78,7 @@ the changes the [CHANGELOG](CHANGELOG.md) lists under `Version 10-SNAPSHOT`.
 
 ```toml
 [versions]
-silly-strings-version = "9.2"
+silly-strings-version = "10"
 
 [libraries]
 silly-strings = { module = "io.github.astrapi69:silly-strings", version.ref = "silly-strings-version" }
@@ -90,7 +94,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation "io.github.astrapi69:silly-strings:9.2"
+    implementation "io.github.astrapi69:silly-strings:10"
 }
 ```
 
@@ -100,7 +104,7 @@ dependencies {
 <dependency>
     <groupId>io.github.astrapi69</groupId>
     <artifactId>silly-strings</artifactId>
-    <version>9.2</version>
+    <version>10</version>
 </dependency>
 ```
 
@@ -193,7 +197,8 @@ The [Javadoc](https://www.javadoc.io/doc/io.github.astrapi69/silly-strings) has 
 
 ## Quality
 
-As of `develop`, measured with JDK 25 by `./gradlew build` and `./gradlew pitest --rerun-tasks`:
+As of 10, measured on the tree of `RELEASE-10` with JDK 25, by `./gradlew test --rerun`, `./gradlew build` and
+`./gradlew pitest --rerun-tasks`:
 
 | | |
 |---|---|
@@ -225,7 +230,7 @@ keys.openpgp.org. Fetch it once, then verify the signature next to each file:
 
 ```sh
 gpg --keyserver hkps://keys.openpgp.org --recv-keys 5B2FA6B11E298BC09287F423D8C403518C49CA75
-gpg --verify silly-strings-9.2.jar.asc silly-strings-9.2.jar
+gpg --verify silly-strings-10.jar.asc silly-strings-10.jar
 ```
 
 gpg answers `Good signature` and prints the `Primary key fingerprint`, and for a release signed by the subkey the
