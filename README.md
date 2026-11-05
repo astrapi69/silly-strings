@@ -151,8 +151,8 @@ Character omega = StringExtensions.convertUnicodeStringToCharacter("\\u03A9"); /
 ```
 
 **Replacing and splitting.** `replaceAll` replaces literally, as `String.replace` does; `splitByFixedLength`
-leaves the rest in the last part and refuses a length below 1; `readLine` ends at the line separator, a line feed
-or a carriage return, and returns a string without one as it is.
+leaves the rest in the last part and refuses a length below 1; `readLine` ends at the first line feed or carriage
+return, as `BufferedReader.readLine` does, and returns a string without one as it is.
 
 ```java
 String dashed = StringExtensions.replaceAll("a, b, c", ", ", "-");      // a-b-c
