@@ -1,27 +1,33 @@
 ## Change log
 ----------------------
 
-Version 9.3-SNAPSHOT
+Version 10-SNAPSHOT
 -------------
 
-## [Unreleased]
+BREAKING:
 
-### Added
-- **Tests**: Added a new test case in `StringExtensionsTest` for validating Unicode conversion of the Em Dash (U+2014) character.
+- Java 25 is the minimum, up from 17: the family builds, tests and releases on JDK 25
+  (astrapi69/mystic-crypt#234), so the next release is 10 instead of 9.3 (8ec0895)
 
-### Changed
-- **Gradle Wrapper**: Upgraded from version `8.10.2` to `8.12` for improved performance and compatibility.
-- **Dependencies**: Updated the following dependencies in `libs.versions.toml`:
-  - `commons-collections4` updated to `4.5.0-M3`
-  - `commons-io` updated to `2.18.0`
-  - `commons-text` updated to `1.13.0`
-  - `file-worker` updated to `19.0`
-  - `junit-jupiter`, `junit-jupiter-params`, and `junit-platform-launcher` updated to `5.11.4`
-  - Gradle plugins:
-    - Spotless plugin updated to `7.0.2`
-    - Version catalog update plugin updated to `0.8.5`
-    - Gradle versions plugin updated to `0.52.0`
-- **Test Enhancements**: Improved `StringExtensionsTest` with additional cases for Unicode character conversion.
+ADDED:
+
+- a test of `StringExtensions` for the Unicode conversion of the em dash, U+2014 (95d7b38)
+
+CHANGED:
+
+- the Gradle wrapper is 9.8.2, up from 8.10.2, and every dependency and plugin is on its latest release (95d7b38,
+  8ec0895); commons-lang3 3.18.0 (dfcdc3c)
+- the workflows build on exactly the JDK `.sdkmanrc` names, Temurin 25.0.4+7, and check that they do; they set up
+  JDK 17 while the toolchain fetched 25 (#12)
+- the grgit and hierynomus license plugins are gone: `tagRelease` runs git itself (`gradle/tagging.gradle`), and
+  Spotless writes the MIT header from `src/main/resources/license-header.txt`, which 11 of the 13 Java files besides
+  package-info carried and the 2 test classes `CaseExtensionsTest` and `CaseExtensionsParameterizedTest` now carry
+  as well. The two plugins brought the old `spring-core` and `plexus-utils` of the 11 Dependabot alerts on the
+  build classpath; none of them was at runtime (#12)
+- a test class that leaves no result fails the build (#10)
+- the Gradle dependency graph is submitted to GitHub, for Dependabot (#1)
+- the README replaces its dead badges and links (#8), names the family's funding channels and no cryptocurrency
+  addresses (#6), and `/gradle` is committed, no longer ignored (#4)
 
 Version 9.2
 -------------
