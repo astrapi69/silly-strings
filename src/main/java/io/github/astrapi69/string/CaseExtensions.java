@@ -21,7 +21,6 @@
 package io.github.astrapi69.string;
 
 import org.apache.commons.text.CaseUtils;
-import org.apache.commons.text.WordUtils;
 
 /**
  * The class {@link CaseExtensions} provides methods for converting strings between different case
@@ -31,7 +30,9 @@ public class CaseExtensions
 {
 
 	/**
-	 * Converts a kebab-case string to camelCase.
+	 * Converts a kebab-case string to camelCase: the first word in lower case, every further word
+	 * with an upper-case first letter, as {@code silly-strings-version} becomes
+	 * {@code sillyStringsVersion}.
 	 *
 	 * @param kebabCase
 	 *            the kebab-case string
@@ -43,7 +44,10 @@ public class CaseExtensions
 		{
 			return kebabCase;
 		}
-		return WordUtils.capitalizeFully(kebabCase, new char[] { '-' }).replaceAll("-", "");
+		// camelCase as commons-text writes it, as snakeToPascalCase does with its first letter in
+		// upper
+		// case; capitalizeFully gave PascalCase here (#39)
+		return CaseUtils.toCamelCase(kebabCase, false, '-');
 	}
 
 	/**
