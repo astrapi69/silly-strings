@@ -8,6 +8,13 @@ BREAKING:
 
 - Java 25 is the minimum, up from 17: the family builds, tests and releases on JDK 25
   (astrapi69/mystic-crypt#234), so this release is 10 instead of 9.3 (8ec0895)
+- four methods of `StringExtensions` handle a string without their delimiter, where each threw a
+  `StringIndexOutOfBoundsException`: `getAttributName` and `getStringBeforeUnderscore` return it as it is, as
+  `readLine` returns a string without a line break; `getIndex` and `getItemNumber` throw an
+  `IllegalArgumentException` that names the string when it holds no pair of brackets, and end the index at the
+  first closing bracket after its opening one, so `getIndex("a]x[1]")` is `1`. Migration: code that caught the
+  `StringIndexOutOfBoundsException` (or an `IndexOutOfBoundsException`) catches the `IllegalArgumentException` of
+  `getIndex` and `getItemNumber`, and no longer gets an exception from the other two (#46)
 
 ADDED:
 
