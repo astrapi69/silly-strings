@@ -1023,4 +1023,22 @@ public class StringExtensionsTest extends BaseTestCase
 		assertTrue(exception.getMessage().contains(String.valueOf(fixedLength)),
 			exception.getMessage());
 	}
+
+	/**
+	 * Test method for {@link StringExtensions#convertUnicodeStringToCharacter(String)}: a unicode
+	 * escape with fewer than four hex digits, a backslash at the end and an empty string are no
+	 * well formed unicode string either, and throw a {@link MalformedUnicodeException} (#24)
+	 *
+	 * @param notWellFormed
+	 *            the string that is not well formed
+	 */
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(strings = { "\\u", "\\u1", "\\u12", "\\u123",
+			"\\", "" })
+	public void convertUnicodeStringToCharacter_throwsForAStringThatIsNotWellFormed(
+		final String notWellFormed)
+	{
+		org.junit.jupiter.api.Assertions.assertThrows(MalformedUnicodeException.class,
+			() -> StringExtensions.convertUnicodeStringToCharacter(notWellFormed));
+	}
 }

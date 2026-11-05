@@ -57,6 +57,9 @@ FIXED:
   as its Javadoc says for a charset that is not found, where it threw an `IllegalCharsetNameException`. For
   astrapi69/file-worker, `StoreFileExtensions.toFile` with such an encoding writes in the default charset, as for an
   unknown one (#23)
+- `StringExtensions.convertUnicodeStringToCharacter` throws its `MalformedUnicodeException` for a unicode escape with
+  fewer than four hex digits, a backslash at the end and an empty string, as for a non-hex digit, where it threw a
+  `StringIndexOutOfBoundsException`; the Javadoc names it (#24)
 
 
 Version 9.2

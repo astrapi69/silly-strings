@@ -124,6 +124,10 @@ public final class StringExtensions
 	 * @param theUnicodeString
 	 *            the unicode string
 	 * @return the converted character object.
+	 * @throws MalformedUnicodeException
+	 *             if the string is not well formed: a unicode escape with a character that is no
+	 *             hex digit or with fewer than four of them, a backslash at its end, or an empty
+	 *             string
 	 */
 	public static Character convertUnicodeStringToCharacter(final String theUnicodeString)
 	{
@@ -137,9 +141,19 @@ public final class StringExtensions
 			current = theUnicodeString.charAt(outerCount++);
 			if (current == '\\')
 			{
+				// a backslash at the end, and an escape with fewer than four hex digits, ran out of
+				// the string with a StringIndexOutOfBoundsException (#24)
+				if (outerCount == length)
+				{
+					throw notWellFormed(theUnicodeString);
+				}
 				current = theUnicodeString.charAt(outerCount++);
 				if (current == 'u')
 				{
+					if (length - outerCount < 4)
+					{
+						throw notWellFormed(theUnicodeString);
+					}
 					int value = 0;
 					for (int i = 0; i < 4; i++)
 					{
@@ -175,10 +189,7 @@ public final class StringExtensions
 								value = (value << 4) + 10 + current - 'A';
 								break;
 							default :
-								throw new MalformedUnicodeException("Given String object :::"
-									+ theUnicodeString
-									+ "::: is not a well formed unicode String object.\n"
-									+ "Format for a well formed unicode String object:'\\uxxxx'.");
+								throw notWellFormed(theUnicodeString);
 						}
 					}
 					sb.append((char)value);
@@ -210,7 +221,18 @@ public final class StringExtensions
 			}
 		}
 		final String result = sb.toString();
+		if (result.isEmpty())
+		{
+			throw notWellFormed(theUnicodeString);
+		}
 		return result.charAt(0);
+	}
+
+	private static MalformedUnicodeException notWellFormed(final String theUnicodeString)
+	{
+		return new MalformedUnicodeException("Given String object :::" + theUnicodeString
+			+ "::: is not a well formed unicode String object.\n"
+			+ "Format for a well formed unicode String object:'\\uxxxx'.");
 	}
 
 	/**
