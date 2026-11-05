@@ -65,6 +65,9 @@ FIXED:
 - `StringExtensions.toUnicodeChars` with `toLowerCase` writes the hex digits of the unicode escapes in lower case
   and leaves the text as it is, as its Javadoc says; it lowercased the whole result, so `"ABCÄ"` became
   `"abc\u00c4"` instead of `"ABC\u00c4"` (#31)
+- `StringExtensions.toUnicode` writes a character outside the Basic Multilingual Plane as the escapes of its two
+  UTF-16 code units, `\uD83D\uDE00` for U+1F600; it wrote `\uF600\uDE00`, the last four hex digits of the code
+  point in place of the high surrogate (#32)
 
 
 Version 9.2

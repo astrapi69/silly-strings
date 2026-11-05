@@ -808,7 +808,9 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Converts all characters from the given String to unicodes characters encoded like &#92;uxxxx.
+	 * Converts all characters from the given String to unicodes characters encoded like &#92;uxxxx,
+	 * one escape for each UTF-16 code unit: a character outside the Basic Multilingual Plane
+	 * becomes the two escapes of its high and its low surrogate.
 	 *
 	 * @param toUnicode
 	 *            The String to convert.
@@ -822,7 +824,10 @@ public final class StringExtensions
 		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < toUnicode.length(); i++)
 		{
-			String hex = Integer.toHexString(toUnicode.codePointAt(i));
+			// the UTF-16 code unit, as a \\uxxxx escape holds one: codePointAt gave the whole code
+			// point
+			// at a high surrogate, of which the last four hex digits are not the surrogate (#32)
+			String hex = Integer.toHexString(toUnicode.charAt(i));
 			if (toLowerCase)
 			{
 				hex = hex.toLowerCase();
