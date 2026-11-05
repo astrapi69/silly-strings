@@ -89,7 +89,8 @@ FIXED:
   UTF-16 code units, `\uD83D\uDE00` for U+1F600; it wrote `\uF600\uDE00`, the last four hex digits of the code
   point in place of the high surrogate (#32)
 - `CaseExtensions.kebabToCamelCase` gives camelCase, as its name and Javadoc say: `silly-strings-version` becomes
-  `sillyStringsVersion`, where it gave the PascalCase `SillyStringsVersion` (#39)
+  `sillyStringsVersion`, where it gave the PascalCase `SillyStringsVersion` (#39). It splits at hyphens only, as in
+  9.2: `foo bar` stays `foo bar` (#50)
 - the conversions that change the case of an identifier or a field name do so in the root locale, not in the
   default one: `kebabToCamelCase`, `kebabToUpperSnakeCase` and `snakeToPascalCase` of `CaseExtensions`, and
   `firstCharacterToUpperCase`, `firstCharacterToLowerCase` and `lastCharacterToUpperCase` of `StringExtensions`.

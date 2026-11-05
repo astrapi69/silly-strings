@@ -204,4 +204,18 @@ public class CaseExtensionsTest
 			java.util.Locale.setDefault(locale);
 		}
 	}
+
+	/**
+	 * Test method for {@link CaseExtensions#kebabToCamelCase(String)}: kebab-case is split at
+	 * hyphens only, a space stays where it is, as in 9.2 (#50)
+	 */
+	@Test
+	void kebabToCamelCase_splitsAtHyphensOnly()
+	{
+		assertEquals("foo bar", CaseExtensions.kebabToCamelCase("foo bar"));
+		assertEquals("foo barBaz", CaseExtensions.kebabToCamelCase("foo bar-baz"));
+		assertEquals(" ", CaseExtensions.kebabToCamelCase(" "));
+		assertEquals("sillyStringsVersion",
+			CaseExtensions.kebabToCamelCase("silly-strings-version"));
+	}
 }
