@@ -1070,4 +1070,31 @@ public class StringExtensionsTest extends BaseTestCase
 		assertEquals("\\u0041\\uD83D\\uDE00\\u0042",
 			StringExtensions.toUnicode("A" + grinningFace + "B", false));
 	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicodeChars(String, boolean)}: the result is the
+	 * value {@link java.util.Properties#store(java.io.OutputStream, String)} writes, unicode
+	 * escapes for what is not printable ASCII included, which {@code store(Writer, String)} writes
+	 * as it is (#44)
+	 *
+	 * @throws java.io.IOException
+	 *             if the properties cannot be written
+	 */
+	@Test
+	public void toUnicodeChars_escapesAsPropertiesStoreToAnOutputStream() throws java.io.IOException
+	{
+		for (final String value : List.of("Gr\u00F6\u00DFe = 1", "\u00C4\u2014", "a:b#c!d\\e",
+			" lead", "tab\tnew\nline\rform\f", "\u0001\u007F",
+			new String(Character.toChars(0x1F600))))
+		{
+			final java.util.Properties properties = new java.util.Properties();
+			properties.setProperty("k", value);
+			final java.io.ByteArrayOutputStream stream = new java.io.ByteArrayOutputStream();
+			properties.store(stream, null);
+			final String written = stream.toString(java.nio.charset.StandardCharsets.ISO_8859_1)
+				.lines().filter(line -> line.startsWith("k=")).findFirst().orElseThrow();
+			assertEquals(written.substring(2), StringExtensions.toUnicodeChars(value, false),
+				value);
+		}
+	}
 }
