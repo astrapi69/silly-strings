@@ -22,7 +22,9 @@ package io.github.astrapi69.string;
 
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.CaseUtils;
+import org.apache.commons.text.WordUtils;
 
 /**
  * The class {@link CaseExtensions} provides methods for converting strings between different case
@@ -34,7 +36,7 @@ public class CaseExtensions
 	/**
 	 * Converts a kebab-case string to camelCase: the first word in lower case, every further word
 	 * with an upper-case first letter, as {@code silly-strings-version} becomes
-	 * {@code sillyStringsVersion}.
+	 * {@code sillyStringsVersion}. Only a hyphen separates two words; a space stays where it is.
 	 *
 	 * @param kebabCase
 	 *            the kebab-case string
@@ -46,10 +48,13 @@ public class CaseExtensions
 		{
 			return kebabCase;
 		}
-		// camelCase as commons-text writes it; capitalizeFully gave PascalCase (#39).
-		// CaseUtils lowercases in the default locale, where a Turkish I becomes a
-		// dotless ı, so the identifier is lowercased in the root locale first (#45)
-		return CaseUtils.toCamelCase(kebabCase.toLowerCase(Locale.ROOT), false, '-');
+		// lowercased in the root locale, where a Turkish default one turns I into a dotless ı
+		// (#45);
+		// every word after a hyphen capitalised, the hyphens removed, and the first letter in lower
+		// case, which capitalizeFully gave in upper case (#39). Only the hyphen separates words:
+		// CaseUtils.toCamelCase adds the space to its delimiters (#50)
+		return StringUtils.uncapitalize(
+			WordUtils.capitalize(kebabCase.toLowerCase(Locale.ROOT), '-').replace("-", ""));
 	}
 
 	/**
