@@ -23,8 +23,9 @@ jacocoTestReport {
 check.dependsOn jacocoTestReport
 
 // The coverage floor: the build fails when the whole library falls below 99% of the lines or 98% of the
-// branches, what the tests reach after the mutation testing of #15: 330 of 331 lines (99.7%), the one left
-// being the implicit constructor of CaseExtensions, and 137 of 139 branches (98.6%)
+// branches. Set to what the tests reached after the mutation testing of #15; the tests of 10 reach
+// 338 of 339 lines (99.7%), the one left being the implicit constructor of CaseExtensions, and
+// 156 of 157 branches (99.4%)
 jacocoTestCoverageVerification {
     violationRules {
         rule {

@@ -26,9 +26,10 @@ packages, and builds on [Apache Commons Lang](https://commons.apache.org/proper/
 
 Each of its methods is a few lines that otherwise get written again: escaping a string as a properties file
 does, or every character as `\uxxxx`, and reading such an escape back; splitting a string into parts of a fixed
-length; turning `silly-strings-version` into `sillyStringsVersion` or `SILLY_STRINGS`; counting the words of a
-text; turning `*` and `?` into the wildcards of a regular expression or of SQL. The tests cover 99.7% of the lines
-and 98.6% of the branches, and detect 98% of the mutants PIT makes; the build fails below 99%, 98% and 96%
+length; turning `silly-strings-version` into `sillyStringsVersion`, or `silly-strings` into `SILLY_STRINGS`;
+counting the words of a text; turning `*` and `?` into the wildcards of a regular expression or of SQL. The tests
+cover 99.7% of the lines and 99.4% of the branches, and detect 98% of the mutants PIT makes; the build fails below
+99%, 98% and 96%
 ([Quality](#quality)).
 
 If the JDK covers what you need, use it: `String.replace`, `String.split`, `String.strip` and
@@ -136,9 +137,10 @@ name as assertions, and the test fails when a block here and there differ. Where
 comment gives it as a Java string literal.
 
 **Unicode escapes, both ways.** `toUnicodeChars` escapes as a properties file escapes a value: printable ASCII
-stays, `=`, `:`, `#`, `!` and the backslash get a backslash, and the rest becomes `\uxxxx`. `toUnicode` writes
-every character as an escape, one for each UTF-16 code unit, and `convertUnicodeStringToCharacter` reads one
-back.
+stays, except that `=`, `:`, `#`, `!`, the backslash and a space at the start get a backslash; tab, line feed,
+carriage return and form feed become `\t`, `\n`, `\r` and `\f`; every other character becomes `\uxxxx`.
+`toUnicode` writes every character as an escape, one for each UTF-16 code unit, and
+`convertUnicodeStringToCharacter` reads one back.
 
 ```java
 String escaped = StringExtensions.toUnicodeChars("Größe = 1", false);
@@ -190,7 +192,7 @@ Optional<Charset> none = CharsetExtensions.getCharset("no such charset"); // Opt
 | `io.github.astrapi69.string.CaseExtensions` | kebab-case to camelCase, dot.case, snake_case and UPPER_SNAKE_CASE, snake_case to PascalCase |
 | `io.github.astrapi69.string.SplitStringExtensions` | the words of a text with their count, split at a space, by a regular expression or by search strings; a chat line `[date] name: message` as a `Triple` |
 | `io.github.astrapi69.string.CharsetExtensions` | `getCharset`: the charset of a name, or empty |
-| `io.github.astrapi69.string.MalformedUnicodeException` | what `convertUnicodeStringToCharacter` throws for a string that is not a well formed `\uxxxx` |
+| `io.github.astrapi69.string.MalformedUnicodeException` | what `convertUnicodeStringToCharacter` throws for a `\u` escape with a character that is no hex digit or with fewer than four, for a backslash at the end and for an empty string |
 | `io.github.astrapi69.regex.RegExExtensions` | `countMatches`, `isMatching`, and `*` and `?` as the wildcards of a regular expression (`replaceWildcardsWithRE`) or of SQL (`wildcardCriterionSQL`) |
 
 The [Javadoc](https://www.javadoc.io/doc/io.github.astrapi69/silly-strings) has the details.
@@ -202,9 +204,9 @@ for the mutation score by the mutation testing workflow on GitHub:
 
 | | |
 |---|---|
-| tests | 90 in 7 test classes, none failing, none skipped |
-| line and branch coverage (JaCoCo) | 326 of 327 lines (99.7%), 141 of 143 branches (98.6%); the build fails below 99% of the lines or 98% of the branches |
-| mutation score (PIT 1.30.1) | 187 of 191 mutants detected (98%); the build fails below 96%, and `build.gradle` says why the 4 left are equivalent |
+| tests | 103 in 7 test classes, none failing, none skipped |
+| line and branch coverage (JaCoCo) | 338 of 339 lines (99.7%), 156 of 157 branches (99.4%); the build fails below 99% of the lines or 98% of the branches |
+| mutation score (PIT 1.30.1) | 198 of 202 mutants detected (98%); the build fails below 96%, and `build.gradle` says why the 4 left are equivalent |
 | reproducible build | two builds of the same commit give the same five artifacts, byte for byte (`make check-reproducible`) |
 
 Two workflows run on every push to `develop` and `master` and on every pull request into them, on exactly the JDK
@@ -277,8 +279,9 @@ make pitest     # mutation testing on GitHub for the pushed branch, fails below 
 ```
 
 The versions follow the
-[Semantic Versioning](https://github.com/lightblueseas/mvn-parent-projects/wiki/Semantic-Versioning) guidelines,
-`<major>.<minor>.<patch>`. Questions, bug reports and feature requests belong on the
+[Simplified Semantic Versioning](https://github.com/lightblueseas/mvn-parent-projects/wiki/Simplified-Semantic-Versioning)
+guidelines, `<major>.<minor>.<patch>` without the parts that are zero at the end, so 10 is 10.0.0 and 9.2 is
+9.2.0. Questions, bug reports and feature requests belong on the
 [issues page](https://github.com/astrapi69/silly-strings/issues).
 
 ## License

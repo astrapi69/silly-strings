@@ -23,7 +23,7 @@ ADDED:
 CHANGED:
 
 - the Gradle wrapper is 9.8.2, up from 8.10.2, and every dependency and plugin is on its latest release (95d7b38,
-  8ec0895); commons-lang3 3.18.0 (dfcdc3c)
+  8ec0895), commons-lang3 among them, which dfcdc3c raised from 3.17.0 to 3.18.0 and 8ec0895 to 3.21.0
 - the workflows build on exactly the JDK `.sdkmanrc` names, Temurin 25.0.4+7, and check that they do; they set up
   JDK 17 while the toolchain fetched 25 (#12)
 - the grgit and hierynomus license plugins are gone: `tagRelease` runs git itself (`gradle/tagging.gradle`), and
@@ -43,10 +43,12 @@ CHANGED:
   `-PuseMavenLocal`, since it came before Maven Central. `scripts/check-reproducible.sh` builds the five published
   artifacts twice and compares them (#14)
 - mutation testing with PIT: the CI build fails below 96% of the mutants detected and publishes the score as a
-  badge; PIT detects 187 of the 191 mutants of 10, 98%, where a first run detected 160 of 185, and the 4 left are
-  equivalent, as `build.gradle` says. The build also fails below 99% of the lines or 98% of the branches, what the
-  tests reach: 326 of 327 lines and 141 of 143 branches. The tests the survivors showed to be missing check, among
-  others, the parts of `getTripleFromMessage`, which its test only printed, and found the defects under FIXED (#15)
+  badge; PIT detects 198 of the 202 mutants of 10, 98%, where a first run detected 160 of 185, and the 4
+  left are equivalent, as `build.gradle` says. The build also fails below 99% of the lines or 98% of the branches;
+  the tests of 10 reach 338 of 339 lines and 156 of 157 branches. The tests the survivors showed to be missing
+  check, among others, the parts of `getTripleFromMessage`, which its test only printed; they found #20 to #24.
+  The other defects under FIXED came up while correcting a Javadoc (#31, #32), while writing the README (#39) and
+  in a review of the release (#44, #45, #50, and #46 under BREAKING) (#15)
 - a `Makefile` for the usual tasks, after the one of astrapi69/silly-io: `make help` lists them; no target uploads,
   `tag-release` refuses a SNAPSHOT version and asks for `CONFIRM=yes`, and `check-reproducible` runs
   `scripts/check-reproducible.sh` on the JDK `.sdkmanrc` names (#36)
@@ -56,6 +58,15 @@ CHANGED:
   workflow instead of running PIT on the workstation, where its minions, without a bound on their heap, took the
   memory of the machine when a mutant made a loop endless. The minions get 256 MB each and the test JVM 512 MB, so
   such a mutant or test ends in an `OutOfMemoryError` of its own JVM (#59)
+- `ReadmeExamplesTest` keeps the white space inside string and character literals when it compares the README
+  with its blocks, reads a CRLF checkout, and runs again when its own source changes; a test checks every hex digit
+  of a `toUnicodeChars` escape for the case asked for (#51)
+- the build uses no syntax Gradle 10 removes, applies the versions plugin by its new id and calls Spotless's
+  `leadingTabsToSpaces`, so it prints none of their deprecations; `publish.yml` reads the repository only; and the
+  IDE run configuration of `licenseFormat`, which went with the license plugin, is gone (#52)
+- the README and the CHANGELOG say nothing the code contradicts: how `toUnicodeChars` escapes, when
+  `MalformedUnicodeException` comes, the example of `SILLY_STRINGS`, the Simplified Semantic Versioning and the
+  numbers of 10 (#53)
 - `versionCatalogFormat` keeps the versions of PIT and of its JUnit 5 plugin, which only
   `gradle/mutation-testing.gradle` reads and which it removed; silly-bean stays a runtime dependency, though no
   class uses it, since silly-collection's `MapFactory` takes and returns its `KeyValuePair` without declaring it
