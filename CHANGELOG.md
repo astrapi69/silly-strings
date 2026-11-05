@@ -62,6 +62,9 @@ FIXED:
   `StringIndexOutOfBoundsException`; the Javadoc names it (#24)
 - the Javadoc of `StringExtensions.toUnicodeChars` says what the method does, the escaping of a value in a
   properties file; it said that every character becomes a unicode escape, which is what `toUnicode` does (#25)
+- `StringExtensions.toUnicodeChars` with `toLowerCase` writes the hex digits of the unicode escapes in lower case
+  and leaves the text as it is, as its Javadoc says; it lowercased the whole result, so `"ABCÄ"` became
+  `"abc\u00c4"` instead of `"ABC\u00c4"` (#31)
 
 
 Version 9.2

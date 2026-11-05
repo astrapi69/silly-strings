@@ -1041,4 +1041,16 @@ public class StringExtensionsTest extends BaseTestCase
 		org.junit.jupiter.api.Assertions.assertThrows(MalformedUnicodeException.class,
 			() -> StringExtensions.convertUnicodeStringToCharacter(notWellFormed));
 	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicodeChars(String, boolean)}: with toLowerCase
+	 * the hex digits of the unicode escapes are lower case, and the text keeps its letters (#31)
+	 */
+	@Test
+	public void toUnicodeChars_lowercasesTheHexDigitsOnly()
+	{
+		assertEquals("ABC\\u00c4", StringExtensions.toUnicodeChars("ABC\u00C4", true));
+		assertEquals("ABC\\u00C4", StringExtensions.toUnicodeChars("ABC\u00C4", false));
+		assertEquals("A\\=B\\t", StringExtensions.toUnicodeChars("A=B\t", true));
+	}
 }
