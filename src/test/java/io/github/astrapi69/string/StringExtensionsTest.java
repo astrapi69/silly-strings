@@ -878,8 +878,8 @@ public class StringExtensionsTest extends BaseTestCase
 
 	/**
 	 * Test method for {@link StringExtensions#readLine(String)}: with "\r\n" as the line separator
-	 * of the platform, the one of Windows, set for the test and restored after it, the line ends
-	 * at the first line feed or carriage return (#15, #64)
+	 * of the platform, the one of Windows, set for the test and restored after it, the line ends at
+	 * the first line feed or carriage return (#15, #64)
 	 */
 	@Test
 	public void readLine_endsAtTheFirstLineBreakWithCrlfAsTheSeparator()
@@ -1197,8 +1197,8 @@ public class StringExtensionsTest extends BaseTestCase
 
 	/**
 	 * Test method for {@link StringExtensions#readLine(String)}: the first line ends at the first
-	 * line feed or carriage return, as BufferedReader.readLine ends it, whatever the line
-	 * separator of the platform, which is set for the test and restored after it (#64)
+	 * line feed or carriage return, as BufferedReader.readLine ends it, whatever the line separator
+	 * of the platform, which is set for the test and restored after it (#64)
 	 *
 	 * @param lineSeparator
 	 *            the line separator of the platform for the test
