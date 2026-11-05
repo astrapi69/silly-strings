@@ -35,6 +35,11 @@ CHANGED:
   written in English whatever the locale of the machine; and the local Maven repository is used only with
   `-PuseMavenLocal`, since it came before Maven Central. `scripts/check-reproducible.sh` builds the five published
   artifacts twice and compares them (#14)
+- mutation testing with PIT: the CI build fails below 96% of the mutants detected and publishes the score as a
+  badge; PIT detects 181 of the 185 mutants, 98%, up from 160, and the 4 left are equivalent, as `build.gradle`
+  says. The build also fails below 99% of the lines or 98% of the branches, what the tests reach: 330 of 331 lines
+  and 137 of 139 branches. The tests the survivors showed to be missing check, among others, the parts of
+  `getTripleFromMessage`, which its test only printed (#15)
 - the Gradle dependency graph is submitted to GitHub, for Dependabot (#1)
 - the README replaces its dead badges and links (#8), names the family's funding channels and no cryptocurrency
   addresses (#6), and `/gradle` is committed, no longer ignored (#4)

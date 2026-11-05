@@ -13,6 +13,7 @@ plugins {
     id 'maven-publish'
     id 'signing'
     alias(libs.plugins.gradle.versions.plugin)
+    alias(libs.plugins.pitest.gradle.plugin)
     alias(libs.plugins.spotless.plugin.gradle)
     alias(libs.plugins.version.catalog.update)
 }
@@ -23,6 +24,20 @@ description = "$rootProject.name"
 
 // import gradle files
 apply from: "gradle/apply-gradle-files.gradle"
+
+// Mutation-score floor the CI build fails below: .github/workflows/gradle.yml runs `./gradlew pitest`
+// after the build; PIT rounds the score half up to a whole percent before it compares. Measured 98 %
+// (181 of 185 mutants detected) on 2026-11-05, up from 86 % (160 of 185) once the tests the survivors
+// showed to be missing were written (#15). The floor keeps two points below it, as file-worker and
+// silly-io do. The 4 left are equivalent, all in StringExtensions.toUnicodeChars:
+// - "<=" for "<" against 0x20 and ">=" for ">" against 0x7e in the default branch: the space and the tilde
+//   never reach it, the switch and the printable range take them first
+// - "/" for "*" in the capacity of the StringBuilder, which changes no result
+// - "" for the empty string the method returns for an empty input
+// Kept here, not in gradle/mutation-testing.gradle, so that the floor sits in the file a reader looks at.
+pitest {
+    mutationThreshold = 96
+}
 
 java {
     sourceCompatibility = "$projectSourceCompatibility" as Object
