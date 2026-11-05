@@ -20,6 +20,8 @@
  */
 package io.github.astrapi69.string;
 
+import java.util.Locale;
+
 import org.apache.commons.text.CaseUtils;
 
 /**
@@ -44,10 +46,10 @@ public class CaseExtensions
 		{
 			return kebabCase;
 		}
-		// camelCase as commons-text writes it, as snakeToPascalCase does with its first letter in
-		// upper
-		// case; capitalizeFully gave PascalCase here (#39)
-		return CaseUtils.toCamelCase(kebabCase, false, '-');
+		// camelCase as commons-text writes it; capitalizeFully gave PascalCase (#39).
+		// CaseUtils lowercases in the default locale, where a Turkish I becomes a
+		// dotless ı, so the identifier is lowercased in the root locale first (#45)
+		return CaseUtils.toCamelCase(kebabCase.toLowerCase(Locale.ROOT), false, '-');
 	}
 
 	/**
@@ -95,7 +97,8 @@ public class CaseExtensions
 		{
 			return kebabCase;
 		}
-		return kebabCase.replace('-', '_').toUpperCase();
+		// the root locale: in a Turkish one the upper case of i is the dotted İ (#45)
+		return kebabCase.replace('-', '_').toUpperCase(Locale.ROOT);
 	}
 
 	/**
@@ -107,7 +110,11 @@ public class CaseExtensions
 	 */
 	public static String snakeToPascalCase(String snakeCase)
 	{
-		String pascalCase = CaseUtils.toCamelCase(snakeCase, true, '_');
-		return pascalCase;
+		if (snakeCase == null)
+		{
+			return null;
+		}
+		// lowercased in the root locale first, as kebabToCamelCase does (#45)
+		return CaseUtils.toCamelCase(snakeCase.toLowerCase(Locale.ROOT), true, '_');
 	}
 }

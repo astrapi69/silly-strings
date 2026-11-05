@@ -90,6 +90,11 @@ FIXED:
   point in place of the high surrogate (#32)
 - `CaseExtensions.kebabToCamelCase` gives camelCase, as its name and Javadoc say: `silly-strings-version` becomes
   `sillyStringsVersion`, where it gave the PascalCase `SillyStringsVersion` (#39)
+- the conversions that change the case of an identifier or a field name do so in the root locale, not in the
+  default one: `kebabToCamelCase`, `kebabToUpperSnakeCase` and `snakeToPascalCase` of `CaseExtensions`, and
+  `firstCharacterToUpperCase`, `firstCharacterToLowerCase` and `lastCharacterToUpperCase` of `StringExtensions`.
+  Under a Turkish locale `kebabToCamelCase("ID-number")` gave `ıdNumber` and `kebabToUpperSnakeCase("silly-strings")`
+  gave `SİLLY_STRİNGS` (#45)
 
 
 Version 9.2

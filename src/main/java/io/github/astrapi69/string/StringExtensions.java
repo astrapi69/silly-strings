@@ -23,6 +23,7 @@ package io.github.astrapi69.string;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeSet;
@@ -274,7 +275,8 @@ public final class StringExtensions
 		if (StringUtils.isNotEmpty(fieldName))
 		{
 			String firstCharacter = fieldName.substring(0, 1);
-			firstCharacter = firstCharacter.toLowerCase();
+			// the root locale: a field name is no text of a language (#45)
+			firstCharacter = firstCharacter.toLowerCase(Locale.ROOT);
 			final char[] fc = firstCharacter.toCharArray();
 			final char[] fn = fieldName.toCharArray();
 			fn[0] = fc[0];
@@ -297,7 +299,8 @@ public final class StringExtensions
 		if (StringUtils.isNotEmpty(fieldName))
 		{
 			String firstCharacter = fieldName.substring(0, 1);
-			firstCharacter = firstCharacter.toUpperCase();
+			// the root locale: a field name is no text of a language (#45)
+			firstCharacter = firstCharacter.toUpperCase(Locale.ROOT);
 			final char[] fc = firstCharacter.toCharArray();
 			final char[] fn = fieldName.toCharArray();
 			fn[0] = fc[0];
@@ -516,7 +519,8 @@ public final class StringExtensions
 		{
 			final int length = fieldName.length();
 			String lastCharacter = fieldName.substring(length - 1, length);
-			lastCharacter = lastCharacter.toUpperCase();
+			// the root locale: a field name is no text of a language (#45)
+			lastCharacter = lastCharacter.toUpperCase(Locale.ROOT);
 			final char[] fc = lastCharacter.toCharArray();
 			final char[] fn = fieldName.toCharArray();
 			fn[length - 1] = fc[0];
