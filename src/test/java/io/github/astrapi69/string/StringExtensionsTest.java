@@ -926,6 +926,8 @@ public class StringExtensionsTest extends BaseTestCase
 	{
 		assertEquals(List.of("ab", "cd"), StringExtensions.splitByFixedLength("abcd", 2));
 		assertEquals(List.of("ab", "cd", "e"), StringExtensions.splitByFixedLength("abcde", 2));
+		// 1, the smallest length it takes (#22)
+		assertEquals(List.of("a", "b", "c"), StringExtensions.splitByFixedLength("abc", 1));
 	}
 
 	/**

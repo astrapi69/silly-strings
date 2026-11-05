@@ -51,6 +51,8 @@ FIXED:
 - `StringExtensions.replaceAll` returns for an empty search string: it replaces as `String.replace(CharSequence,
   CharSequence)` does, which it now calls, and puts the replacement before every character and at the end. Its own
   loop found the empty string at the same index on every turn and grew until the heap was gone (#21)
+- `StringExtensions.splitByFixedLength` refuses a length below 1 with an `IllegalArgumentException` that names it:
+  for 0 it added empty parts until the heap was gone, below 0 it threw a `StringIndexOutOfBoundsException` (#22)
 
 
 Version 9.2

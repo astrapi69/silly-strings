@@ -688,17 +688,27 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Split the given {@link String} in parts in the given fixed length.
+	 * Split the given {@link String} in parts in the given fixed length. The last part holds the
+	 * rest, which can be shorter; an empty input gives no part.
 	 *
 	 * @param input
 	 *            the input
 	 * @param fixedLength
-	 *            the fixed length
+	 *            the fixed length, at least 1
 	 * @return the list with the splitted {@link String} objects
+	 * @throws IllegalArgumentException
+	 *             if the fixed length is below 1; the message names it
 	 */
 	public static List<String> splitByFixedLength(final String input, final int fixedLength)
 	{
 		Objects.requireNonNull(input);
+		if (fixedLength < 1)
+		{
+			// a length of 0 added nothing to the index, and the loop added empty parts until the
+			// heap was gone; a negative one ended in substring (#22)
+			throw new IllegalArgumentException(
+				"The fixed length has to be at least 1, but was " + fixedLength);
+		}
 		final List<String> parts = new ArrayList<>();
 		int beginIndex = 0;
 		while (beginIndex < input.length())
