@@ -53,6 +53,10 @@ FIXED:
   loop found the empty string at the same index on every turn and grew until the heap was gone (#21)
 - `StringExtensions.splitByFixedLength` refuses a length below 1 with an `IllegalArgumentException` that names it:
   for 0 it added empty parts until the heap was gone, below 0 it threw a `StringIndexOutOfBoundsException` (#22)
+- `CharsetExtensions.getCharset` gives an empty result for a name that is not a legal charset name, such as `""`,
+  as its Javadoc says for a charset that is not found, where it threw an `IllegalCharsetNameException`. For
+  astrapi69/file-worker, `StoreFileExtensions.toFile` with such an encoding writes in the default charset, as for an
+  unknown one (#23)
 
 
 Version 9.2
