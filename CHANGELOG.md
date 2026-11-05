@@ -13,6 +13,14 @@ FIXED:
   callers: the Javadoc of 10 named that search order, and a caller that relied on it gets the first line now; a
   string without a line break is returned as it is, as in 10 (#64)
 
+CHANGED:
+
+- a javadoc warning breaks the build, a family rule since 2026-11-05: the javadoc task runs with `failOnError` and
+  `-Werror`, and `check` depends on it, so `./gradlew build` fails on a warning instead of a gate counting the
+  warnings by text, which missed them in a German locale. The one warning of 10, the implicit constructor of
+  `CaseExtensions`, is gone: the constructor is public as before, documented and deprecated for removal, since every
+  method is static; it becomes private in 11 (#65)
+
 Version 10
 -------------
 

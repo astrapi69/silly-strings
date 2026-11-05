@@ -207,6 +207,7 @@ for the mutation score by the mutation testing workflow on GitHub:
 | tests | 103 in 7 test classes, none failing, none skipped |
 | line and branch coverage (JaCoCo) | 338 of 339 lines (99.7%), 156 of 157 branches (99.4%); the build fails below 99% of the lines or 98% of the branches |
 | mutation score (PIT 1.30.1) | 198 of 202 mutants detected (98%); the build fails below 96%, and `build.gradle` says why the 4 left are equivalent |
+| javadoc | no warning; the build fails on one (`-Werror`), and the javadoc is written in English whatever the locale |
 | reproducible build | two builds of the same commit give the same five artifacts, byte for byte (`make check-reproducible`) |
 
 Two workflows run on every push to `develop` and `master` and on every pull request into them, on exactly the JDK
