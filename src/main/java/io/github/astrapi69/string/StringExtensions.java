@@ -755,6 +755,12 @@ public final class StringExtensions
 		return HEXADECIMAL_DIGITS[i & 0xF];
 	}
 
+	private static char toHex(final int i, final boolean lowerCase)
+	{
+		final char digit = toHex(i);
+		return lowerCase ? Character.toLowerCase(digit) : digit;
+	}
+
 	/**
 	 * Transforms the given {@link String} that holds successive numbers delimited with a delimiter
 	 * into an integer array. Note: A valid {@link String} object holds only integer values
@@ -908,10 +914,10 @@ public final class StringExtensions
 					{
 						sb.append('\\');
 						sb.append('u');
-						sb.append(toHex(c >> 12 & 0xF));
-						sb.append(toHex(c >> 8 & 0xF));
-						sb.append(toHex(c >> 4 & 0xF));
-						sb.append(toHex(c & 0xF));
+						sb.append(toHex(c >> 12 & 0xF, toLowerCase));
+						sb.append(toHex(c >> 8 & 0xF, toLowerCase));
+						sb.append(toHex(c >> 4 & 0xF, toLowerCase));
+						sb.append(toHex(c & 0xF, toLowerCase));
 					}
 					else
 					{
@@ -919,15 +925,9 @@ public final class StringExtensions
 					}
 			}
 		}
-		final String returnString = sb.toString();
-		if (toLowerCase)
-		{
-			return returnString.toLowerCase();
-		}
-		else
-		{
-			return returnString;
-		}
+		// toLowerCase applies to the hex digits as they are written; lowercasing the result changed
+		// the letters of the text as well (#31)
+		return sb.toString();
 	}
 
 	/**
