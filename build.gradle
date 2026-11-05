@@ -27,9 +27,9 @@ description = "$rootProject.name"
 apply from: "gradle/apply-gradle-files.gradle"
 
 // Mutation-score floor the CI build fails below: .github/workflows/mutation-testing.yml runs `./gradlew pitest`
-// after the build; PIT rounds the score half up to a whole percent before it compares. Measured 98 %
-// (181 of 185 mutants detected) on 2026-11-05, up from 86 % (160 of 185) once the tests the survivors
-// showed to be missing were written (#15). The floor keeps two points below it, as file-worker and
+// on GitHub (#59); PIT rounds the score half up to a whole percent before it compares. Measured 98 % for 10
+// (198 of 202 mutants detected), where a first run detected 86 % (160 of 185) before the tests the
+// survivors showed to be missing were written (#15). The floor keeps two points below it, as file-worker and
 // silly-io do. The 4 left are equivalent, all in StringExtensions.toUnicodeChars:
 // - "<=" for "<" against 0x20 and ">=" for ">" against 0x7e in the default branch: the space and the tilde
 //   never reach it, the switch and the printable range take them first
