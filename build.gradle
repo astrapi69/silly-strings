@@ -1,7 +1,8 @@
 buildscript {
     repositories {
         maven {
-            url projectRepositoriesMavenUrl
+            // the assignment syntax: Gradle 10 removes the 'url value' form (#52)
+            url = projectRepositoriesMavenUrl
         }
     }
 }

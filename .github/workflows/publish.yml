@@ -28,6 +28,11 @@ on:
           - snapshot
           - release
 
+# The job runs the build, with its tests and plugins, and holds the signing secrets: it gets a token that reads the
+# repository only, as gradle.yml does, so that nothing of the build can push a branch or move a RELEASE tag (#52)
+permissions:
+  contents: read
+
 jobs:
   publish:
 
