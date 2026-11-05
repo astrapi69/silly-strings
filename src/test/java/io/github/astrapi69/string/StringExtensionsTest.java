@@ -977,4 +977,15 @@ public class StringExtensionsTest extends BaseTestCase
 		assertEquals(cause, new MalformedUnicodeException("message", cause).getCause());
 		assertEquals(cause, new MalformedUnicodeException(cause).getCause());
 	}
+
+	/**
+	 * Test method for {@link StringExtensions#readLine(String)}: a String without a line separator,
+	 * a line feed or a carriage return is one line, returned as it is (#20)
+	 */
+	@Test
+	public void readLine_returnsAStringWithoutALineBreakAsItIs()
+	{
+		assertEquals("no break", StringExtensions.readLine("no break"));
+		assertEquals("", StringExtensions.readLine(""));
+	}
 }
