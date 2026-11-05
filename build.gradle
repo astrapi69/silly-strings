@@ -25,7 +25,7 @@ description = "$rootProject.name"
 // import gradle files
 apply from: "gradle/apply-gradle-files.gradle"
 
-// Mutation-score floor the CI build fails below: .github/workflows/gradle.yml runs `./gradlew pitest`
+// Mutation-score floor the CI build fails below: .github/workflows/mutation-testing.yml runs `./gradlew pitest`
 // after the build; PIT rounds the score half up to a whole percent before it compares. Measured 98 %
 // (181 of 185 mutants detected) on 2026-11-05, up from 86 % (160 of 185) once the tests the survivors
 // showed to be missing were written (#15). The floor keeps two points below it, as file-worker and

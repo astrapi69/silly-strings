@@ -197,8 +197,8 @@ The [Javadoc](https://www.javadoc.io/doc/io.github.astrapi69/silly-strings) has 
 
 ## Quality
 
-As of 10, measured on the tree of `RELEASE-10` with JDK 25, by `./gradlew test --rerun`, `./gradlew build` and
-`./gradlew pitest --rerun-tasks`:
+As of 10, measured on the tree of `RELEASE-10` with JDK 25, by `./gradlew test --rerun` and `./gradlew build`, and
+for the mutation score by the mutation testing workflow on GitHub:
 
 | | |
 |---|---|
@@ -207,9 +207,12 @@ As of 10, measured on the tree of `RELEASE-10` with JDK 25, by `./gradlew test -
 | mutation score (PIT 1.30.1) | 187 of 191 mutants detected (98%); the build fails below 96%, and `build.gradle` says why the 4 left are equivalent |
 | reproducible build | two builds of the same commit give the same five artifacts, byte for byte (`make check-reproducible`) |
 
-The CI build runs the tests, the coverage check and the mutation testing on every push to `develop` and `master`
-and on every pull request into them, on exactly the JDK `.sdkmanrc` names. It uploads the coverage to codecov.io
-and publishes the mutation score; the two badges above show `develop`.
+Two workflows run on every push to `develop` and `master` and on every pull request into them, on exactly the JDK
+`.sdkmanrc` names: `gradle.yml` builds, runs the tests and checks the coverage, which it uploads to codecov.io;
+`mutation-testing.yml` runs PIT, keeps its report as an artifact, lists the mutants left in the summary of the run
+and publishes the mutation score. The two badges above show `develop`. PIT runs on GitHub only: it starts several
+JVMs, and a mutant that makes a loop endless can take the memory of a workstation; `make pitest` starts the
+workflow for the pushed branch and follows it.
 
 ## Verifying the release signatures
 
@@ -245,7 +248,7 @@ to the Central Portal, where the maintainer publishes it. It reads the repositor
 `GPG_PASSPHRASE`. In the order it is run:
 
 1. **One pull request** with the CHANGELOG entry and `projectVersion` without `-SNAPSHOT`
-   (`docs: changelog for X, and the version that carries it`), `make build` and `make pitest` green on it, and
+   (`docs: changelog for X, and the version that carries it`), `make build` and the two workflows green on it, and
    `make check-reproducible` reporting the five artifacts identical.
 2. **Tag the merge commit** with `make tag-release CONFIRM=yes`, which names it `RELEASE-X` and refuses a
    `-SNAPSHOT` version, and push the tag. A pushed tag is never moved or deleted; a failed run is fixed on the
@@ -270,7 +273,7 @@ usual tasks (`make help` lists them):
 ```shell
 make build      # clean build: tests, coverage check, formatting check
 make spotless   # format, and write the license headers
-make pitest     # mutation testing, fails below the floor
+make pitest     # mutation testing on GitHub for the pushed branch, fails below the floor
 ```
 
 The versions follow the

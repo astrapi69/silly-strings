@@ -8,6 +8,10 @@ pitest {
     targetClasses = ["io.github.astrapi69.string.*", "io.github.astrapi69.regex.*"]
     targetTests = ["io.github.astrapi69.string.*", "io.github.astrapi69.regex.*"]
     threads = 4
+    // a bound on the heap of each minion: a mutant that makes a loop endless, such as one in the loop of
+    // splitByFixedLength, ends in an OutOfMemoryError of its own minion, which PIT counts as detected, instead of
+    // taking the memory of the machine; four minions without a bound brought a workstation down (#59)
+    jvmArgs = ["-Xmx256m"]
     outputFormats = ["HTML", "XML"]
     timestampedReports = false
 }

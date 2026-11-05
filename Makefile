@@ -30,7 +30,7 @@ help:
 	@echo "  spotless-java           Java sources only"
 	@echo "  spotless-misc           everything else"
 	@echo ""
-	@echo "  pitest                  PIT mutation testing, fails below mutationThreshold (build.gradle)"
+	@echo "  pitest                  PIT on GitHub for the pushed branch, followed here (mutation-testing.yml)"
 	@echo "  jacoco-coverage         verify the coverage thresholds"
 	@echo "  jacoco-report           write the coverage report"
 	@echo "  check-reproducible      build the published artifacts twice and compare them (JDK of .sdkmanrc)"
@@ -66,10 +66,17 @@ spotless-java:
 spotless-misc:
 	$(GRADLE) spotlessMiscApply
 
-# --rerun-tasks --no-build-cache because a cached PIT run reports success in milliseconds without
-# producing numbers
+# PIT runs on GitHub, not here: it starts several JVMs, and a mutant that makes a loop endless took the memory of
+# a workstation (#59). This starts .github/workflows/mutation-testing.yml for the current branch, which has to be
+# pushed as it is, and follows the run; its summary on GitHub lists the score and the mutants left.
 pitest:
-	$(GRADLE) pitest --rerun-tasks --no-build-cache
+	@branch=$$(git rev-parse --abbrev-ref HEAD); \
+	test "$$(git rev-parse HEAD)" = "$$(git rev-parse "origin/$$branch" 2>/dev/null)" || { \
+		echo "pitest runs on GitHub: push $$branch first, PIT tests what origin/$$branch holds"; exit 1; }; \
+	gh workflow run mutation-testing.yml --ref "$$branch" && sleep 5 && \
+	run=$$(gh run list --workflow mutation-testing.yml --branch "$$branch" --event workflow_dispatch --limit 1 \
+		--json databaseId --jq '.[0].databaseId') && \
+	gh run watch "$$run" --exit-status
 
 jacoco-coverage:
 	$(GRADLE) jacocoTestCoverageVerification
