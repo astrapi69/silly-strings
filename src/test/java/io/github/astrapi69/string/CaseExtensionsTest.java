@@ -195,6 +195,9 @@ public class CaseExtensionsTest
 			assertEquals("idNumber", CaseExtensions.kebabToCamelCase("ID-number"));
 			assertEquals("indexOf", CaseExtensions.kebabToCamelCase("INDEX-of"));
 			assertEquals("fileIndex", CaseExtensions.kebabToCamelCase("FILE-INDEX"));
+			// the same for the other conversions that change the case (#45)
+			assertEquals("SILLY_STRINGS", CaseExtensions.kebabToUpperSnakeCase("silly-strings"));
+			assertEquals("FileId", CaseExtensions.snakeToPascalCase("FILE_ID"));
 		}
 		finally
 		{
