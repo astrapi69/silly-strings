@@ -1,13 +1,13 @@
 ## Change log
 ----------------------
 
-Version 10-SNAPSHOT
+Version 10
 -------------
 
 BREAKING:
 
 - Java 25 is the minimum, up from 17: the family builds, tests and releases on JDK 25
-  (astrapi69/mystic-crypt#234), so the next release is 10 instead of 9.3 (8ec0895)
+  (astrapi69/mystic-crypt#234), so this release is 10 instead of 9.3 (8ec0895)
 
 ADDED:
 
@@ -36,13 +36,17 @@ CHANGED:
   `-PuseMavenLocal`, since it came before Maven Central. `scripts/check-reproducible.sh` builds the five published
   artifacts twice and compares them (#14)
 - mutation testing with PIT: the CI build fails below 96% of the mutants detected and publishes the score as a
-  badge; PIT detects 181 of the 185 mutants, 98%, up from 160, and the 4 left are equivalent, as `build.gradle`
-  says. The build also fails below 99% of the lines or 98% of the branches, what the tests reach: 330 of 331 lines
-  and 137 of 139 branches. The tests the survivors showed to be missing check, among others, the parts of
-  `getTripleFromMessage`, which its test only printed (#15)
+  badge; PIT detects 187 of the 191 mutants of 10, 98%, where a first run detected 160 of 185, and the 4 left are
+  equivalent, as `build.gradle` says. The build also fails below 99% of the lines or 98% of the branches, what the
+  tests reach: 326 of 327 lines and 141 of 143 branches. The tests the survivors showed to be missing check, among
+  others, the parts of `getTripleFromMessage`, which its test only printed, and found the defects under FIXED (#15)
 - a `Makefile` for the usual tasks, after the one of astrapi69/silly-io: `make help` lists them; no target uploads,
   `tag-release` refuses a SNAPSHOT version and asks for `CONFIRM=yes`, and `check-reproducible` runs
   `scripts/check-reproducible.sh` on the JDK `.sdkmanrc` names (#36)
+- `versionCatalogFormat` keeps the versions of PIT and of its JUnit 5 plugin, which only
+  `gradle/mutation-testing.gradle` reads and which it removed; silly-bean stays a runtime dependency, though no
+  class uses it, since silly-collection's `MapFactory` takes and returns its `KeyValuePair` without declaring it
+  for compiling against (astrapi69/silly-collection#95, #38)
 - the README says what silly-strings is and when not to use it, its requirements, the installation with concrete
   versions, a quick start whose examples `ReadmeExamplesTest` runs and compares with the README, the classes, the
   quality numbers, how to verify the release signatures and how a release is made; it had two sections "Support
