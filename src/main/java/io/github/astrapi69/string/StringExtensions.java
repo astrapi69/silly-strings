@@ -530,34 +530,28 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Reads the given String till it finds a line break and returns it: the line separator of the
-	 * platform, or else a line feed, or else a carriage return. A String without any of them is one
-	 * line and is returned as it is.
+	 * Reads the given String till its first line break and returns it: a line feed or a carriage
+	 * return, whichever comes first, as {@link java.io.BufferedReader#readLine()} ends a line,
+	 * whatever the line separator of the platform. A String without either is one line and is
+	 * returned as it is.
 	 *
 	 * @param stringWithCarriageReturns
 	 *            The String.
-	 * @return Return the String till the line break, or the whole String if it has none.
+	 * @return the String till its first line break, or the whole String if it has none
 	 */
 	public static String readLine(final String stringWithCarriageReturns)
 	{
-		String returnString = "";
-		int index = 0;
-		index = stringWithCarriageReturns.indexOf(System.getProperty("line.separator"));
-		if (index < 0)
+		// the first line feed or carriage return ends the line, as in BufferedReader.readLine; the
+		// search for the line separator of the platform first gave "a\r" for "a\r\nb" (#64)
+		for (int index = 0; index < stringWithCarriageReturns.length(); index++)
 		{
-			index = stringWithCarriageReturns.indexOf("\n");
+			final char character = stringWithCarriageReturns.charAt(index);
+			if (character == '\n' || character == '\r')
+			{
+				return stringWithCarriageReturns.substring(0, index);
+			}
 		}
-		if (index < 0)
-		{
-			index = stringWithCarriageReturns.indexOf("\r");
-		}
-		if (index < 0)
-		{
-			return stringWithCarriageReturns;
-		}
-		returnString = stringWithCarriageReturns.substring(0, index);
-		return returnString;
-
+		return stringWithCarriageReturns;
 	}
 
 	/**

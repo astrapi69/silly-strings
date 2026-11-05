@@ -4,6 +4,15 @@
 Version 10.1-SNAPSHOT
 -------------
 
+FIXED:
+
+- `StringExtensions.readLine` ends the line at the first line feed or carriage return, whichever comes first, as
+  `BufferedReader.readLine` does, whatever the line separator of the platform: `"a\r\nb"`, `"a\rb\nc"` and
+  `"a\nb\r\nc"` give `"a"` everywhere. It searched for the platform's line separator first, so on Linux
+  `"a\r\nb"` gave `"a\r"`, on Windows `"a\nb\r\nc"` gave `"a\nb"`, and `"a\rb\nc"` gave `"a\rb"` on both. For
+  callers: the Javadoc of 10 named that search order, and a caller that relied on it gets the first line now; a
+  string without a line break is returned as it is, as in 10 (#64)
+
 Version 10
 -------------
 
