@@ -309,7 +309,7 @@ public final class StringExtensions
 	/**
 	 * Gets the Attribut-name without brackets. For example: If "indio[5][1]" is the given String
 	 * than the name is "indio" and the first index is "5" and the second is "1". Than the Method
-	 * returns "indio".
+	 * returns "indio". A name without brackets is returned as it is.
 	 *
 	 * @param name
 	 *            The name with brackets.
@@ -318,42 +318,77 @@ public final class StringExtensions
 	public static String getAttributName(final String name)
 	{
 		Objects.requireNonNull(name);
-		final int indexStart = name.indexOf("[");
-		return name.substring(0, indexStart);
+		final int indexStart = name.indexOf('[');
+		// a name without brackets is the attribute name as it is, as readLine returns a string
+		// without a line break; substring(0, -1) threw (#46)
+		return indexStart == -1 ? name : name.substring(0, indexStart);
 	}
 
 	/**
 	 * Gets the first index from the brackets. For example: If "indio[5][1]" is the given String
 	 * than the name is "indio" and the first index is "5" and the second is "1". Than the Method
-	 * returns "5".
+	 * returns "5". The index ends at the first closing bracket after its opening one.
 	 *
 	 * @param name
 	 *            The name from the Attribute
 	 * @return the index from the Attribute
+	 * @throws IllegalArgumentException
+	 *             if the name holds no opening bracket with a closing one after it; the message
+	 *             names it
 	 */
 	public static String getIndex(final String name)
 	{
 		Objects.requireNonNull(name);
-		final int firstIndexStart = name.indexOf("[");
-		final int firstIndexEnd = name.indexOf("]");
+		final int firstIndexStart = name.indexOf('[');
+		if (firstIndexStart == -1)
+		{
+			throw noIndexIn(name);
+		}
+		// the closing bracket after the opening one: the first one of the name could come before it
+		// (#46)
+		final int firstIndexEnd = name.indexOf(']', firstIndexStart + 1);
+		if (firstIndexEnd == -1)
+		{
+			throw noIndexIn(name);
+		}
 		return name.substring(firstIndexStart + 1, firstIndexEnd);
 	}
 
 	/**
 	 * Gets the ItemNumber from the String name. For example: If "indio[5][1]" is the given String
 	 * than the name is "indio" and the first index is "5" and the second is "1". Than the Method
-	 * returns "1".
+	 * returns "1". The item number is between the last opening bracket and the first closing one
+	 * after it.
 	 *
 	 * @param name
 	 *            the name
 	 * @return the ItemNumber
+	 * @throws IllegalArgumentException
+	 *             if the name holds no opening bracket with a closing one after it; the message
+	 *             names it
 	 */
 	public static String getItemNumber(final String name)
 	{
 		Objects.requireNonNull(name);
-		final int lastIndexStart = name.lastIndexOf("[");
-		final int lastIndexEnd = name.lastIndexOf("]");
+		final int lastIndexStart = name.lastIndexOf('[');
+		if (lastIndexStart == -1)
+		{
+			throw noIndexIn(name);
+		}
+		final int lastIndexEnd = name.indexOf(']', lastIndexStart + 1);
+		if (lastIndexEnd == -1)
+		{
+			throw noIndexIn(name);
+		}
 		return name.substring(lastIndexStart + 1, lastIndexEnd);
+	}
+
+	private static IllegalArgumentException noIndexIn(final String name)
+	{
+		// there is no index without a pair of brackets; substring threw a
+		// StringIndexOutOfBoundsException (#46)
+		return new IllegalArgumentException(
+			"The string \"" + name + "\" holds no index between brackets");
 	}
 
 	/**
@@ -375,7 +410,8 @@ public final class StringExtensions
 
 	/**
 	 * The Method getStringBeforeUnderscore(String) gets the substring before the first underscore.
-	 * For example:Assume that element=foobar_value then the result string is "foobar".
+	 * For example:Assume that element=foobar_value then the result string is "foobar". An element
+	 * without an underscore is returned as it is.
 	 *
 	 * @param element
 	 *            The element to get the substing.
@@ -384,7 +420,10 @@ public final class StringExtensions
 	public static String getStringBeforeUnderscore(final String element)
 	{
 		Objects.requireNonNull(element);
-		return element.substring(0, element.indexOf("_"));
+		final int index = element.indexOf('_');
+		// an element without an underscore is what comes before one, as readLine returns a string
+		// without a line break; substring(0, -1) threw (#46)
+		return index == -1 ? element : element.substring(0, index);
 	}
 
 	/**
