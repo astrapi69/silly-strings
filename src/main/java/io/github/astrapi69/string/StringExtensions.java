@@ -845,7 +845,7 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Escapes the given String as {@link java.util.Properties#store(java.io.Writer, String)}
+	 * Escapes the given String as {@link java.util.Properties#store(java.io.OutputStream, String)}
 	 * escapes a value: printable ASCII stays as it is, except that a backslash is doubled and
 	 * {@code :}, {@code #}, {@code =}, {@code !} and a space at the start get a backslash; tab,
 	 * line feed, carriage return and form feed become {@code \t}, {@code \n}, {@code \r} and
