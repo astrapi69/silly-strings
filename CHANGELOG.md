@@ -73,7 +73,8 @@ FIXED:
   fewer than four hex digits, a backslash at the end and an empty string, as for a non-hex digit, where it threw a
   `StringIndexOutOfBoundsException`; the Javadoc names it (#24)
 - the Javadoc of `StringExtensions.toUnicodeChars` says what the method does, the escaping of a value in a
-  properties file; it said that every character becomes a unicode escape, which is what `toUnicode` does (#25)
+  properties file as `Properties.store(OutputStream, String)` writes it, with unicode escapes for what is not
+  printable ASCII; it said that every character becomes a unicode escape, which is what `toUnicode` does (#25, #44)
 - `StringExtensions.toUnicodeChars` with `toLowerCase` writes the hex digits of the unicode escapes in lower case
   and leaves the text as it is, as its Javadoc says; it lowercased the whole result, so `"ABCÄ"` became
   `"abc\u00c4"` instead of `"ABC\u00c4"` (#31)
