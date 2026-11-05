@@ -18,6 +18,11 @@ javadoc {
     if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption("html5", true)
     }
+    // The standard doclet writes its text in the locale of the javadoc JVM, so a build on a machine in German
+    // wrote another javadoc jar than CI; -locale alone sets only the lang attribute (#14, as
+    // astrapi69/file-worker#153)
+    options.locale = "en"
+    options.jFlags("-Duser.language=en", "-Duser.country=US")
 }
 
 publishing {

@@ -25,6 +25,16 @@ CHANGED:
   as well. The two plugins brought the old `spring-core` and `plexus-utils` of the 11 Dependabot alerts on the
   build classpath; none of them was at runtime (#12)
 - a test class that leaves no result fails the build (#10)
+- releases go to Maven Central through the Central Portal: the nmcp settings plugin uploads, `USER_MANAGED`, from
+  `publish.yml` on a `RELEASE-*` tag, signed by the release subkey; a release without a key, an upload from a local
+  tree and a release from a branch are refused. OSSRH, which Sonatype shut down in June 2025, its repository and
+  its credentials are gone, and snapshots resolve from the Central Portal's snapshot repository (#13)
+- a build of the same commit gives the same bytes: the manifest no longer carries the build time, the operating
+  system and the JDK's patch level (`Build-Jdk-Spec: 25` in their place); `javac --release 25` keeps the patch
+  level out of `module-info.class`; every archive has fixed entry times and a fixed entry order; the javadoc is
+  written in English whatever the locale of the machine; and the local Maven repository is used only with
+  `-PuseMavenLocal`, since it came before Maven Central. `scripts/check-reproducible.sh` builds the five published
+  artifacts twice and compares them (#14)
 - the Gradle dependency graph is submitted to GitHub, for Dependabot (#1)
 - the README replaces its dead badges and links (#8), names the family's funding channels and no cryptocurrency
   addresses (#6), and `/gradle` is committed, no longer ignored (#4)
