@@ -1002,4 +1002,23 @@ public class StringExtensionsTest extends BaseTestCase
 		assertEquals("x", StringExtensions.replaceAll("", "", "x"));
 		assertEquals("a-b-c", StringExtensions.replaceAll("a, b, c", ", ", "-"));
 	}
+
+	/**
+	 * Test method for {@link StringExtensions#splitByFixedLength(String, int)}: a length below 1 is
+	 * refused with an {@link IllegalArgumentException} that names it, and the call returns (#22)
+	 *
+	 * @param fixedLength
+	 *            the length below 1
+	 */
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(ints = { 0, -1, Integer.MIN_VALUE })
+	public void splitByFixedLength_refusesALengthBelowOne(final int fixedLength)
+	{
+		final IllegalArgumentException exception = org.junit.jupiter.api.Assertions
+			.assertTimeoutPreemptively(java.time.Duration.ofSeconds(5),
+				() -> org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class,
+					() -> StringExtensions.splitByFixedLength("abc", fixedLength)));
+		assertTrue(exception.getMessage().contains(String.valueOf(fixedLength)),
+			exception.getMessage());
+	}
 }
