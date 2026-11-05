@@ -852,4 +852,129 @@ public class StringExtensionsTest extends BaseTestCase
 		beanTester.testBean(StringExtensions.class);
 	}
 
+	/**
+	 * Test method for {@link StringExtensions#convertUnicodeStringToCharacter(String)}: hex digits
+	 * in lower case, and the escapes of a tab, a carriage return, a line feed and a form feed; any
+	 * other escaped character stands for itself (#15)
+	 */
+	@Test
+	public void convertUnicodeStringToCharacter_readsLowerCaseHexDigitsAndTheEscapes()
+	{
+		assertEquals(Character.valueOf('\u03A9'),
+			StringExtensions.convertUnicodeStringToCharacter("\\u03a9"));
+		assertEquals(Character.valueOf('\u00E4'),
+			StringExtensions.convertUnicodeStringToCharacter("\\u00e4"));
+		assertEquals(Character.valueOf('\t'),
+			StringExtensions.convertUnicodeStringToCharacter("\\t"));
+		assertEquals(Character.valueOf('\r'),
+			StringExtensions.convertUnicodeStringToCharacter("\\r"));
+		assertEquals(Character.valueOf('\n'),
+			StringExtensions.convertUnicodeStringToCharacter("\\n"));
+		assertEquals(Character.valueOf('\f'),
+			StringExtensions.convertUnicodeStringToCharacter("\\f"));
+		assertEquals(Character.valueOf('x'),
+			StringExtensions.convertUnicodeStringToCharacter("\\x"));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#readLine(String)}: the line ends at the platform's
+	 * line separator, or else at a line feed, or else at a carriage return; here with "\r\n" as the
+	 * separator, the one of Windows, set for the test and restored after it (#15)
+	 */
+	@Test
+	public void readLine_endsAtTheLineSeparatorThenAtALineFeedThenAtACarriageReturn()
+	{
+		final String lineSeparator = System.getProperty("line.separator");
+		try
+		{
+			System.setProperty("line.separator", "\r\n");
+			assertEquals("first", StringExtensions.readLine("first\r\nsecond"));
+			assertEquals("", StringExtensions.readLine("\r\nsecond"));
+			assertEquals("first", StringExtensions.readLine("first\nsecond"));
+			assertEquals("", StringExtensions.readLine("\nsecond\r"));
+			assertEquals("first", StringExtensions.readLine("first\rsecond"));
+		}
+		finally
+		{
+			System.setProperty("line.separator", lineSeparator);
+		}
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicodeChars(String, boolean)}: the equals sign,
+	 * the first character below the printable range it keeps, is escaped; the backslash is doubled;
+	 * DEL, the first character above it, is written as a unicode escape, with lower-case hex digits
+	 * on request (#15)
+	 */
+	@Test
+	public void toUnicodeChars_escapesTheEqualsSignTheBackslashAndDel()
+	{
+		assertEquals("a\\=b", StringExtensions.toUnicodeChars("a=b", false));
+		assertEquals("a\\\\b", StringExtensions.toUnicodeChars("a\\b", false));
+		assertEquals("\\u007F", StringExtensions.toUnicodeChars("\u007f", false));
+		assertEquals("\\u007f", StringExtensions.toUnicodeChars("\u007f", true));
+		assertEquals("\\u00E4", StringExtensions.toUnicodeChars("\u00e4", false));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#splitByFixedLength(String, int)}: a length that
+	 * divides the input gives no empty last part, one that does not gives the rest as the last part
+	 * (#15)
+	 */
+	@Test
+	public void splitByFixedLength_givesNoEmptyLastPart()
+	{
+		assertEquals(List.of("ab", "cd"), StringExtensions.splitByFixedLength("abcd", 2));
+		assertEquals(List.of("ab", "cd", "e"), StringExtensions.splitByFixedLength("abcde", 2));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicodeChars(String, boolean)}: a form feed, a line
+	 * feed, a carriage return and a tab become their escapes, a space is escaped only at the start
+	 * (#15)
+	 */
+	@Test
+	public void toUnicodeChars_escapesTheControlCharactersAndALeadingSpace()
+	{
+		assertEquals("\\f\\n\\r\\t", StringExtensions.toUnicodeChars("\f\n\r\t", false));
+		assertEquals("\\ a b", StringExtensions.toUnicodeChars(" a b", false));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#convertUnicodeStringToCharacter(String)}: a unicode
+	 * escape with a character that is no hex digit throws a {@link MalformedUnicodeException} (#15)
+	 */
+	@Test
+	public void convertUnicodeStringToCharacter_throwsForAnEscapeWithANonHexDigit()
+	{
+		org.junit.jupiter.api.Assertions.assertThrows(MalformedUnicodeException.class,
+			() -> StringExtensions.convertUnicodeStringToCharacter("\\u00zz"));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#removeNewlineCharacters(String)}: a string without
+	 * line feed and carriage return stays as it is, one with them loses them (#15)
+	 */
+	@Test
+	public void removeNewlineCharacters_removesLineFeedsAndCarriageReturnsOnly()
+	{
+		assertEquals("ab", StringExtensions.removeNewlineCharacters("ab"));
+		assertEquals("ab", StringExtensions.removeNewlineCharacters("a\nb"));
+		assertEquals("ab", StringExtensions.removeNewlineCharacters("a\rb"));
+		assertEquals("abc", StringExtensions.removeNewlineCharacters("a\r\nb\nc"));
+	}
+
+	/**
+	 * Test method for the constructors of {@link MalformedUnicodeException} (#15)
+	 */
+	@Test
+	public void malformedUnicodeException_keepsItsMessageAndItsCause()
+	{
+		final Exception cause = new IllegalStateException("cause");
+		assertNull(new MalformedUnicodeException().getMessage());
+		assertEquals("message", new MalformedUnicodeException("message").getMessage());
+		assertEquals("message", new MalformedUnicodeException("message", cause).getMessage());
+		assertEquals(cause, new MalformedUnicodeException("message", cause).getCause());
+		assertEquals(cause, new MalformedUnicodeException(cause).getCause());
+	}
 }

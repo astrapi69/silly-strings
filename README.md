@@ -3,6 +3,7 @@
 <div style="text-align: center">
 
 [![Coverage Status](https://coveralls.io/repos/github/astrapi69/silly-strings/badge.svg?branch=develop)](https://coveralls.io/github/astrapi69/silly-strings?branch=develop)
+[![Mutation Score](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fastrapi69%2Fsilly-strings%2Fgh-pages%2Fbadges%2Fmutation-score-develop.json)](https://pitest.org/)
 [![Open Issues](https://img.shields.io/github/issues/astrapi69/silly-strings.svg?style=flat)](https://github.com/astrapi69/silly-strings/issues)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.astrapi69/silly-strings)](https://central.sonatype.com/artifact/io.github.astrapi69/silly-strings)
 [![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/silly-strings.svg)](http://www.javadoc.io/doc/io.github.astrapi69/silly-strings)

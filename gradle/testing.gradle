@@ -11,3 +11,25 @@ jacocoTestReport {
 }
 
 check.dependsOn jacocoTestReport
+
+// The coverage floor: the build fails when the whole library falls below 99% of the lines or 98% of the
+// branches, what the tests reach after the mutation testing of #15: 330 of 331 lines (99.7%), the one left
+// being the implicit constructor of CaseExtensions, and 137 of 139 branches (98.6%)
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.99
+            }
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.98
+            }
+        }
+    }
+}
+jacocoTestCoverageVerification.dependsOn test
+check.dependsOn jacocoTestCoverageVerification

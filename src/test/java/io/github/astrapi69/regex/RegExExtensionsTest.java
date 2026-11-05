@@ -67,6 +67,9 @@ public class RegExExtensionsTest extends BaseTestCase
 		assertTrue(RegExExtensions.isMatching(regexPattern, "01"));
 		assertTrue(RegExExtensions.isMatching(regexPattern, "02"));
 		assertTrue(RegExExtensions.isMatching(regexPattern, "03"));
+		// a text the pattern finds nowhere, and one it finds once (#15)
+		assertFalse(RegExExtensions.isMatching(regexPattern, "abc"));
+		assertTrue(RegExExtensions.isMatching("b", "abc"));
 	}
 
 	/**
