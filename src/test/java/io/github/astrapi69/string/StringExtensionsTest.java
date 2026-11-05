@@ -877,12 +877,12 @@ public class StringExtensionsTest extends BaseTestCase
 	}
 
 	/**
-	 * Test method for {@link StringExtensions#readLine(String)}: the line ends at the platform's
-	 * line separator, or else at a line feed, or else at a carriage return; here with "\r\n" as the
-	 * separator, the one of Windows, set for the test and restored after it (#15)
+	 * Test method for {@link StringExtensions#readLine(String)}: with "\r\n" as the line separator
+	 * of the platform, the one of Windows, set for the test and restored after it, the line ends at
+	 * the first line feed or carriage return (#15, #64)
 	 */
 	@Test
-	public void readLine_endsAtTheLineSeparatorThenAtALineFeedThenAtACarriageReturn()
+	public void readLine_endsAtTheFirstLineBreakWithCrlfAsTheSeparator()
 	{
 		final String lineSeparator = System.getProperty("line.separator");
 		try
@@ -1193,5 +1193,32 @@ public class StringExtensionsTest extends BaseTestCase
 		assertEquals("\\uabcd", StringExtensions.toUnicodeChars("\uABCD", true));
 		assertEquals("\\uABCD", StringExtensions.toUnicodeChars("\uABCD", false));
 		assertEquals("\\ufedc", StringExtensions.toUnicodeChars("\uFEDC", true));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#readLine(String)}: the first line ends at the first
+	 * line feed or carriage return, as BufferedReader.readLine ends it, whatever the line separator
+	 * of the platform, which is set for the test and restored after it (#64)
+	 *
+	 * @param lineSeparator
+	 *            the line separator of the platform for the test
+	 */
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(strings = { "\n", "\r\n" })
+	public void readLine_endsAtTheFirstLineBreakOnEveryPlatform(final String lineSeparator)
+	{
+		final String platformLineSeparator = System.getProperty("line.separator");
+		try
+		{
+			System.setProperty("line.separator", lineSeparator);
+			assertEquals("a", StringExtensions.readLine("a\r\nb"));
+			assertEquals("a", StringExtensions.readLine("a\rb\nc"));
+			assertEquals("a", StringExtensions.readLine("a\nb\r\nc"));
+			assertEquals("no break", StringExtensions.readLine("no break"));
+		}
+		finally
+		{
+			System.setProperty("line.separator", platformLineSeparator);
+		}
 	}
 }
