@@ -44,6 +44,12 @@ CHANGED:
 - the README replaces its dead badges and links (#8), names the family's funding channels and no cryptocurrency
   addresses (#6), and `/gradle` is committed, no longer ignored (#4)
 
+FIXED:
+
+- `StringExtensions.readLine` returns a string without a line break as it is, the one line it holds, where it threw
+  a `StringIndexOutOfBoundsException` (#20)
+
+
 Version 9.2
 -------------
 
