@@ -1,3 +1,23 @@
+/**
+ * The MIT License
+ *
+ * Copyright (C) 2015 Asterios Raptis
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ * associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+ * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 package io.github.astrapi69.string;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -140,10 +160,13 @@ public class CaseExtensionsTest
 
 		input = "example-string-for-conversion";
 
-		// new scenario...
+		// new scenario... camelCase starts with a lower-case letter, PascalCase is the form of
+		// snakeToPascalCase (#39)
 		actual = CaseExtensions.kebabToCamelCase(input);
-		expected = "ExampleStringForConversion";
+		expected = "exampleStringForConversion";
 		assertEquals(expected, actual);
+		assertEquals("silly", CaseExtensions.kebabToCamelCase("silly"));
+		assertEquals("", CaseExtensions.kebabToCamelCase("-"));
 
 		// Test for null input
 		input = null;
@@ -157,4 +180,42 @@ public class CaseExtensionsTest
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * Test method for {@link CaseExtensions#kebabToCamelCase(String)}: an identifier is no text of
+	 * a language, so a Turkish default locale, in which the lower case of I is the dotless ı,
+	 * changes nothing (#45)
+	 */
+	@Test
+	void kebabToCamelCase_isTheSameInATurkishLocale()
+	{
+		final java.util.Locale locale = java.util.Locale.getDefault();
+		try
+		{
+			java.util.Locale.setDefault(java.util.Locale.forLanguageTag("tr-TR"));
+			assertEquals("idNumber", CaseExtensions.kebabToCamelCase("ID-number"));
+			assertEquals("indexOf", CaseExtensions.kebabToCamelCase("INDEX-of"));
+			assertEquals("fileIndex", CaseExtensions.kebabToCamelCase("FILE-INDEX"));
+			// the same for the other conversions that change the case (#45)
+			assertEquals("SILLY_STRINGS", CaseExtensions.kebabToUpperSnakeCase("silly-strings"));
+			assertEquals("FileId", CaseExtensions.snakeToPascalCase("FILE_ID"));
+		}
+		finally
+		{
+			java.util.Locale.setDefault(locale);
+		}
+	}
+
+	/**
+	 * Test method for {@link CaseExtensions#kebabToCamelCase(String)}: kebab-case is split at
+	 * hyphens only, a space stays where it is, as in 9.2 (#50)
+	 */
+	@Test
+	void kebabToCamelCase_splitsAtHyphensOnly()
+	{
+		assertEquals("foo bar", CaseExtensions.kebabToCamelCase("foo bar"));
+		assertEquals("foo barBaz", CaseExtensions.kebabToCamelCase("foo bar-baz"));
+		assertEquals(" ", CaseExtensions.kebabToCamelCase(" "));
+		assertEquals("sillyStringsVersion",
+			CaseExtensions.kebabToCamelCase("silly-strings-version"));
+	}
 }

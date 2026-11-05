@@ -1,0 +1,136 @@
+# Mutation testing with PIT, on GitHub and not on a workstation (#59): a PIT run starts several JVMs, and a mutant
+# that makes a loop endless filled the memory of the maintainer's machine. gradle.yml builds and tests; this
+# workflow runs PIT, fails below mutationThreshold (build.gradle), keeps the report as an artifact, writes the
+# score and the mutants left into the job summary, and publishes the score badge of develop and master.
+#
+# By hand for any pushed branch: gh workflow run mutation-testing.yml --ref <branch>, or make pitest, which starts
+# it for the current branch and follows it.
+
+name: Mutation testing
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+  workflow_dispatch:
+
+# the run reads the repository only; publish-badges, which writes, asks for that itself
+permissions:
+  contents: read
+
+# a newer push to the same branch or pull request replaces a run that is still going
+concurrency:
+  group: mutation-testing-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pitest:
+
+    runs-on: ubuntu-latest
+    # PIT takes about two minutes here; a run that takes far longer hangs
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v7
+      # The JDK .sdkmanrc names, as the full semver of Adoptium: with '25' or '25.0.4' setup-java takes whatever
+      # matches first, such as a later patch release from the runner image (astrapi69/file-worker#97)
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          java-version: '25.0.4+7.0.LTS'
+          distribution: 'temurin'
+      - name: Check the JDK is the one .sdkmanrc names
+        run: |
+          want=$(sed -n 's/^java=\([0-9.]*\)-tem$/\1/p' .sdkmanrc)
+          have=$(sed -n 's/^JAVA_VERSION="\(.*\)"$/\1/p' "$JAVA_HOME/release")
+          vendor=$(sed -n 's/^IMPLEMENTOR="\(.*\)"$/\1/p' "$JAVA_HOME/release")
+          echo ".sdkmanrc names Temurin $want; set up: $vendor $have"
+          [ -n "$want" ] && [ "$have" = "$want" ] && [ "$vendor" = "Eclipse Adoptium" ]
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+      - name: Mutation testing (PIT, fails below mutationThreshold in build.gradle)
+        run: ./gradlew pitest
+      # also when pitest failed the floor: PIT writes its report before it checks the threshold
+      - name: Score and mutants left, in the job summary
+        if: ${{ !cancelled() && hashFiles('build/reports/pitest/mutations.xml') != '' }}
+        run: python3 -I .github/scripts/mutation-summary.py build/reports/pitest/mutations.xml >> "$GITHUB_STEP_SUMMARY"
+      - name: Keep the PIT report
+        if: ${{ !cancelled() && hashFiles('build/reports/pitest/mutations.xml') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: pitest-report
+          path: build/reports/pitest/
+          retention-days: 14
+      # also when pitest failed the floor: a badge that kept the last passing score would hide that failure
+      - name: Mutation score badge
+        id: badge
+        if: ${{ !cancelled() && github.event_name == 'push' && (github.ref_name == 'develop' || github.ref_name == 'master') && hashFiles('build/reports/pitest/mutations.xml') != '' }}
+        run: >-
+          python3 -I .github/scripts/mutation-score-badge.py build/reports/pitest/mutations.xml
+          "$RUNNER_TEMP/badges/mutation-score-$GITHUB_REF_NAME.json"
+      - name: Hand the badge to publish-badges
+        if: ${{ !cancelled() && steps.badge.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: badges
+          path: ${{ runner.temp }}/badges/
+          retention-days: 1
+
+    outputs:
+      badge: ${{ steps.badge.outcome }}
+
+  # Publishes the badge of a push to develop or master on the gh-pages branch, where the shields.io endpoint badge
+  # of README.md reads it. A job of its own, so that write access goes to a job that runs nothing of the build, and
+  # never to a pull request. It runs whenever the run made a badge, also when PIT failed the floor afterwards
+  publish-badges:
+    needs: pitest
+    if: ${{ !cancelled() && needs.pitest.outputs.badge == 'success' }}
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # the push to gh-pages
+
+    # one publish per branch at a time; a newer push replaces a waiting one, which loses nothing, as its badge is
+    # the newer one. develop and master may publish at the same time: the loop below takes the other one's commit
+    # and tries again
+    concurrency:
+      group: gh-pages-${{ github.ref_name }}
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v7
+      - name: Take the badge of the run
+        uses: actions/download-artifact@v4
+        with:
+          name: badges
+          path: ${{ runner.temp }}/badges
+      - name: Publish the badge on gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            # the first run creates the branch, without history; a later one adds to it, never forced
+            if git ls-remote --exit-code --heads origin gh-pages > /dev/null; then
+              git fetch --depth 1 origin +gh-pages:refs/remotes/origin/gh-pages
+              git switch --force-create gh-pages origin/gh-pages
+            else
+              git switch --orphan gh-pages
+            fi
+            mkdir -p badges
+            cp "$RUNNER_TEMP"/badges/*.json badges/
+            git add badges
+            if git diff --cached --quiet; then
+              echo "The badge is unchanged"
+              exit 0
+            fi
+            git commit --message "Mutation score badge of $GITHUB_REF_NAME at $GITHUB_SHA"
+            if git push origin gh-pages; then
+              exit 0
+            fi
+            echo "gh-pages moved while publishing (attempt $attempt), publishing again on top of it"
+          done
+          exit 1

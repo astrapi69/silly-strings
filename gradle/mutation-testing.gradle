@@ -1,0 +1,25 @@
+pitest {
+    junit5PluginVersion = libs.versions.pitest.junit5.plugin.version.get()
+    pitestVersion = libs.versions.pitest.version.get()
+    // junit-platform-launcher is declared in testRuntimeOnly. Left on, the plugin resolves a detached copy of
+    // testImplementation to find the JUnit Platform version, without the constraints of the build, and the
+    // dependency submission reports what that copy resolves (astrapi69/file-worker#103)
+    addJUnitPlatformLauncher = false
+    targetClasses = ["io.github.astrapi69.string.*", "io.github.astrapi69.regex.*"]
+    targetTests = ["io.github.astrapi69.string.*", "io.github.astrapi69.regex.*"]
+    threads = 4
+    // a bound on the heap of each minion: a mutant that makes a loop endless, such as one in the loop of
+    // splitByFixedLength, ends in an OutOfMemoryError of its own minion, which PIT counts as detected, instead of
+    // taking the memory of the machine; four minions without a bound brought a workstation down (#59)
+    jvmArgs = ["-Xmx256m"]
+    outputFormats = ["HTML", "XML"]
+    timestampedReports = false
+}
+
+// The test classpath holds this project's jar: file-worker, a test dependency, depends on silly-strings, and
+// Gradle takes this project for that module (testRuntimeClasspath: io.github.astrapi69:silly-strings:9.2 ->
+// root project). PIT reads that classpath without the task dependency the test task gets, so with build and
+// pitest in one run Gradle refused it as an implicit dependency on :jar (#15)
+tasks.named("pitest") {
+    dependsOn(tasks.named("jar"))
+}

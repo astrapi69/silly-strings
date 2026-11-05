@@ -20,6 +20,9 @@
  */
 package io.github.astrapi69.string;
 
+import java.util.Locale;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.CaseUtils;
 import org.apache.commons.text.WordUtils;
 
@@ -31,7 +34,9 @@ public class CaseExtensions
 {
 
 	/**
-	 * Converts a kebab-case string to camelCase.
+	 * Converts a kebab-case string to camelCase: the first word in lower case, every further word
+	 * with an upper-case first letter, as {@code silly-strings-version} becomes
+	 * {@code sillyStringsVersion}. Only a hyphen separates two words; a space stays where it is.
 	 *
 	 * @param kebabCase
 	 *            the kebab-case string
@@ -43,7 +48,13 @@ public class CaseExtensions
 		{
 			return kebabCase;
 		}
-		return WordUtils.capitalizeFully(kebabCase, new char[] { '-' }).replaceAll("-", "");
+		// lowercased in the root locale, where a Turkish default one turns I into a dotless ı
+		// (#45);
+		// every word after a hyphen capitalised, the hyphens removed, and the first letter in lower
+		// case, which capitalizeFully gave in upper case (#39). Only the hyphen separates words:
+		// CaseUtils.toCamelCase adds the space to its delimiters (#50)
+		return StringUtils.uncapitalize(
+			WordUtils.capitalize(kebabCase.toLowerCase(Locale.ROOT), '-').replace("-", ""));
 	}
 
 	/**
@@ -91,7 +102,8 @@ public class CaseExtensions
 		{
 			return kebabCase;
 		}
-		return kebabCase.replace('-', '_').toUpperCase();
+		// the root locale: in a Turkish one the upper case of i is the dotted İ (#45)
+		return kebabCase.replace('-', '_').toUpperCase(Locale.ROOT);
 	}
 
 	/**
@@ -103,7 +115,11 @@ public class CaseExtensions
 	 */
 	public static String snakeToPascalCase(String snakeCase)
 	{
-		String pascalCase = CaseUtils.toCamelCase(snakeCase, true, '_');
-		return pascalCase;
+		if (snakeCase == null)
+		{
+			return null;
+		}
+		// lowercased in the root locale first, as kebabToCamelCase does (#45)
+		return CaseUtils.toCamelCase(snakeCase.toLowerCase(Locale.ROOT), true, '_');
 	}
 }

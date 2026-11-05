@@ -23,6 +23,7 @@ package io.github.astrapi69.string;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeSet;
@@ -124,6 +125,10 @@ public final class StringExtensions
 	 * @param theUnicodeString
 	 *            the unicode string
 	 * @return the converted character object.
+	 * @throws MalformedUnicodeException
+	 *             if the string is not well formed: a unicode escape with a character that is no
+	 *             hex digit or with fewer than four of them, a backslash at its end, or an empty
+	 *             string
 	 */
 	public static Character convertUnicodeStringToCharacter(final String theUnicodeString)
 	{
@@ -137,9 +142,19 @@ public final class StringExtensions
 			current = theUnicodeString.charAt(outerCount++);
 			if (current == '\\')
 			{
+				// a backslash at the end, and an escape with fewer than four hex digits, ran out of
+				// the string with a StringIndexOutOfBoundsException (#24)
+				if (outerCount == length)
+				{
+					throw notWellFormed(theUnicodeString);
+				}
 				current = theUnicodeString.charAt(outerCount++);
 				if (current == 'u')
 				{
+					if (length - outerCount < 4)
+					{
+						throw notWellFormed(theUnicodeString);
+					}
 					int value = 0;
 					for (int i = 0; i < 4; i++)
 					{
@@ -175,10 +190,7 @@ public final class StringExtensions
 								value = (value << 4) + 10 + current - 'A';
 								break;
 							default :
-								throw new MalformedUnicodeException("Given String object :::"
-									+ theUnicodeString
-									+ "::: is not a well formed unicode String object.\n"
-									+ "Format for a well formed unicode String object:'\\uxxxx'.");
+								throw notWellFormed(theUnicodeString);
 						}
 					}
 					sb.append((char)value);
@@ -210,7 +222,18 @@ public final class StringExtensions
 			}
 		}
 		final String result = sb.toString();
+		if (result.isEmpty())
+		{
+			throw notWellFormed(theUnicodeString);
+		}
 		return result.charAt(0);
+	}
+
+	private static MalformedUnicodeException notWellFormed(final String theUnicodeString)
+	{
+		return new MalformedUnicodeException("Given String object :::" + theUnicodeString
+			+ "::: is not a well formed unicode String object.\n"
+			+ "Format for a well formed unicode String object:'\\uxxxx'.");
 	}
 
 	/**
@@ -252,7 +275,8 @@ public final class StringExtensions
 		if (StringUtils.isNotEmpty(fieldName))
 		{
 			String firstCharacter = fieldName.substring(0, 1);
-			firstCharacter = firstCharacter.toLowerCase();
+			// the root locale: a field name is no text of a language (#45)
+			firstCharacter = firstCharacter.toLowerCase(Locale.ROOT);
 			final char[] fc = firstCharacter.toCharArray();
 			final char[] fn = fieldName.toCharArray();
 			fn[0] = fc[0];
@@ -275,7 +299,8 @@ public final class StringExtensions
 		if (StringUtils.isNotEmpty(fieldName))
 		{
 			String firstCharacter = fieldName.substring(0, 1);
-			firstCharacter = firstCharacter.toUpperCase();
+			// the root locale: a field name is no text of a language (#45)
+			firstCharacter = firstCharacter.toUpperCase(Locale.ROOT);
 			final char[] fc = firstCharacter.toCharArray();
 			final char[] fn = fieldName.toCharArray();
 			fn[0] = fc[0];
@@ -287,7 +312,7 @@ public final class StringExtensions
 	/**
 	 * Gets the Attribut-name without brackets. For example: If "indio[5][1]" is the given String
 	 * than the name is "indio" and the first index is "5" and the second is "1". Than the Method
-	 * returns "indio".
+	 * returns "indio". A name without brackets is returned as it is.
 	 *
 	 * @param name
 	 *            The name with brackets.
@@ -296,42 +321,77 @@ public final class StringExtensions
 	public static String getAttributName(final String name)
 	{
 		Objects.requireNonNull(name);
-		final int indexStart = name.indexOf("[");
-		return name.substring(0, indexStart);
+		final int indexStart = name.indexOf('[');
+		// a name without brackets is the attribute name as it is, as readLine returns a string
+		// without a line break; substring(0, -1) threw (#46)
+		return indexStart == -1 ? name : name.substring(0, indexStart);
 	}
 
 	/**
 	 * Gets the first index from the brackets. For example: If "indio[5][1]" is the given String
 	 * than the name is "indio" and the first index is "5" and the second is "1". Than the Method
-	 * returns "5".
+	 * returns "5". The index ends at the first closing bracket after its opening one.
 	 *
 	 * @param name
 	 *            The name from the Attribute
 	 * @return the index from the Attribute
+	 * @throws IllegalArgumentException
+	 *             if the name holds no opening bracket with a closing one after it; the message
+	 *             names it
 	 */
 	public static String getIndex(final String name)
 	{
 		Objects.requireNonNull(name);
-		final int firstIndexStart = name.indexOf("[");
-		final int firstIndexEnd = name.indexOf("]");
+		final int firstIndexStart = name.indexOf('[');
+		if (firstIndexStart == -1)
+		{
+			throw noIndexIn(name);
+		}
+		// the closing bracket after the opening one: the first one of the name could come before it
+		// (#46)
+		final int firstIndexEnd = name.indexOf(']', firstIndexStart + 1);
+		if (firstIndexEnd == -1)
+		{
+			throw noIndexIn(name);
+		}
 		return name.substring(firstIndexStart + 1, firstIndexEnd);
 	}
 
 	/**
 	 * Gets the ItemNumber from the String name. For example: If "indio[5][1]" is the given String
 	 * than the name is "indio" and the first index is "5" and the second is "1". Than the Method
-	 * returns "1".
+	 * returns "1". The item number is between the last opening bracket and the first closing one
+	 * after it.
 	 *
 	 * @param name
 	 *            the name
 	 * @return the ItemNumber
+	 * @throws IllegalArgumentException
+	 *             if the name holds no opening bracket with a closing one after it; the message
+	 *             names it
 	 */
 	public static String getItemNumber(final String name)
 	{
 		Objects.requireNonNull(name);
-		final int lastIndexStart = name.lastIndexOf("[");
-		final int lastIndexEnd = name.lastIndexOf("]");
+		final int lastIndexStart = name.lastIndexOf('[');
+		if (lastIndexStart == -1)
+		{
+			throw noIndexIn(name);
+		}
+		final int lastIndexEnd = name.indexOf(']', lastIndexStart + 1);
+		if (lastIndexEnd == -1)
+		{
+			throw noIndexIn(name);
+		}
 		return name.substring(lastIndexStart + 1, lastIndexEnd);
+	}
+
+	private static IllegalArgumentException noIndexIn(final String name)
+	{
+		// there is no index without a pair of brackets; substring threw a
+		// StringIndexOutOfBoundsException (#46)
+		return new IllegalArgumentException(
+			"The string \"" + name + "\" holds no index between brackets");
 	}
 
 	/**
@@ -353,7 +413,8 @@ public final class StringExtensions
 
 	/**
 	 * The Method getStringBeforeUnderscore(String) gets the substring before the first underscore.
-	 * For example:Assume that element=foobar_value then the result string is "foobar".
+	 * For example:Assume that element=foobar_value then the result string is "foobar". An element
+	 * without an underscore is returned as it is.
 	 *
 	 * @param element
 	 *            The element to get the substing.
@@ -362,7 +423,10 @@ public final class StringExtensions
 	public static String getStringBeforeUnderscore(final String element)
 	{
 		Objects.requireNonNull(element);
-		return element.substring(0, element.indexOf("_"));
+		final int index = element.indexOf('_');
+		// an element without an underscore is what comes before one, as readLine returns a string
+		// without a line break; substring(0, -1) threw (#46)
+		return index == -1 ? element : element.substring(0, index);
 	}
 
 	/**
@@ -455,7 +519,8 @@ public final class StringExtensions
 		{
 			final int length = fieldName.length();
 			String lastCharacter = fieldName.substring(length - 1, length);
-			lastCharacter = lastCharacter.toUpperCase();
+			// the root locale: a field name is no text of a language (#45)
+			lastCharacter = lastCharacter.toUpperCase(Locale.ROOT);
 			final char[] fc = lastCharacter.toCharArray();
 			final char[] fn = fieldName.toCharArray();
 			fn[length - 1] = fc[0];
@@ -465,11 +530,13 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Reads the given String till it finds a carriage return and returns it.
+	 * Reads the given String till it finds a line break and returns it: the line separator of the
+	 * platform, or else a line feed, or else a carriage return. A String without any of them is one
+	 * line and is returned as it is.
 	 *
 	 * @param stringWithCarriageReturns
 	 *            The String.
-	 * @return Return the String till the carriage return.
+	 * @return Return the String till the line break, or the whole String if it has none.
 	 */
 	public static String readLine(final String stringWithCarriageReturns)
 	{
@@ -483,6 +550,10 @@ public final class StringExtensions
 		if (index < 0)
 		{
 			index = stringWithCarriageReturns.indexOf("\r");
+		}
+		if (index < 0)
+		{
+			return stringWithCarriageReturns;
 		}
 		returnString = stringWithCarriageReturns.substring(0, index);
 		return returnString;
@@ -559,7 +630,9 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Replaces all occurrences of a String within another String.
+	 * Replaces all occurrences of a String within another String, as
+	 * {@link String#replace(CharSequence, CharSequence)} does: an empty search string stands before
+	 * every character and at the end, so the replacement goes there.
 	 *
 	 * @param original
 	 *            The String to search.
@@ -575,26 +648,10 @@ public final class StringExtensions
 		Objects.requireNonNull(original);
 		Objects.requireNonNull(findString);
 		Objects.requireNonNull(replaceWith);
-		final StringBuilder originalFiltered = new StringBuilder();
-		int next = 0;
-		int count = 0;
-		final int length = findString.length();
-
-		while (count > -1)
-		{
-			count = original.indexOf(findString, next);
-
-			if (count > -1)
-			{
-				originalFiltered.append(original, next, count);
-				originalFiltered.append(replaceWith);
-				next = count + length;
-			}
-		}
-
-		originalFiltered.append(original.substring(next));
-
-		return originalFiltered.toString();
+		// the JDK's literal replacement; the loop that stood here found an empty search string at
+		// the
+		// same index on every turn and never ended (#21)
+		return original.replace(findString, replaceWith);
 	}
 
 	/**
@@ -696,17 +753,27 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Split the given {@link String} in parts in the given fixed length.
+	 * Split the given {@link String} in parts in the given fixed length. The last part holds the
+	 * rest, which can be shorter; an empty input gives no part.
 	 *
 	 * @param input
 	 *            the input
 	 * @param fixedLength
-	 *            the fixed length
+	 *            the fixed length, at least 1
 	 * @return the list with the splitted {@link String} objects
+	 * @throws IllegalArgumentException
+	 *             if the fixed length is below 1; the message names it
 	 */
 	public static List<String> splitByFixedLength(final String input, final int fixedLength)
 	{
 		Objects.requireNonNull(input);
+		if (fixedLength < 1)
+		{
+			// a length of 0 added nothing to the index, and the loop added empty parts until the
+			// heap was gone; a negative one ended in substring (#22)
+			throw new IllegalArgumentException(
+				"The fixed length has to be at least 1, but was " + fixedLength);
+		}
 		final List<String> parts = new ArrayList<>();
 		int beginIndex = 0;
 		while (beginIndex < input.length())
@@ -729,6 +796,12 @@ public final class StringExtensions
 	private static char toHex(final int i)
 	{
 		return HEXADECIMAL_DIGITS[i & 0xF];
+	}
+
+	private static char toHex(final int i, final boolean lowerCase)
+	{
+		final char digit = toHex(i);
+		return lowerCase ? Character.toLowerCase(digit) : digit;
 	}
 
 	/**
@@ -778,7 +851,9 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Converts all characters from the given String to unicodes characters encoded like &#92;uxxxx.
+	 * Converts all characters from the given String to unicodes characters encoded like &#92;uxxxx,
+	 * one escape for each UTF-16 code unit: a character outside the Basic Multilingual Plane
+	 * becomes the two escapes of its high and its low surrogate.
 	 *
 	 * @param toUnicode
 	 *            The String to convert.
@@ -792,7 +867,10 @@ public final class StringExtensions
 		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < toUnicode.length(); i++)
 		{
-			String hex = Integer.toHexString(toUnicode.codePointAt(i));
+			// the UTF-16 code unit, as a \\uxxxx escape holds one: codePointAt gave the whole code
+			// point
+			// at a high surrogate, of which the last four hex digits are not the surrogate (#32)
+			String hex = Integer.toHexString(toUnicode.charAt(i));
 			if (toLowerCase)
 			{
 				hex = hex.toLowerCase();
@@ -810,7 +888,12 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Converts all characters from the given String to unicodes characters encoded like &#92;uxxxx.
+	 * Escapes the given String as {@link java.util.Properties#store(java.io.OutputStream, String)}
+	 * escapes a value: printable ASCII stays as it is, except that a backslash is doubled and
+	 * {@code :}, {@code #}, {@code =}, {@code !} and a space at the start get a backslash; tab,
+	 * line feed, carriage return and form feed become {@code \t}, {@code \n}, {@code \r} and
+	 * {@code \f}; every other character becomes a unicode escape &#92;uxxxx of its UTF-16 code
+	 * unit. To write every character as a unicode escape, see {@link #toUnicode(String, boolean)}.
 	 *
 	 * @param s
 	 *            The String to convert.
@@ -879,10 +962,10 @@ public final class StringExtensions
 					{
 						sb.append('\\');
 						sb.append('u');
-						sb.append(toHex(c >> 12 & 0xF));
-						sb.append(toHex(c >> 8 & 0xF));
-						sb.append(toHex(c >> 4 & 0xF));
-						sb.append(toHex(c & 0xF));
+						sb.append(toHex(c >> 12 & 0xF, toLowerCase));
+						sb.append(toHex(c >> 8 & 0xF, toLowerCase));
+						sb.append(toHex(c >> 4 & 0xF, toLowerCase));
+						sb.append(toHex(c & 0xF, toLowerCase));
 					}
 					else
 					{
@@ -890,15 +973,9 @@ public final class StringExtensions
 					}
 			}
 		}
-		final String returnString = sb.toString();
-		if (toLowerCase)
-		{
-			return returnString.toLowerCase();
-		}
-		else
-		{
-			return returnString;
-		}
+		// toLowerCase applies to the hex digits as they are written; lowercasing the result changed
+		// the letters of the text as well (#31)
+		return sb.toString();
 	}
 
 	/**

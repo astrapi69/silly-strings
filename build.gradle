@@ -1,7 +1,8 @@
 buildscript {
     repositories {
         maven {
-            url projectRepositoriesMavenUrl
+            // the assignment syntax: Gradle 10 removes the 'url value' form (#52)
+            url = projectRepositoriesMavenUrl
         }
     }
 }
@@ -13,8 +14,7 @@ plugins {
     id 'maven-publish'
     id 'signing'
     alias(libs.plugins.gradle.versions.plugin)
-    alias(libs.plugins.grgit.gradle)
-    alias(libs.plugins.license.gradle.plugin)
+    alias(libs.plugins.pitest.gradle.plugin)
     alias(libs.plugins.spotless.plugin.gradle)
     alias(libs.plugins.version.catalog.update)
 }
@@ -25,6 +25,20 @@ description = "$rootProject.name"
 
 // import gradle files
 apply from: "gradle/apply-gradle-files.gradle"
+
+// Mutation-score floor the CI build fails below: .github/workflows/mutation-testing.yml runs `./gradlew pitest`
+// on GitHub (#59); PIT rounds the score half up to a whole percent before it compares. Measured 98 % for 10
+// (198 of 202 mutants detected), where a first run detected 86 % (160 of 185) before the tests the
+// survivors showed to be missing were written (#15). The floor keeps two points below it, as file-worker and
+// silly-io do. The 4 left are equivalent, all in StringExtensions.toUnicodeChars:
+// - "<=" for "<" against 0x20 and ">=" for ">" against 0x7e in the default branch: the space and the tilde
+//   never reach it, the switch and the printable range take them first
+// - "/" for "*" in the capacity of the StringBuilder, which changes no result
+// - "" for the empty string the method returns for an empty input
+// Kept here, not in gradle/mutation-testing.gradle, so that the floor sits in the file a reader looks at.
+pitest {
+    mutationThreshold = 96
+}
 
 java {
     sourceCompatibility = "$projectSourceCompatibility" as Object
@@ -39,8 +53,14 @@ tasks.named("test") {
 
 tasks.withType(JavaCompile).configureEach { javaCompiler ->
     options.encoding = "UTF-8"
+    // --release records the feature release of java.base in module-info.class (requires java.base 25), where
+    // javac would otherwise write the version of the JDK it runs on (25.0.4), and the jar would differ with
+    // the JDK's patch level (#14, as astrapi69/file-worker#97)
+    options.release = Integer.parseInt("$projectSourceCompatibility")
     // uncomment the next line for build with compiler argument -Xlint:deprecation
     // options.compilerArgs << "-Xlint:deprecation"
     // uncomment the next line for build with compiler argument -Xlint:unchecked
     // options.compilerArgs << "-Xlint:unchecked"
 }
+
+apply from: "gradle/test-results-complete.gradle"

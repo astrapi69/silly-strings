@@ -769,8 +769,24 @@ public class StringExtensionsTest extends BaseTestCase
 	@Test
 	public void testToUnicode()
 	{
-		String expected = "\\u00f6";
-		String actual = StringExtensions.toUnicode("ö", true);
+		String expected;
+		String actual;
+		// New scenario...
+		// Represents the Unicode character "Em Dash" (U+2014).
+		// Details:
+		// - Character: —
+		// - Name: Em Dash
+		// - Unicode Code Point: U+2014
+		// - Description: A long horizontal dash used for punctuation, often to indicate a
+		// pause or break in a sentence, or as a substitute for a range (e.g., 1999—2023).
+		// Note: The em dash is typically longer than an en dash (\u2013, U+2013) and a hyphen (-,
+		// U+002D).
+		expected = "\\u2014";
+		actual = StringExtensions.toUnicode("—", false);
+		assertEquals(expected, actual);
+
+		expected = "\\u00f6";
+		actual = StringExtensions.toUnicode("ö", true);
 		assertEquals(expected, actual);
 
 		expected = "\\u00F6";
@@ -836,4 +852,346 @@ public class StringExtensionsTest extends BaseTestCase
 		beanTester.testBean(StringExtensions.class);
 	}
 
+	/**
+	 * Test method for {@link StringExtensions#convertUnicodeStringToCharacter(String)}: hex digits
+	 * in lower case, and the escapes of a tab, a carriage return, a line feed and a form feed; any
+	 * other escaped character stands for itself (#15)
+	 */
+	@Test
+	public void convertUnicodeStringToCharacter_readsLowerCaseHexDigitsAndTheEscapes()
+	{
+		assertEquals(Character.valueOf('\u03A9'),
+			StringExtensions.convertUnicodeStringToCharacter("\\u03a9"));
+		assertEquals(Character.valueOf('\u00E4'),
+			StringExtensions.convertUnicodeStringToCharacter("\\u00e4"));
+		assertEquals(Character.valueOf('\t'),
+			StringExtensions.convertUnicodeStringToCharacter("\\t"));
+		assertEquals(Character.valueOf('\r'),
+			StringExtensions.convertUnicodeStringToCharacter("\\r"));
+		assertEquals(Character.valueOf('\n'),
+			StringExtensions.convertUnicodeStringToCharacter("\\n"));
+		assertEquals(Character.valueOf('\f'),
+			StringExtensions.convertUnicodeStringToCharacter("\\f"));
+		assertEquals(Character.valueOf('x'),
+			StringExtensions.convertUnicodeStringToCharacter("\\x"));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#readLine(String)}: the line ends at the platform's
+	 * line separator, or else at a line feed, or else at a carriage return; here with "\r\n" as the
+	 * separator, the one of Windows, set for the test and restored after it (#15)
+	 */
+	@Test
+	public void readLine_endsAtTheLineSeparatorThenAtALineFeedThenAtACarriageReturn()
+	{
+		final String lineSeparator = System.getProperty("line.separator");
+		try
+		{
+			System.setProperty("line.separator", "\r\n");
+			assertEquals("first", StringExtensions.readLine("first\r\nsecond"));
+			assertEquals("", StringExtensions.readLine("\r\nsecond"));
+			assertEquals("first", StringExtensions.readLine("first\nsecond"));
+			assertEquals("", StringExtensions.readLine("\nsecond\r"));
+			assertEquals("first", StringExtensions.readLine("first\rsecond"));
+		}
+		finally
+		{
+			System.setProperty("line.separator", lineSeparator);
+		}
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicodeChars(String, boolean)}: the equals sign,
+	 * the first character below the printable range it keeps, is escaped; the backslash is doubled;
+	 * DEL, the first character above it, is written as a unicode escape, with lower-case hex digits
+	 * on request (#15)
+	 */
+	@Test
+	public void toUnicodeChars_escapesTheEqualsSignTheBackslashAndDel()
+	{
+		assertEquals("a\\=b", StringExtensions.toUnicodeChars("a=b", false));
+		assertEquals("a\\\\b", StringExtensions.toUnicodeChars("a\\b", false));
+		assertEquals("\\u007F", StringExtensions.toUnicodeChars("\u007f", false));
+		assertEquals("\\u007f", StringExtensions.toUnicodeChars("\u007f", true));
+		assertEquals("\\u00E4", StringExtensions.toUnicodeChars("\u00e4", false));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#splitByFixedLength(String, int)}: a length that
+	 * divides the input gives no empty last part, one that does not gives the rest as the last part
+	 * (#15)
+	 */
+	@Test
+	public void splitByFixedLength_givesNoEmptyLastPart()
+	{
+		assertEquals(List.of("ab", "cd"), StringExtensions.splitByFixedLength("abcd", 2));
+		assertEquals(List.of("ab", "cd", "e"), StringExtensions.splitByFixedLength("abcde", 2));
+		// 1, the smallest length it takes (#22)
+		assertEquals(List.of("a", "b", "c"), StringExtensions.splitByFixedLength("abc", 1));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicodeChars(String, boolean)}: a form feed, a line
+	 * feed, a carriage return and a tab become their escapes, a space is escaped only at the start
+	 * (#15)
+	 */
+	@Test
+	public void toUnicodeChars_escapesTheControlCharactersAndALeadingSpace()
+	{
+		assertEquals("\\f\\n\\r\\t", StringExtensions.toUnicodeChars("\f\n\r\t", false));
+		assertEquals("\\ a b", StringExtensions.toUnicodeChars(" a b", false));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#convertUnicodeStringToCharacter(String)}: a unicode
+	 * escape with a character that is no hex digit throws a {@link MalformedUnicodeException} (#15)
+	 */
+	@Test
+	public void convertUnicodeStringToCharacter_throwsForAnEscapeWithANonHexDigit()
+	{
+		org.junit.jupiter.api.Assertions.assertThrows(MalformedUnicodeException.class,
+			() -> StringExtensions.convertUnicodeStringToCharacter("\\u00zz"));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#removeNewlineCharacters(String)}: a string without
+	 * line feed and carriage return stays as it is, one with them loses them (#15)
+	 */
+	@Test
+	public void removeNewlineCharacters_removesLineFeedsAndCarriageReturnsOnly()
+	{
+		assertEquals("ab", StringExtensions.removeNewlineCharacters("ab"));
+		assertEquals("ab", StringExtensions.removeNewlineCharacters("a\nb"));
+		assertEquals("ab", StringExtensions.removeNewlineCharacters("a\rb"));
+		assertEquals("abc", StringExtensions.removeNewlineCharacters("a\r\nb\nc"));
+	}
+
+	/**
+	 * Test method for the constructors of {@link MalformedUnicodeException} (#15)
+	 */
+	@Test
+	public void malformedUnicodeException_keepsItsMessageAndItsCause()
+	{
+		final Exception cause = new IllegalStateException("cause");
+		assertNull(new MalformedUnicodeException().getMessage());
+		assertEquals("message", new MalformedUnicodeException("message").getMessage());
+		assertEquals("message", new MalformedUnicodeException("message", cause).getMessage());
+		assertEquals(cause, new MalformedUnicodeException("message", cause).getCause());
+		assertEquals(cause, new MalformedUnicodeException(cause).getCause());
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#readLine(String)}: a String without a line separator,
+	 * a line feed or a carriage return is one line, returned as it is (#20)
+	 */
+	@Test
+	public void readLine_returnsAStringWithoutALineBreakAsItIs()
+	{
+		assertEquals("no break", StringExtensions.readLine("no break"));
+		assertEquals("", StringExtensions.readLine(""));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#replaceAll(String, String, String)}: an empty search
+	 * string puts the replacement before every character and at the end, as
+	 * {@link String#replace(CharSequence, CharSequence)} does, and the call returns (#21)
+	 */
+	@Test
+	public void replaceAll_returnsForAnEmptySearchString()
+	{
+		org.junit.jupiter.api.Assertions.assertTimeoutPreemptively(java.time.Duration.ofSeconds(5),
+			() -> assertEquals("xaxbxcx", StringExtensions.replaceAll("abc", "", "x")));
+		assertEquals("x", StringExtensions.replaceAll("", "", "x"));
+		assertEquals("a-b-c", StringExtensions.replaceAll("a, b, c", ", ", "-"));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#splitByFixedLength(String, int)}: a length below 1 is
+	 * refused with an {@link IllegalArgumentException} that names it, and the call returns (#22)
+	 *
+	 * @param fixedLength
+	 *            the length below 1
+	 */
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(ints = { 0, -1, Integer.MIN_VALUE })
+	public void splitByFixedLength_refusesALengthBelowOne(final int fixedLength)
+	{
+		final IllegalArgumentException exception = org.junit.jupiter.api.Assertions
+			.assertTimeoutPreemptively(java.time.Duration.ofSeconds(5),
+				() -> org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class,
+					() -> StringExtensions.splitByFixedLength("abc", fixedLength)));
+		assertTrue(exception.getMessage().contains(String.valueOf(fixedLength)),
+			exception.getMessage());
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#convertUnicodeStringToCharacter(String)}: a unicode
+	 * escape with fewer than four hex digits, a backslash at the end and an empty string are no
+	 * well formed unicode string either, and throw a {@link MalformedUnicodeException} (#24)
+	 *
+	 * @param notWellFormed
+	 *            the string that is not well formed
+	 */
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(strings = { "\\u", "\\u1", "\\u12", "\\u123",
+			"\\", "" })
+	public void convertUnicodeStringToCharacter_throwsForAStringThatIsNotWellFormed(
+		final String notWellFormed)
+	{
+		org.junit.jupiter.api.Assertions.assertThrows(MalformedUnicodeException.class,
+			() -> StringExtensions.convertUnicodeStringToCharacter(notWellFormed));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicodeChars(String, boolean)}: with toLowerCase
+	 * the hex digits of the unicode escapes are lower case, and the text keeps its letters (#31)
+	 */
+	@Test
+	public void toUnicodeChars_lowercasesTheHexDigitsOnly()
+	{
+		assertEquals("ABC\\u00c4", StringExtensions.toUnicodeChars("ABC\u00C4", true));
+		assertEquals("ABC\\u00C4", StringExtensions.toUnicodeChars("ABC\u00C4", false));
+		assertEquals("A\\=B\\t", StringExtensions.toUnicodeChars("A=B\t", true));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicode(String, boolean)}: a character outside the
+	 * Basic Multilingual Plane becomes the escapes of its two UTF-16 code units, the high and the
+	 * low surrogate, as {@link StringExtensions#toUnicodeChars(String, boolean)} writes them (#32)
+	 */
+	@Test
+	public void toUnicode_writesTheTwoCodeUnitsOfACharacterOutsideTheBmp()
+	{
+		final String grinningFace = new String(Character.toChars(0x1F600));
+		assertEquals("\\uD83D\\uDE00", StringExtensions.toUnicode(grinningFace, false));
+		assertEquals("\\ud83d\\ude00", StringExtensions.toUnicode(grinningFace, true));
+		assertEquals(StringExtensions.toUnicodeChars(grinningFace, false),
+			StringExtensions.toUnicode(grinningFace, false));
+		assertEquals("\\u0041\\uD83D\\uDE00\\u0042",
+			StringExtensions.toUnicode("A" + grinningFace + "B", false));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicodeChars(String, boolean)}: the result is the
+	 * value {@link java.util.Properties#store(java.io.OutputStream, String)} writes, unicode
+	 * escapes for what is not printable ASCII included, which {@code store(Writer, String)} writes
+	 * as it is (#44)
+	 *
+	 * @throws java.io.IOException
+	 *             if the properties cannot be written
+	 */
+	@Test
+	public void toUnicodeChars_escapesAsPropertiesStoreToAnOutputStream() throws java.io.IOException
+	{
+		for (final String value : List.of("Gr\u00F6\u00DFe = 1", "\u00C4\u2014", "a:b#c!d\\e",
+			" lead", "tab\tnew\nline\rform\f", "\u0001\u007F",
+			new String(Character.toChars(0x1F600))))
+		{
+			final java.util.Properties properties = new java.util.Properties();
+			properties.setProperty("k", value);
+			final java.io.ByteArrayOutputStream stream = new java.io.ByteArrayOutputStream();
+			properties.store(stream, null);
+			final String written = stream.toString(java.nio.charset.StandardCharsets.ISO_8859_1)
+				.lines().filter(line -> line.startsWith("k=")).findFirst().orElseThrow();
+			assertEquals(written.substring(2), StringExtensions.toUnicodeChars(value, false),
+				value);
+		}
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#getAttributName(String)} and
+	 * {@link StringExtensions#getStringBeforeUnderscore(String)}: a string without the delimiter is
+	 * returned as it is, the name without brackets and what comes before an underscore, as
+	 * {@link StringExtensions#readLine(String)} returns a string without a line break (#46)
+	 */
+	@Test
+	public void getAttributNameAndGetStringBeforeUnderscore_returnAStringWithoutTheDelimiterAsItIs()
+	{
+		assertEquals("indio", StringExtensions.getAttributName("indio"));
+		assertEquals("", StringExtensions.getAttributName(""));
+		assertEquals("indio", StringExtensions.getAttributName("indio[5][1]"));
+		assertEquals("foobar", StringExtensions.getStringBeforeUnderscore("foobar"));
+		assertEquals("", StringExtensions.getStringBeforeUnderscore(""));
+		assertEquals("foobar", StringExtensions.getStringBeforeUnderscore("foobar_value"));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#getIndex(String)} and
+	 * {@link StringExtensions#getItemNumber(String)}: without a pair of brackets there is no index,
+	 * and they throw an {@link IllegalArgumentException} that names the string; a closing bracket
+	 * before the opening one does not end the index (#46)
+	 *
+	 * @param name
+	 *            the string without a pair of brackets
+	 */
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(strings = { "indio", "", "x[1", "x]1", "x]" })
+	public void getIndexAndGetItemNumber_refuseAStringWithoutAPairOfBrackets(final String name)
+	{
+		final IllegalArgumentException index = org.junit.jupiter.api.Assertions
+			.assertThrows(IllegalArgumentException.class, () -> StringExtensions.getIndex(name));
+		assertTrue(index.getMessage().contains("\"" + name + "\""), index.getMessage());
+		final IllegalArgumentException itemNumber = org.junit.jupiter.api.Assertions.assertThrows(
+			IllegalArgumentException.class, () -> StringExtensions.getItemNumber(name));
+		assertTrue(itemNumber.getMessage().contains("\"" + name + "\""), itemNumber.getMessage());
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#getIndex(String)} and
+	 * {@link StringExtensions#getItemNumber(String)}: the index ends at the first closing bracket
+	 * after its opening one (#46)
+	 */
+	@Test
+	public void getIndexAndGetItemNumber_endAtTheClosingBracketAfterTheOpeningOne()
+	{
+		assertEquals("1", StringExtensions.getIndex("a]x[1]"));
+		assertEquals("1", StringExtensions.getItemNumber("a]x[1]"));
+		assertEquals("5", StringExtensions.getIndex("indio[5][1]"));
+		assertEquals("1", StringExtensions.getItemNumber("indio[5][1]"));
+		assertEquals("", StringExtensions.getIndex("x[]"));
+		assertEquals("7", StringExtensions.getItemNumber("x[7]]"));
+		// an index at the start, and a closing bracket right before the opening one
+		assertEquals("1", StringExtensions.getIndex("[1]"));
+		assertEquals("1", StringExtensions.getItemNumber("[1]"));
+		assertEquals("1", StringExtensions.getIndex("x][1]"));
+		assertEquals("1", StringExtensions.getItemNumber("x][1]"));
+		assertEquals("", StringExtensions.getAttributName("[1]"));
+		assertEquals("", StringExtensions.getStringBeforeUnderscore("_x"));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#firstCharacterToUpperCase(String)},
+	 * {@link StringExtensions#firstCharacterToLowerCase(String)} and
+	 * {@link StringExtensions#lastCharacterToUpperCase(String)}: a field name is no text of a
+	 * language, so a Turkish default locale, with its dotted İ and dotless ı, changes nothing (#45)
+	 */
+	@Test
+	public void theCaseOfAFieldNameIsTheSameInATurkishLocale()
+	{
+		final java.util.Locale locale = java.util.Locale.getDefault();
+		try
+		{
+			java.util.Locale.setDefault(java.util.Locale.forLanguageTag("tr-TR"));
+			assertEquals("Index", StringExtensions.firstCharacterToUpperCase("index"));
+			assertEquals("index", StringExtensions.firstCharacterToLowerCase("Index"));
+			assertEquals("pI", StringExtensions.lastCharacterToUpperCase("pi"));
+		}
+		finally
+		{
+			java.util.Locale.setDefault(locale);
+		}
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicodeChars(String, boolean)}: every hex digit of
+	 * an escape follows toLowerCase, also the first two, which the tests of #31 left out since
+	 * their escape began with 00 (#51)
+	 */
+	@Test
+	public void toUnicodeChars_writesEveryHexDigitInTheCaseAskedFor()
+	{
+		assertEquals("\\uabcd", StringExtensions.toUnicodeChars("\uABCD", true));
+		assertEquals("\\uABCD", StringExtensions.toUnicodeChars("\uABCD", false));
+		assertEquals("\\ufedc", StringExtensions.toUnicodeChars("\uFEDC", true));
+	}
 }

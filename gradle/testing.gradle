@@ -1,6 +1,16 @@
 test {
     mustRunAfter(jar)
     useJUnitPlatform()
+    // a test against a defect that makes a loop endless, as #21 and #22 were, ends in an OutOfMemoryError of the
+    // test JVM within this bound instead of taking a quarter of the machine's memory (#59)
+    maxHeapSize = "512m"
+    // ReadmeExamplesTest compares the java blocks of the README with its own, so a change of the README runs
+    // the tests again instead of leaving the task up to date (#41)
+    inputs.file("README.md").withPropertyName("readme").withPathSensitivity(PathSensitivity.RELATIVE)
+    // and with its own source, which it reads as well: a change to one of its blocks that leaves the class files
+    // the same, as one in a comment does, runs the tests again (#51)
+    inputs.file("src/test/java/io/github/astrapi69/ReadmeExamplesTest.java").withPropertyName("readmeExamples")
+        .withPathSensitivity(PathSensitivity.RELATIVE)
 }
 
 jacocoTestReport {
@@ -11,3 +21,26 @@ jacocoTestReport {
 }
 
 check.dependsOn jacocoTestReport
+
+// The coverage floor: the build fails when the whole library falls below 99% of the lines or 98% of the
+// branches. Set to what the tests reached after the mutation testing of #15; the tests of 10 reach
+// 338 of 339 lines (99.7%), the one left being the implicit constructor of CaseExtensions, and
+// 156 of 157 branches (99.4%)
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.99
+            }
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.98
+            }
+        }
+    }
+}
+jacocoTestCoverageVerification.dependsOn test
+check.dependsOn jacocoTestCoverageVerification

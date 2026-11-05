@@ -1,16 +1,14 @@
 repositories {
-    mavenLocal()
+    // The local Maven repository only on request, with -PuseMavenLocal: it came before Maven Central, so an
+    // artifact built on this machine replaced the published one of the same version, and a build tested and
+    // packaged against other dependencies than CI and every user get (#14, as astrapi69/file-worker#97)
+    if (providers.gradleProperty("useMavenLocal").isPresent()) {
+        mavenLocal()
+    }
     mavenCentral()
     maven {
-        name "$projectRepositoriesReleasesName"
-        url "$projectRepositoriesReleasesRepoUrl"
-        mavenContent {
-            releasesOnly()
-        }
-    }
-    maven {
-        name "$projectRepositoriesSnapshotsName"
-        url "$projectRepositoriesSnapshotsRepoUrl"
+        name = "$projectRepositoriesSnapshotsName"
+        url = "$projectRepositoriesSnapshotsRepoUrl"
         mavenContent {
             snapshotsOnly()
         }
