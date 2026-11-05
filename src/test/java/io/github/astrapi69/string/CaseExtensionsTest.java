@@ -160,10 +160,13 @@ public class CaseExtensionsTest
 
 		input = "example-string-for-conversion";
 
-		// new scenario...
+		// new scenario... camelCase starts with a lower-case letter, PascalCase is the form of
+		// snakeToPascalCase (#39)
 		actual = CaseExtensions.kebabToCamelCase(input);
-		expected = "ExampleStringForConversion";
+		expected = "exampleStringForConversion";
 		assertEquals(expected, actual);
+		assertEquals("silly", CaseExtensions.kebabToCamelCase("silly"));
+		assertEquals("", CaseExtensions.kebabToCamelCase("-"));
 
 		// Test for null input
 		input = null;
