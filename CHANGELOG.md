@@ -50,6 +50,12 @@ CHANGED:
 - a `Makefile` for the usual tasks, after the one of astrapi69/silly-io: `make help` lists them; no target uploads,
   `tag-release` refuses a SNAPSHOT version and asks for `CONFIRM=yes`, and `check-reproducible` runs
   `scripts/check-reproducible.sh` on the JDK `.sdkmanrc` names (#36)
+- mutation testing runs on GitHub in a workflow of its own, `mutation-testing.yml`, on push and pull request and by
+  hand for any branch: it fails below the floor, keeps the PIT report as an artifact, lists the mutants left in the
+  summary of the run and publishes the badge. `gradle.yml` builds and tests without it, and `make pitest` starts the
+  workflow instead of running PIT on the workstation, where its minions, without a bound on their heap, took the
+  memory of the machine when a mutant made a loop endless. The minions get 256 MB each and the test JVM 512 MB, so
+  such a mutant or test ends in an `OutOfMemoryError` of its own JVM (#59)
 - `versionCatalogFormat` keeps the versions of PIT and of its JUnit 5 plugin, which only
   `gradle/mutation-testing.gradle` reads and which it removed; silly-bean stays a runtime dependency, though no
   class uses it, since silly-collection's `MapFactory` takes and returns its `KeyValuePair` without declaring it

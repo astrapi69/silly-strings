@@ -1,6 +1,9 @@
 test {
     mustRunAfter(jar)
     useJUnitPlatform()
+    // a test against a defect that makes a loop endless, as #21 and #22 were, ends in an OutOfMemoryError of the
+    // test JVM within this bound instead of taking a quarter of the machine's memory (#59)
+    maxHeapSize = "512m"
     // ReadmeExamplesTest compares the java blocks of the README with its own, so a change of the README runs
     // the tests again instead of leaving the task up to date (#41)
     inputs.file("README.md").withPropertyName("readme").withPathSensitivity(PathSensitivity.RELATIVE)
