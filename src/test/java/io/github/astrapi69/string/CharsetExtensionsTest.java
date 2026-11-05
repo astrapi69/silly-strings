@@ -73,4 +73,16 @@ public class CharsetExtensionsTest
 		assertEquals(Optional.empty(), CharsetExtensions.getCharset("x-no-such-charset"));
 		assertEquals(Optional.of(StandardCharsets.UTF_8), CharsetExtensions.getCharset("UTF-8"));
 	}
+
+	/**
+	 * Test method for {@link CharsetExtensions#getCharset(String)}: a name that is not a legal
+	 * charset name gives an empty result, as its Javadoc says for a charset that is not found (#23)
+	 */
+	@Test
+	public void getCharset_isEmptyForANameThatIsNotLegal()
+	{
+		assertEquals(Optional.empty(), CharsetExtensions.getCharset(""));
+		assertEquals(Optional.empty(), CharsetExtensions.getCharset("a b"));
+		assertEquals(Optional.empty(), CharsetExtensions.getCharset("-utf-8"));
+	}
 }
