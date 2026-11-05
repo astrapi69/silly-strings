@@ -7,6 +7,10 @@ test {
     // ReadmeExamplesTest compares the java blocks of the README with its own, so a change of the README runs
     // the tests again instead of leaving the task up to date (#41)
     inputs.file("README.md").withPropertyName("readme").withPathSensitivity(PathSensitivity.RELATIVE)
+    // and with its own source, which it reads as well: a change to one of its blocks that leaves the class files
+    // the same, as one in a comment does, runs the tests again (#51)
+    inputs.file("src/test/java/io/github/astrapi69/ReadmeExamplesTest.java").withPropertyName("readmeExamples")
+        .withPathSensitivity(PathSensitivity.RELATIVE)
 }
 
 jacocoTestReport {

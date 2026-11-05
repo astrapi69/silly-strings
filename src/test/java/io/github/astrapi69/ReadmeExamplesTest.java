@@ -141,11 +141,90 @@ class ReadmeExamplesTest
 	private static List<String> blocks(final String text, final String regex)
 	{
 		final List<String> blocks = new ArrayList<>();
-		final Matcher matcher = Pattern.compile(regex, Pattern.DOTALL).matcher(text);
+		// a CRLF checkout has the same blocks (#51)
+		final Matcher matcher = Pattern.compile(regex, Pattern.DOTALL)
+			.matcher(text.replace("\r\n", "\n"));
 		while (matcher.find())
 		{
-			blocks.add(matcher.group(1).replaceAll("\\s+", ""));
+			blocks.add(withoutLayout(matcher.group(1)));
 		}
 		return blocks;
+	}
+
+	/**
+	 * The code without the white space of its layout, which the formatter changes: white space goes
+	 * outside of string and character literals and in line comments, and stays inside a literal,
+	 * where it is part of the example (#51)
+	 */
+	private static String withoutLayout(final String code)
+	{
+		final StringBuilder result = new StringBuilder();
+		char quote = 0;
+		boolean comment = false;
+		for (int i = 0; i < code.length(); i++)
+		{
+			final char c = code.charAt(i);
+			if (comment)
+			{
+				comment = c != '\n';
+				if (!Character.isWhitespace(c))
+				{
+					result.append(c);
+				}
+			}
+			else if (quote != 0)
+			{
+				result.append(c);
+				if (c == '\\' && i + 1 < code.length())
+				{
+					result.append(code.charAt(++i));
+				}
+				else if (c == quote)
+				{
+					quote = 0;
+				}
+			}
+			else if (c == '/' && i + 1 < code.length() && code.charAt(i + 1) == '/')
+			{
+				comment = true;
+				result.append(c);
+			}
+			else if (c == '"' || c == '\'')
+			{
+				quote = c;
+				result.append(c);
+			}
+			else if (!Character.isWhitespace(c))
+			{
+				result.append(c);
+			}
+		}
+		return result.toString();
+	}
+
+	/**
+	 * The comparison of the blocks leaves out the white space of the layout, which the formatter
+	 * changes, and keeps the white space inside a string or a character literal, which is part of
+	 * the example; line ends of a CRLF checkout are line ends as well (#51)
+	 */
+	@Test
+	void theComparisonKeepsTheWhiteSpaceOfLiteralsAndReadsCrlf()
+	{
+		assertEquals(
+			blocks("// README: begin\nf(\"a, b\");  // x\n// README: end",
+				"// README: begin\\n(.*?)// README: end"),
+			blocks("// README: begin\n   f( \"a, b\" ); // x\n// README: end",
+				"// README: begin\\n(.*?)// README: end"));
+		org.junit.jupiter.api.Assertions.assertNotEquals(
+			blocks("// README: begin\nf(\"a, b\");\n// README: end",
+				"// README: begin\\n(.*?)// README: end"),
+			blocks("// README: begin\nf(\"a,b\");\n// README: end",
+				"// README: begin\\n(.*?)// README: end"));
+		org.junit.jupiter.api.Assertions.assertNotEquals(
+			blocks("// README: begin\nchar c = ' ';\n// README: end",
+				"// README: begin\\n(.*?)// README: end"),
+			blocks("// README: begin\nchar c = '_';\n// README: end",
+				"// README: begin\\n(.*?)// README: end"));
+		assertEquals(List.of("f();"), blocks("```java\r\nf();\r\n```", "```java\\n(.*?)```"));
 	}
 }

@@ -7,8 +7,8 @@ repositories {
     }
     mavenCentral()
     maven {
-        name "$projectRepositoriesSnapshotsName"
-        url "$projectRepositoriesSnapshotsRepoUrl"
+        name = "$projectRepositoriesSnapshotsName"
+        url = "$projectRepositoriesSnapshotsRepoUrl"
         mavenContent {
             snapshotsOnly()
         }

@@ -1181,4 +1181,17 @@ public class StringExtensionsTest extends BaseTestCase
 			java.util.Locale.setDefault(locale);
 		}
 	}
+
+	/**
+	 * Test method for {@link StringExtensions#toUnicodeChars(String, boolean)}: every hex digit of
+	 * an escape follows toLowerCase, also the first two, which the tests of #31 left out since
+	 * their escape began with 00 (#51)
+	 */
+	@Test
+	public void toUnicodeChars_writesEveryHexDigitInTheCaseAskedFor()
+	{
+		assertEquals("\\uabcd", StringExtensions.toUnicodeChars("\uABCD", true));
+		assertEquals("\\uABCD", StringExtensions.toUnicodeChars("\uABCD", false));
+		assertEquals("\\ufedc", StringExtensions.toUnicodeChars("\uFEDC", true));
+	}
 }
