@@ -34,6 +34,16 @@ public class CaseExtensions
 {
 
 	/**
+	 * Creates an instance, which no caller needs: every method of this class is static.
+	 *
+	 * @deprecated every method is static; the constructor becomes private in 11
+	 */
+	@Deprecated(since = "10.1", forRemoval = true)
+	public CaseExtensions()
+	{
+	}
+
+	/**
 	 * Converts a kebab-case string to camelCase: the first word in lower case, every further word
 	 * with an upper-case first letter, as {@code silly-strings-version} becomes
 	 * {@code sillyStringsVersion}. Only a hyphen separates two words; a space stays where it is.
