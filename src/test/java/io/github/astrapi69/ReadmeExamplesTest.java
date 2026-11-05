@@ -148,4 +148,30 @@ class ReadmeExamplesTest
 		}
 		return blocks;
 	}
+
+	/**
+	 * The comparison of the blocks leaves out the white space of the layout, which the formatter
+	 * changes, and keeps the white space inside a string or a character literal, which is part of
+	 * the example; line ends of a CRLF checkout are line ends as well (#51)
+	 */
+	@Test
+	void theComparisonKeepsTheWhiteSpaceOfLiteralsAndReadsCrlf()
+	{
+		assertEquals(
+			blocks("// README: begin\nf(\"a, b\");  // x\n// README: end",
+				"// README: begin\\n(.*?)// README: end"),
+			blocks("// README: begin\n   f( \"a, b\" ); // x\n// README: end",
+				"// README: begin\\n(.*?)// README: end"));
+		org.junit.jupiter.api.Assertions.assertNotEquals(
+			blocks("// README: begin\nf(\"a, b\");\n// README: end",
+				"// README: begin\\n(.*?)// README: end"),
+			blocks("// README: begin\nf(\"a,b\");\n// README: end",
+				"// README: begin\\n(.*?)// README: end"));
+		org.junit.jupiter.api.Assertions.assertNotEquals(
+			blocks("// README: begin\nchar c = ' ';\n// README: end",
+				"// README: begin\\n(.*?)// README: end"),
+			blocks("// README: begin\nchar c = '_';\n// README: end",
+				"// README: begin\\n(.*?)// README: end"));
+		assertEquals(List.of("f();"), blocks("```java\r\nf();\r\n```", "```java\\n(.*?)```"));
+	}
 }
