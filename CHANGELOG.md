@@ -22,6 +22,11 @@ CHANGED BEHAVIOUR:
 
 CHANGED:
 
+- the build and the release run on Temurin 25.0.5+8, up from 25.0.4+7: `.sdkmanrc` names sdkman's
+  `25.0.5.0+8-tem`, and every workflow sets up `25.0.5+8.0.LTS`. Their check of the JDK compares the build as
+  well, `Temurin-25.0.5+8` in the JDK's `release` file, where it compared `JAVA_VERSION`, the same for every
+  build of 25.0.5, with a pattern that matched nothing in sdkman's new name. The class files stay Java 25
+  (`--release`); the javadoc jar comes from the javadoc tool of 25.0.5 (#70)
 - a javadoc warning breaks the build, a family rule since 2026-11-05: the javadoc task runs with `failOnError` and
   `-Werror`, and `check` depends on it, so `./gradlew build` fails on a warning instead of a gate counting the
   warnings by text, which missed them in a German locale. The one warning of 10, the implicit constructor of

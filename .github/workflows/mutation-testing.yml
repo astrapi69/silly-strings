@@ -34,12 +34,12 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v7
-      # The JDK .sdkmanrc names, as the full semver of Adoptium: with '25' or '25.0.4' setup-java takes whatever
+      # The JDK .sdkmanrc names, as the full semver of Adoptium: with '25' or '25.0.5' setup-java takes whatever
       # matches first, such as a later patch release from the runner image (astrapi69/file-worker#97)
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
-          java-version: '25.0.4+7.0.LTS'
+          java-version: '25.0.5+8.0.LTS'
           distribution: 'temurin'
       - name: Check the JDK is the one .sdkmanrc names
         run: |
