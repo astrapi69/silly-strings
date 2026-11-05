@@ -8,13 +8,13 @@ task sourcesJar(type: Jar) {
 task javadocJar(type: Jar) {
     from javadoc
     archiveClassifier.set("javadoc")
-    javadoc {
-        failOnError = false
-    }
 }
 
 javadoc {
-    failOnError = false
+    // A javadoc warning breaks the build, a family rule since 2026-11-05: a gate that counted the warnings by
+    // their text missed them in a German locale, where javadoc writes "Warnung" (#65)
+    failOnError = true
+    options.addBooleanOption("Werror", true)
     if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption("html5", true)
     }
@@ -24,6 +24,9 @@ javadoc {
     options.locale = "en"
     options.jFlags("-Duser.language=en", "-Duser.country=US")
 }
+
+// the build runs the javadoc, so that a warning fails ./gradlew build and not only the publishing (#65)
+check.dependsOn javadoc
 
 publishing {
     publications {
