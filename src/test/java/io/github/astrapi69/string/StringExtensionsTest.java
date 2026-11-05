@@ -1097,4 +1097,65 @@ public class StringExtensionsTest extends BaseTestCase
 				value);
 		}
 	}
+
+	/**
+	 * Test method for {@link StringExtensions#getAttributName(String)} and
+	 * {@link StringExtensions#getStringBeforeUnderscore(String)}: a string without the delimiter is
+	 * returned as it is, the name without brackets and what comes before an underscore, as
+	 * {@link StringExtensions#readLine(String)} returns a string without a line break (#46)
+	 */
+	@Test
+	public void getAttributNameAndGetStringBeforeUnderscore_returnAStringWithoutTheDelimiterAsItIs()
+	{
+		assertEquals("indio", StringExtensions.getAttributName("indio"));
+		assertEquals("", StringExtensions.getAttributName(""));
+		assertEquals("indio", StringExtensions.getAttributName("indio[5][1]"));
+		assertEquals("foobar", StringExtensions.getStringBeforeUnderscore("foobar"));
+		assertEquals("", StringExtensions.getStringBeforeUnderscore(""));
+		assertEquals("foobar", StringExtensions.getStringBeforeUnderscore("foobar_value"));
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#getIndex(String)} and
+	 * {@link StringExtensions#getItemNumber(String)}: without a pair of brackets there is no index,
+	 * and they throw an {@link IllegalArgumentException} that names the string; a closing bracket
+	 * before the opening one does not end the index (#46)
+	 *
+	 * @param name
+	 *            the string without a pair of brackets
+	 */
+	@org.junit.jupiter.params.ParameterizedTest
+	@org.junit.jupiter.params.provider.ValueSource(strings = { "indio", "", "x[1", "x]1", "x]" })
+	public void getIndexAndGetItemNumber_refuseAStringWithoutAPairOfBrackets(final String name)
+	{
+		final IllegalArgumentException index = org.junit.jupiter.api.Assertions
+			.assertThrows(IllegalArgumentException.class, () -> StringExtensions.getIndex(name));
+		assertTrue(index.getMessage().contains("\"" + name + "\""), index.getMessage());
+		final IllegalArgumentException itemNumber = org.junit.jupiter.api.Assertions.assertThrows(
+			IllegalArgumentException.class, () -> StringExtensions.getItemNumber(name));
+		assertTrue(itemNumber.getMessage().contains("\"" + name + "\""), itemNumber.getMessage());
+	}
+
+	/**
+	 * Test method for {@link StringExtensions#getIndex(String)} and
+	 * {@link StringExtensions#getItemNumber(String)}: the index ends at the first closing bracket
+	 * after its opening one (#46)
+	 */
+	@Test
+	public void getIndexAndGetItemNumber_endAtTheClosingBracketAfterTheOpeningOne()
+	{
+		assertEquals("1", StringExtensions.getIndex("a]x[1]"));
+		assertEquals("1", StringExtensions.getItemNumber("a]x[1]"));
+		assertEquals("5", StringExtensions.getIndex("indio[5][1]"));
+		assertEquals("1", StringExtensions.getItemNumber("indio[5][1]"));
+		assertEquals("", StringExtensions.getIndex("x[]"));
+		assertEquals("7", StringExtensions.getItemNumber("x[7]]"));
+		// an index at the start, and a closing bracket right before the opening one
+		assertEquals("1", StringExtensions.getIndex("[1]"));
+		assertEquals("1", StringExtensions.getItemNumber("[1]"));
+		assertEquals("1", StringExtensions.getIndex("x][1]"));
+		assertEquals("1", StringExtensions.getItemNumber("x][1]"));
+		assertEquals("", StringExtensions.getAttributName("[1]"));
+		assertEquals("", StringExtensions.getStringBeforeUnderscore("_x"));
+	}
 }
