@@ -40,6 +40,9 @@ CHANGED:
   says. The build also fails below 99% of the lines or 98% of the branches, what the tests reach: 330 of 331 lines
   and 137 of 139 branches. The tests the survivors showed to be missing check, among others, the parts of
   `getTripleFromMessage`, which its test only printed (#15)
+- a `Makefile` for the usual tasks, after the one of astrapi69/silly-io: `make help` lists them; no target uploads,
+  `tag-release` refuses a SNAPSHOT version and asks for `CONFIRM=yes`, and `check-reproducible` runs
+  `scripts/check-reproducible.sh` on the JDK `.sdkmanrc` names (#36)
 - the Gradle dependency graph is submitted to GitHub, for Dependabot (#1)
 - the README replaces its dead badges and links (#8), names the family's funding channels and no cryptocurrency
   addresses (#6), and `/gradle` is committed, no longer ignored (#4)
