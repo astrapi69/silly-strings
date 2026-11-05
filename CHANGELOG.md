@@ -48,6 +48,9 @@ FIXED:
 
 - `StringExtensions.readLine` returns a string without a line break as it is, the one line it holds, where it threw
   a `StringIndexOutOfBoundsException` (#20)
+- `StringExtensions.replaceAll` returns for an empty search string: it replaces as `String.replace(CharSequence,
+  CharSequence)` does, which it now calls, and puts the replacement before every character and at the end. Its own
+  loop found the empty string at the same index on every turn and grew until the heap was gone (#21)
 
 
 Version 9.2

@@ -565,7 +565,9 @@ public final class StringExtensions
 	}
 
 	/**
-	 * Replaces all occurrences of a String within another String.
+	 * Replaces all occurrences of a String within another String, as
+	 * {@link String#replace(CharSequence, CharSequence)} does: an empty search string stands before
+	 * every character and at the end, so the replacement goes there.
 	 *
 	 * @param original
 	 *            The String to search.
@@ -581,26 +583,10 @@ public final class StringExtensions
 		Objects.requireNonNull(original);
 		Objects.requireNonNull(findString);
 		Objects.requireNonNull(replaceWith);
-		final StringBuilder originalFiltered = new StringBuilder();
-		int next = 0;
-		int count = 0;
-		final int length = findString.length();
-
-		while (count > -1)
-		{
-			count = original.indexOf(findString, next);
-
-			if (count > -1)
-			{
-				originalFiltered.append(original, next, count);
-				originalFiltered.append(replaceWith);
-				next = count + length;
-			}
-		}
-
-		originalFiltered.append(original.substring(next));
-
-		return originalFiltered.toString();
+		// the JDK's literal replacement; the loop that stood here found an empty search string at
+		// the
+		// same index on every turn and never ended (#21)
+		return original.replace(findString, replaceWith);
 	}
 
 	/**
