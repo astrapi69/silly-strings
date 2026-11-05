@@ -43,6 +43,11 @@ CHANGED:
 - a `Makefile` for the usual tasks, after the one of astrapi69/silly-io: `make help` lists them; no target uploads,
   `tag-release` refuses a SNAPSHOT version and asks for `CONFIRM=yes`, and `check-reproducible` runs
   `scripts/check-reproducible.sh` on the JDK `.sdkmanrc` names (#36)
+- the README says what silly-strings is and when not to use it, its requirements, the installation with concrete
+  versions, a quick start whose examples `ReadmeExamplesTest` runs and compares with the README, the classes, the
+  quality numbers, how to verify the release signatures and how a release is made; it had two sections "Support
+  this project", one linking an anchor that did not exist, a coverage badge of coveralls while CI reports to
+  codecov, and a PayPal button other than the one `.github/FUNDING.yml` names (#41)
 - the Gradle dependency graph is submitted to GitHub, for Dependabot (#1)
 - the README replaces its dead badges and links (#8), names the family's funding channels and no cryptocurrency
   addresses (#6), and `/gradle` is committed, no longer ignored (#4)
