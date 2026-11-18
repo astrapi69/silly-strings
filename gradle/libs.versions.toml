@@ -17,7 +17,7 @@ meanbean-version = "3.0.0-M9"
 pitest-junit5-plugin-version = "1.2.3"
 pitest-version = "1.30.1"
 silly-bean-version = "3.0"
-silly-collection-version = "29.0"
+silly-collection-version = "30.0"
 test-object-version = "9.1"
 
 [libraries]
