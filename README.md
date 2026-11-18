@@ -264,6 +264,10 @@ to the Central Portal, where the maintainer publishes it. It reads the repositor
    `git diff RELEASE-X master` has to be empty; if it is not, nothing is pushed. Never a force push: `master` is
    always the latest release, nothing else.
 6. **Open the next cycle**: `projectVersion` to the next `-SNAPSHOT`.
+7. **Bump drafts in the consumers** (RL-127): in every repository of the family that declares
+   silly-strings, a draft pull request that raises it to the release and shows the build before and
+   after it, so that a break shows the day the release appears; each is merged by RL-065, a runtime
+   major in a session of its own.
 
 ## Contributing
 
